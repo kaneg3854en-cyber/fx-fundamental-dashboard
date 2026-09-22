@@ -8,7 +8,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="icon-192.png">
-<title>FX FUNDAMENTAL DASHBOARD v3.4 LIVE FX FIX</title>
+<title>FX FUNDAMENTAL DASHBOARD v3.5 API DIAGNOSTIC</title>
 <style>
 :root{--bg:#02070d;--panel:#06131d;--line:#0b6986;--cyan:#20dfff;--green:#25f39a;--red:#ff4167;--yellow:#ffe052;--muted:#7895a1;--white:#eaf8ff}
 *{box-sizing:border-box}html,body{margin:0;background:#02070d;color:var(--white);font-family:Arial,"Noto Sans JP",system-ui,sans-serif}body{min-height:100vh}.app{max-width:1500px;margin:auto;background:radial-gradient(circle at 50% -5%,#0b2938,#02070d 38%,#01050a);min-height:100vh}.header{height:88px;padding:0 22px;display:flex;align-items:center;border-bottom:2px solid #0bcde8}.logo{font-size:52px;font-style:italic;font-weight:900;letter-spacing:-.1em;color:#19ddff;text-shadow:0 0 18px #00cfff;margin-right:20px}.title{font-size:25px;font-weight:800;letter-spacing:.05em}.subtitle{font-size:11px;color:#b7d9e2;margin-top:4px}.headright{margin-left:auto;text-align:right}.date{font-size:12px}.time{font-size:30px;font-weight:800;line-height:1}.auto{font-size:10px;color:var(--green);margin-top:4px}.main{padding:12px}.panel{border:1px solid #0a6a86;background:linear-gradient(180deg,#071824,#030b12);border-radius:9px;overflow:hidden;box-shadow:0 0 0 1px #02121a,0 8px 22px #0008}.ph{min-height:42px;padding:8px 12px;display:flex;align-items:center;border-bottom:1px solid #123a49;font-weight:800;font-size:15px;letter-spacing:.04em}.ph .sub{font-size:10px;color:var(--muted);font-weight:500;margin-left:10px}.pb{padding:10px}
@@ -42,7 +42,7 @@
     <span><button class="fx-btn" id="fxRefresh">更新</button> <button class="fx-btn" id="fxKey">API設定</button></span>
   </div>
   <div class="fx-grid" id="fxGrid"></div>
-  <div class="api-note">データ提供: Alpha Vantage。無料枠のリクエスト制限に合わせ、1回の更新は7リクエストを2バッチに分けます。自動更新は8時間ごとです。</div>
+  <div class="api-note">データ提供: Alpha Vantage。現在は原因切り分けのため、更新ボタン1回につきUSD/JPYを1回だけ取得します。</div>
 </section>
 <div class="api-modal" id="apiModal">
   <div class="api-box">
@@ -92,60 +92,55 @@ function loadFxCache(){
 function saveFxCache(){try{localStorage.setItem(FX_CACHE_STORAGE,JSON.stringify({rates:fxRates,ts:Date.now()}))}catch(e){}}
 async function avQuote(from,to,key){
   const u=`https://www.alphavantage.co/query?function=CURRENCY_EXCHANGE_RATE&from_currency=${from}&to_currency=${to}&apikey=${encodeURIComponent(key)}`;
-  const r=await fetch(u,{cache:'no-store'});if(!r.ok)throw new Error('HTTP '+r.status);
-  const j=await r.json();const q=j['Realtime Currency Exchange Rate'];
-  if(!q)throw new Error(j.Note||j.Information||'No quote');
-  return {rate:Number(q['5. Exchange Rate']),time:q['6. Last Refreshed']||new Date().toLocaleTimeString('ja-JP')};
+  const r=await fetch(u,{cache:'no-store'});
+  if(!r.ok)throw new Error('HTTP '+r.status);
+  const j=await r.json();
+  const q=j['Realtime Currency Exchange Rate'];
+  if(!q){
+    if(j.Note) throw new Error('RATE_LIMIT: '+j.Note);
+    if(j.Information) throw new Error('INFO: '+j.Information);
+    if(j['Error Message']) throw new Error('INVALID_KEY: '+j['Error Message']);
+    throw new Error('NO_QUOTE: Alpha Vantageからレートが返りませんでした');
+  }
+  const rate=Number(q['5. Exchange Rate']);
+  if(!Number.isFinite(rate))throw new Error('BAD_RATE: レートを数値として読み取れませんでした');
+  return {rate,time:q['6. Last Refreshed']||new Date().toLocaleTimeString('ja-JP')};
+}
+function diagnosticMessage(err){
+  const msg=String(err?.message||err||'不明なエラー');
+  if(/^TypeError: Failed to fetch$/i.test(msg)||/Failed to fetch/i.test(msg)) return '🌐 ブラウザ通信エラー：Alpha Vantageへ接続できませんでした。APIキーの問題ではなく、ブラウザ側の通信/CORSの可能性があります。';
+  if(/RATE_LIMIT|limit|rate|25|minute/i.test(msg)) return '⏱️ API利用制限：無料枠の回数制限に達した可能性があります。';
+  if(/INVALID_KEY|Invalid API|apikey|API key|Error Message/i.test(msg)) return '🔑 APIキーエラー：キーが無効、または入力が正しくありません。';
+  return '⚠️ API応答エラー：'+msg.slice(0,220);
 }
 async function fetchFx(){
   const key=localStorage.getItem(FX_KEY_STORAGE);
   if(!key){setFxStatus('API KEY未設定',false);return}
-  const wait=ms=>new Promise(r=>setTimeout(r,ms));
-  setFxStatus('LIVE取得中… 1/7',true);
+  setFxStatus('診断中… USD/JPYを1回だけ取得',true);
   try{
-    // Alpha Vantage無料枠の5リクエスト/分を超えないよう、5件→約1分待機→2件の2バッチで取得
-    const q={};
-    const firstBatch=[['USD','JPY'],['EUR','USD'],['GBP','USD'],['USD','CHF'],['USD','MXN']];
-    for(let i=0;i<firstBatch.length;i++){
-      setFxStatus(`LIVE取得中… ${i+1}/7`,true);
-      const [a,b]=firstBatch[i];
-      q[a+'/'+b]=await avQuote(a,b,key);
-    }
-    setFxStatus('LIVE取得中… 5/7（次の取得まで約1分）',true);
-    await wait(61000);
-    const secondBatch=[['USD','TRY'],['AUD','USD']];
-    for(let i=0;i<secondBatch.length;i++){
-      setFxStatus(`LIVE取得中… ${i+6}/7`,true);
-      const [a,b]=secondBatch[i];
-      q[a+'/'+b]=await avQuote(a,b,key);
-    }
-
-    const u=q['USD/JPY'].rate,e=q['EUR/USD'].rate,g=q['GBP/USD'].rate,
-          ch=q['USD/CHF'].rate,mx=q['USD/MXN'].rate,
-          tr=q['USD/TRY'].rate,au=q['AUD/USD'].rate;
+    const q=await avQuote('USD','JPY',key);
     const now=new Date().toLocaleTimeString('ja-JP',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
-    fxRates={
-      'USD/JPY':{rate:u,time:now},
-      'EUR/USD':{rate:e,time:now},
-      'GBP/USD':{rate:g,time:now},
-      'CHF/MXN':{rate:mx/ch,time:now},
-      'TRY/JPY':{rate:tr*u,time:now},
-      'AUD/JPY':{rate:au*u,time:now},
-      'EUR/JPY':{rate:e*u,time:now},
-      'MXN/JPY':{rate:u/mx,time:now}
-    };
-    saveFxCache();renderFxCards();renderPairTable();setFxStatus('LIVE / 取得 '+now,true);
+    fxRates={'USD/JPY':{rate:q.rate,time:q.time||now}};
+    renderFxCards();renderPairTable();saveFxCache();
+    setFxStatus('🟢 USD/JPY取得成功 / '+now,true);
     document.getElementById('updated').textContent=now;
+    showDiag('🟢 成功！','Alpha VantageからUSD/JPYを1回取得できました。\n現在値: '+q.rate+'\n最終更新: '+(q.time||'不明')+'\n\n→ 次は8通貨版へ戻して、取得方法を安全に組み直します。',true);
   }catch(err){
     console.error(err);
-    const msg=String(err?.message||err);
-    if(/limit|rate|25|minute/i.test(msg)){
-      setFxStatus('API制限に到達 / キャッシュ表示',false);
-    }else{
-      setFxStatus('取得失敗 / キーまたは通信を確認',false);
-    }
+    const detail=diagnosticMessage(err);
+    setFxStatus('診断結果を表示',false);
+    showDiag('🔎 診断結果',detail+'\n\n技術情報: '+String(err?.message||err).slice(0,300),false);
     loadFxCache();
   }
+}
+function showDiag(title,msg,ok){
+  let el=document.getElementById('diagBox');
+  if(!el){
+    el=document.createElement('div');el.id='diagBox';el.style.cssText='margin:10px 0;padding:12px;border:1px solid #0b6986;border-radius:8px;background:#020b12;white-space:pre-wrap;line-height:1.55;font-size:12px;color:#dff7ff';
+    const sec=document.querySelector('.fx-live');
+    sec.appendChild(el);
+  }
+  el.innerHTML='<b style="color:'+(ok?'var(--green)':'var(--yellow)')+'">'+title+'</b><br>'+msg.replace(/</g,'&lt;');
 }
 
 document.getElementById('fxKey').onclick=()=>{document.getElementById('apiKeyInput').value=localStorage.getItem(FX_KEY_STORAGE)||'';document.getElementById('apiModal').style.display='flex'};
