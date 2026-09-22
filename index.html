@@ -8,7 +8,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="icon-192.png">
-<title>FX FUNDAMENTAL DASHBOARD v5.0 FUNDAMENTAL ENGINE</title>
+<title>FX FUNDAMENTAL DASHBOARD v5.1 FUNDAMENTAL EXPLAINER</title>
 <style>
 :root{--bg:#02070d;--panel:#06131d;--line:#0b6986;--cyan:#20dfff;--green:#25f39a;--red:#ff4167;--yellow:#ffe052;--muted:#7895a1;--white:#eaf8ff}
 *{box-sizing:border-box}html,body{margin:0;background:#02070d;color:var(--white);font-family:Arial,"Noto Sans JP",system-ui,sans-serif}body{min-height:100vh}.app{max-width:1500px;margin:auto;background:radial-gradient(circle at 50% -5%,#0b2938,#02070d 38%,#01050a);min-height:100vh}.header{height:88px;padding:0 22px;display:flex;align-items:center;border-bottom:2px solid #0bcde8}.logo{font-size:52px;font-style:italic;font-weight:900;letter-spacing:-.1em;color:#19ddff;text-shadow:0 0 18px #00cfff;margin-right:20px}.title{font-size:25px;font-weight:800;letter-spacing:.05em}.subtitle{font-size:11px;color:#b7d9e2;margin-top:4px}.headright{margin-left:auto;text-align:right}.date{font-size:12px}.time{font-size:30px;font-weight:800;line-height:1}.auto{font-size:10px;color:var(--green);margin-top:4px}.main{padding:12px}.panel{border:1px solid #0a6a86;background:linear-gradient(180deg,#071824,#030b12);border-radius:9px;overflow:hidden;box-shadow:0 0 0 1px #02121a,0 8px 22px #0008}.ph{min-height:42px;padding:8px 12px;display:flex;align-items:center;border-bottom:1px solid #123a49;font-weight:800;font-size:15px;letter-spacing:.04em}.ph .sub{font-size:10px;color:var(--muted);font-weight:500;margin-left:10px}.pb{padding:10px}
@@ -17,7 +17,7 @@
 .ai{margin-top:10px}.ai-body{padding:10px 12px;font-size:11px;line-height:1.7}.ai-line{display:grid;grid-template-columns:105px 1fr;gap:10px;padding:4px 0}.ai-label{font-weight:800}.ai-label.green{color:var(--green)}.ai-label.cyan{color:var(--cyan)}.ai-label.yellow{color:var(--yellow)}
 .indicators{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:10px}.indicator{padding:11px;background:#07141d;border:1px solid #0b526b;border-radius:8px}.ilabel{font-size:9px;color:#66828a}.ival{font-size:21px;font-weight:900;margin-top:5px}.chg{font-size:10px;margin-top:3px}.green{color:var(--green)}.red{color:var(--red)}.yellow{color:var(--yellow)}
 .global{margin-top:10px}.gtable{width:100%;border-collapse:collapse;font-size:11px}.gtable th{font-size:9px;color:#66828a;text-align:left;padding:8px;border-bottom:1px solid #15343d}.gtable td{padding:8px;border-bottom:1px solid #102a31;vertical-align:middle}.pair{font-weight:800;white-space:nowrap}.scorev{font-weight:950;font-size:14px}.signal{font-size:8px;font-weight:800;padding:3px 6px;border:1px solid currentColor;border-radius:4px;display:inline-block}.reason{font-size:9px;color:#76919b}.spark{width:120px;height:34px;display:block}.spark polyline{fill:none;stroke-width:2.2}.upstroke{stroke:var(--green)}.downstroke{stroke:var(--red)}.neutralstroke{stroke:var(--cyan)}.footnote{padding:8px 12px;color:#58757e;font-size:8px;border-top:1px solid #123a49}
-@media(max-width:700px){.header{height:74px;padding:0 12px}.logo{font-size:38px;margin-right:10px}.title{font-size:16px}.subtitle{font-size:8px}.date{font-size:9px}.time{font-size:22px}.auto{font-size:8px}.main{padding:8px}.barometer{padding:11px}.big{font-size:29px}.news-cal{grid-template-columns:1fr}.indicators{grid-template-columns:1fr 1fr}.ai-line{grid-template-columns:82px 1fr;font-size:10px}.gtable th:nth-child(5),.gtable td:nth-child(5),.gtable th:nth-child(6),.gtable td:nth-child(6){display:none}.gtable th,.gtable td{padding:7px 5px}.spark{width:78px;height:30px}.reason{display:none}.ph{font-size:13px}.ph .sub{font-size:8px;margin-left:7px}}
+@media(max-width:700px){.header{height:74px;padding:0 12px}.logo{font-size:38px;margin-right:10px}.title{font-size:16px}.subtitle{font-size:8px}.date{font-size:9px}.time{font-size:22px}.auto{font-size:8px}.main{padding:8px}.barometer{padding:11px}.big{font-size:29px}.news-cal{grid-template-columns:1fr}.indicators{grid-template-columns:1fr 1fr}.ai-line{grid-template-columns:82px 1fr;font-size:10px}.gtable th:nth-child(6),.gtable td:nth-child(6),.gtable th:nth-child(7),.gtable td:nth-child(7){display:none}.gtable th,.gtable td{padding:7px 5px}.spark{width:78px;height:30px}.reason{display:none}.ph{font-size:13px}.ph .sub{font-size:8px;margin-left:7px}}
 
 .fx-live{margin-top:10px}.fx-live-head{display:flex;align-items:center;justify-content:space-between;gap:8px}.fx-status{font-size:9px;color:var(--green)}.fx-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:10px}.fx-card{padding:10px;background:#07141d;border:1px solid #0b526b;border-radius:8px}.fx-pair{font-size:9px;color:#7f9aa3}.fx-rate{font-size:20px;font-weight:900;margin-top:4px}.fx-meta{font-size:8px;color:#5f7d86;margin-top:3px}.fx-btn{border:1px solid #1b849e;background:#06131d;color:var(--cyan);border-radius:5px;padding:5px 8px;font-size:9px}.api-note{padding:0 10px 8px;color:#58757e;font-size:8px}.api-modal{position:fixed;inset:0;background:#000b;display:none;align-items:center;justify-content:center;z-index:99;padding:18px}.api-box{max-width:440px;width:100%;background:#071824;border:1px solid #0a6a86;border-radius:10px;padding:18px;box-shadow:0 10px 40px #000}.api-box h3{margin:0 0 8px}.api-box p{font-size:10px;line-height:1.6;color:#9bb5bd}.api-box input{width:100%;padding:10px;border-radius:6px;border:1px solid #245d6c;background:#02070d;color:#eaf8ff;margin:8px 0;font-size:12px}.api-actions{display:flex;gap:8px;justify-content:flex-end}.api-actions button{padding:8px 12px;border-radius:6px;border:1px solid #2a7e92;background:#06131d;color:#eaf8ff}.api-actions .primary{background:#0b7e98;color:white}
 @media(max-width:700px){.fx-grid{grid-template-columns:1fr 1fr}.fx-rate{font-size:17px}.fx-live-head{align-items:flex-start}.api-box{padding:15px}}
@@ -31,11 +31,14 @@
 
 .country-panel{margin-top:10px}.country-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:10px}.country-card{padding:10px;background:#07141d;border:1px solid #164c5d;border-radius:8px}.country-top{display:flex;justify-content:space-between;gap:6px;align-items:center}.country-name{font-size:11px;font-weight:900}.country-score{font-size:18px;font-weight:950}.country-metrics{display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-top:7px}.cm{font-size:8px;color:#7895a1}.cm b{display:block;font-size:10px;color:#dff7ff;margin-top:2px}.coverage{margin-top:7px;font-size:7.5px;color:#7895a1;line-height:1.5}.mini-badge{font-size:7px;padding:2px 5px;border:1px solid currentColor;border-radius:999px}.coverage-live{color:var(--green)}.coverage-latest{color:var(--yellow)}.coverage-na{color:#8aa5ae}.country-note{padding:0 10px 10px;color:#58757e;font-size:8px;line-height:1.5}.diff-badge{font-size:8px;color:var(--cyan)}
 @media(max-width:700px){.country-grid{grid-template-columns:1fr 1fr}.country-card{padding:8px}.country-name{font-size:9px}.country-score{font-size:16px}.cm{font-size:7px}.cm b{font-size:9px}.coverage{font-size:7px}}
+
+.confidence-wrap{margin-top:7px}.confidence-line{display:flex;justify-content:space-between;font-size:7.5px;color:#7895a1}.confidence-bar{height:5px;background:#0d2029;border:1px solid #153d49;border-radius:99px;overflow:hidden;margin-top:3px}.confidence-fill{height:100%;background:var(--cyan)}.freshness{font-size:7.5px;color:#7895a1;margin-top:4px}.pair-insight{margin-top:10px}.insight-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:10px}.insight-card{padding:10px;background:#07141d;border:1px solid #164c5d;border-radius:8px}.insight-head{display:flex;justify-content:space-between;align-items:center;gap:6px}.insight-pair{font-weight:900;font-size:13px}.insight-score{font-weight:950;font-size:17px}.insight-text{font-size:9px;line-height:1.6;color:#a5c0c8;margin-top:7px}.factor-tags{display:flex;flex-wrap:wrap;gap:4px;margin-top:7px}.factor-tag{font-size:7.5px;border:1px solid #20596a;border-radius:999px;padding:2px 5px;color:#9cc9d3}.confidence-badge{font-size:7.5px;padding:2px 6px;border:1px solid currentColor;border-radius:999px}.conf-high{color:var(--green)}.conf-mid{color:var(--yellow)}.conf-low{color:var(--red)}
+@media(max-width:700px){.insight-grid{grid-template-columns:1fr}.insight-card{padding:9px}.insight-text{font-size:8.5px}.confidence-line,.freshness,.confidence-badge,.factor-tag{font-size:7px}}
 </style>
 </head>
 <body>
 <div class="app">
-<header class="header"><div class="logo">FX</div><div><div class="title">FUNDAMENTAL DASHBOARD</div><div class="subtitle">世界の経済を読み解き、通貨の未来をスコアで可視化する　｜　v5.0 FUNDAMENTAL ENGINE</div></div><div class="headright"><div class="date" id="date"></div><div class="time" id="time"></div><div class="auto">● AUTO UPDATE　<span id="updated">--:--</span></div></div></header>
+<header class="header"><div class="logo">FX</div><div><div class="title">FUNDAMENTAL DASHBOARD</div><div class="subtitle">世界の経済を読み解き、通貨の未来をスコアで可視化する　｜　v5.1 FUNDAMENTAL EXPLAINER</div></div><div class="headright"><div class="date" id="date"></div><div class="time" id="time"></div><div class="auto">● AUTO UPDATE　<span id="updated">--:--</span></div></div></header>
 <main class="main">
 <section class="panel barometer"><div class="bar-title"><span>FUNDAMENTALS IMPACT BAROMETER　<span>ファンダメンタルズ影響度数</span></span><span id="barclock"></span></div><div class="bar-sides"><div><div class="big buy">BUY 62%</div><div class="impact">総合影響度 72.4</div></div><div><div class="big sell">38% SELL</div><div class="impact">43.7</div></div></div><div class="track"><div class="buyfill"></div><div class="sellfill"></div></div><div class="bar-caption">市場全体のファンダメンタルズ方向性（検証済みデータから自動算出）</div></section>
 <div class="news-cal">
@@ -56,11 +59,12 @@
 <div class="indicators" id="macroIndicators"><div class="indicator"><div class="ilabel">🇺🇸 US 10Y</div><div class="ival" id="m10y">--</div><div class="chg" id="m10ychg">待機中</div></div><div class="indicator"><div class="ilabel">🇺🇸 DXY</div><div class="ival" id="mdxy">--</div><div class="chg" id="mdxychg">待機中</div></div><div class="indicator"><div class="ilabel">⚠️ VIX</div><div class="ival" id="mvix">--</div><div class="chg" id="mvixchg">待機中</div></div><div class="indicator"><div class="ilabel">📈 CPI YoY</div><div class="ival" id="mcpi">--</div><div class="chg" id="mcpichg">待機中</div></div><div class="indicator"><div class="ilabel">👷 US UNEMPLOYMENT</div><div class="ival" id="munemp">--</div><div class="chg" id="munempchg">待機中</div></div><div class="indicator"><div class="ilabel">🏦 FED FUNDS</div><div class="ival" id="mfed">--</div><div class="chg" id="mfedchg">待機中</div></div><div class="indicator"><div class="ilabel">🪙 GOLD</div><div class="ival" id="mgold">--</div><div class="chg" id="mgoldchg">待機中</div></div><div class="indicator"><div class="ilabel">🛢️ WTI</div><div class="ival" id="mwti">--</div><div class="chg" id="mwtichg">待機中</div></div></div><div class="api-note" id="macroStatus">マクロデータ準備中…</div>
 <section class="panel verify-panel"><div class="ph">🛡️ DATA VERIFICATION <span class="sub">実データの鮮度・取得元・基準日を検証</span><span class="live" id="verifySummary">CHECKING…</span></div><div class="verify-grid" id="verifyGrid"></div><div class="verify-note">🟢 LIVE＝取得成功かつ鮮度基準内　🟡 LATEST＝最新公表値だが更新頻度が低い指標　🔴 STALE＝鮮度基準超過または古いキャッシュ　⚪ N/A＝取得対象外。<br>「取得時刻」と「データ基準日」を分離して表示し、古いデータを最新値と誤認しないようにします。</div></section>
 
-<section class="panel country-panel"><div class="ph">🌍 8-CURRENCY FUNDAMENTAL MATRIX <span class="sub">7要素・100点方式 / 接続済みデータのみ採点</span><span class="live" id="countryStatus">BIS CONNECTING…</span></div><div class="country-grid" id="countryGrid"></div><div class="country-note">政策金利・CPIはBIS統計API、リスク環境はVIX/WTI等の市場データを利用。GDP・雇用・PMI・中央銀行スタンスは未接続の場合「N/A」とし、推測で補完しません。100点を7要素に配点し、未接続項目は分母から除外して「利用可能データ内の正規化スコア」を表示します。Data by BIS / Data by Convex</div><div class="engine-note">🧮 <b>v5.0 scoring:</b> 実質金利25 / 金利差20 / インフレ15 / 景気15 / 雇用10 / 中央銀行10 / リスク5。現在は実質金利・金利差・インフレ・リスクを接続。未接続の景気・雇用・中央銀行はN/A。<span class="engine-chip">NO GUESSING</span></div></section>
-<section class="panel global"><div class="ph">🌐 GLOBAL FUNDAMENTAL SCORE <span class="sub">通貨ペアのファンダメンタルスコア一覧 ＋ 日足チャート</span><span class="live">LIVE / RULE-BASED</span></div><div style="overflow-x:auto"><table class="gtable"><thead><tr><th>通貨ペア</th><th>現在値</th><th>スコア</th><th>シグナル</th><th>主な要因</th><th>日足チャート</th></tr></thead><tbody id="pairs"></tbody></table></div><div class="footnote">※ 現在値はFX APIから取得。スコアは取得できたライブ/最新公表マクロから自動算出。DATA VERIFICATIONで基準日と鮮度を確認できます。</div></section>
+<section class="panel country-panel"><div class="ph">🌍 8-CURRENCY FUNDAMENTAL MATRIX <span class="sub">7要素・100点方式 / 接続済みデータのみ採点</span><span class="live" id="countryStatus">BIS CONNECTING…</span></div><div class="country-grid" id="countryGrid"></div><div class="country-note">政策金利・CPIはBIS統計API、リスク環境はVIX/WTI等の市場データを利用。GDP・雇用・PMI・中央銀行スタンスは未接続の場合「N/A」とし、推測で補完しません。100点を7要素に配点し、未接続項目は分母から除外して「利用可能データ内の正規化スコア」を表示します。Data by BIS / Data by Convex</div><div class="engine-note">🧮 <b>v5.1 scoring:</b> 実質金利25 / 金利差20 / インフレ15 / 景気15 / 雇用10 / 中央銀行10 / リスク5。現在は実質金利・金利差・インフレ・リスクを接続。未接続の景気・雇用・中央銀行はN/A。<span class="engine-chip">NO GUESSING</span></div></section>
+<section class="panel global"><div class="ph">🌐 GLOBAL FUNDAMENTAL SCORE <span class="sub">通貨ペアのファンダメンタルスコア一覧 ＋ 日足チャート</span><span class="live">LIVE / RULE-BASED</span></div><div style="overflow-x:auto"><table class="gtable"><thead><tr><th>通貨ペア</th><th>現在値</th><th>スコア</th><th>シグナル</th><th>信頼度</th><th>主な要因</th><th>日足チャート</th></tr></thead><tbody id="pairs"></tbody></table></div><div class="footnote">※ 現在値はFX APIから取得。スコアは取得できたライブ/最新公表マクロから自動算出。DATA VERIFICATIONで基準日と鮮度を確認できます。</div></section>
+<section class="panel pair-insight"><div class="ph">🧭 PAIR FUNDAMENTAL EXPLAINER <span class="sub">スコア・理由・信頼度・データ鮮度</span><span class="live">v5.1</span></div><div class="insight-grid" id="pairInsights"></div></section>
 </main></div>
 <script>
-// v5.0 FUNDAMENTAL ENGINE
+// v5.1 FUNDAMENTAL EXPLAINER
 const newsFallback=[['USD','FRB高官が金利見通しに慎重姿勢　追加利下げはデータ次第','Reuters'],['JPY','日銀総裁の発言に市場が注目　金融政策の判断時期はなお不透明','Bloomberg'],['EUR','ユーロ圏PMI、予想を上回る　景気の底堅さ示す','Financial Times'],['OIL','原油価格が上昇　供給懸念と地政学リスクが再燃','CNBC'],['CNH','中国、追加の景気刺激策を検討との報道　市場の期待高まる','Nikkei Asia']];
 function esc(s){return String(s).replace(/[&<>\"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]))}
 function renderNews(items){document.getElementById('news').innerHTML=items.slice(0,5).map((n,i)=>`<div class="news-item"><div><span class="tag">${esc(n[0])}</span><span class="news-title">${esc(n[1])}</span></div><div class="meta">${i*7+5}分前　${esc(n[2]||'News')}</div></div>`).join('')}
@@ -211,7 +215,7 @@ function updateFundamentalEngine(){
   macroSet('aiDirection',`${riskTxt}。${dir}。`);
   macroSet('aiFocus',`米10年 ${macro.tenY?.toFixed(2)||'--'}% / DXY ${macro.dxy?.toFixed(2)||'--'} / VIX ${macro.vix?.toFixed(1)||'--'} / CPI ${macro.cpi?.toFixed(1)||'--'}%。`);
   macroSet('aiRisk',`金 ${macro.gold?.toFixed(0)||'--'} / WTI ${macro.wti?.toFixed(1)||'--'}。VIX・金利急変と高インパクト指標を警戒。`);
-  macroSet('aiView',`検証済みのライブ/最新公表データから自動算出した環境判定。これはv5.0の7要素ルールベース分析で、生成AIによる投資判断ではありません。`);
+  macroSet('aiView',`検証済みのライブ/最新公表データから自動算出した環境判定。これはv5.1の7要素ルールベース分析で、生成AIによる投資判断ではありません。`);
   const bar=Math.max(20,Math.min(80,50+dollar*.8+riskOn*.5));const bf=document.querySelector('.buyfill'),sf=document.querySelector('.sellfill');if(bf&&sf){bf.style.width=bar+'%';sf.style.width=(100-bar)+'%';}const b=document.querySelector('.bar-sides .buy');const se=document.querySelector('.bar-sides .sell');if(b)b.textContent=`BUY ${Math.round(bar)}%`;if(se)se.textContent=`${Math.round(100-bar)}% SELL`;
 }
 
@@ -334,11 +338,50 @@ function renderFxCards(){
   const grid=document.getElementById('fxGrid');
   grid.innerHTML=fxDefs.map(x=>`<div class="fx-card"><div class="fx-pair">${x[0]}</div><div class="fx-rate" id="fx-${x[0].replace('/','-')}">${fmtRate(x[0],fxRates[x[0]]?.rate)}</div><div class="fx-meta" id="fxm-${x[0].replace('/','-')}">${fxRates[x[0]]?.time?'更新 '+fxRates[x[0]].time:'未取得'}</div></div>`).join('');
 }
+function countryConfidence(k){
+  const d=countryFund[k]||{};
+  const coverage=Number.isFinite(d.coverage)?d.coverage:0;
+  const age=countryAge(d.rateDate);
+  const freshness=age<=8?100:age<=45?75:age<=120?45:20;
+  const cpiFresh=countryAge(d.cpiDate);
+  const cpiPart=Number.isFinite(d.cpi)?(cpiFresh<=45?100:cpiFresh<=120?65:30):0;
+  const coverageAdj=Math.min(100,coverage+15);
+  return Math.round(Math.max(0,Math.min(100,coverageAdj*0.55+freshness*0.25+cpiPart*0.20)));
+}
+function confClass(v){return v>=75?'conf-high':v>=50?'conf-mid':'conf-low'}
+function confBadge(v){return `<span class="confidence-badge ${confClass(v)}">${v}%</span>`}
+function pairReason(base,quote,diff){
+  const b=countryFund[base]||{},q=countryFund[quote]||{};
+  const parts=[];
+  if(Number.isFinite(b.realRate)&&Number.isFinite(q.realRate)){
+    const rd=b.realRate-q.realRate; parts.push(`${base}実質金利 ${b.realRate.toFixed(2)}% vs ${quote} ${q.realRate.toFixed(2)}%（差 ${rd>=0?'+':''}${rd.toFixed(2)}pp）`);
+  }
+  if(Number.isFinite(b.rate)&&Number.isFinite(q.rate)){parts.push(`政策金利差 ${base}/${quote} ${(b.rate-q.rate>=0?'+':'')}${(b.rate-q.rate).toFixed(2)}pp`)}
+  if(Number.isFinite(b.cpi)&&Number.isFinite(q.cpi)){parts.push(`CPI ${base} ${b.cpi.toFixed(2)}% / ${quote} ${q.cpi.toFixed(2)}%`)}
+  const risk=macro.vix; if(Number.isFinite(risk))parts.push(`VIX ${risk.toFixed(1)}`);
+  return parts;
+}
+function renderPairInsights(){
+  const box=document.getElementById('pairInsights'); if(!box)return;
+  const focus=['CHF/MXN','TRY/JPY'];
+  box.innerHTML=focus.map(pair=>{
+    const p=pairData.find(x=>x[0]===pair); const [base,quote]=pair.split('/'); const bs=countryScoreFor(base),qs=countryScoreFor(quote);
+    const score=Number.isFinite(p?.[1])?p[1]:Math.round(clamp((bs-qs)*0.55,-100,100));
+    const bc=countryConfidence(base),qc=countryConfidence(quote); const conf=Math.round((bc+qc)/2);
+    const reasons=pairReason(base,quote,score); const sig=score>=20?'BUY':score<=-20?'SELL':'NEUTRAL';
+    const txt=reasons.length?reasons.join(' / '):'接続済みデータが不足しているため、根拠を限定して表示しています。';
+    const lead=score>0?`${base}側が相対的に優位`:`${quote}側が相対的に優位`;
+    return `<div class="insight-card"><div class="insight-head"><span class="insight-pair">${pair}</span><span class="${score>=0?'green':'red'} insight-score">${score>0?'+':''}${score}</span>${confBadge(conf)}</div><div class="insight-text"><b>${sig}</b> — ${lead}。${txt}</div><div class="factor-tags"><span class="factor-tag">${base} ${bs>0?'+':''}${bs}</span><span class="factor-tag">${quote} ${qs>0?'+':''}${qs}</span><span class="factor-tag">DATA CONFIDENCE ${conf}%</span></div><div class="freshness">鮮度: ${base} ${countryBadge(countryFund[base]?.rateDate).replace(/<[^>]+>/g,'')} / ${quote} ${countryBadge(countryFund[quote]?.rateDate).replace(/<[^>]+>/g,'')}</div></div>`;
+  }).join('');
+}
 function renderPairTable(){
   document.getElementById('pairs').innerHTML=pairData.map((p,i)=>{
     const liveRate=p[0]==='XAU/USD'&&macro.gold!=null?macro.gold:(fxRates[p[0]]?.rate);
-    return `<tr><td class="pair">${p[0]}</td><td class="scorev">${liveRate!=null?(p[0]==='XAU/USD'?Number(liveRate).toFixed(2):fmtRate(p[0],liveRate)):'--'}</td><td class="${p[1]>=0?'green':'red'} scorev">${p[1]>0?'+':''}${p[1]}</td><td><span class="signal ${p[1]>=0?'green':'red'}">${p[2]}</span></td><td class="reason">${p[4]}<div class="pair-breakdown">7要素モデル / 接続データで算出</div></td><td>${spark(p[5],i)}</td></tr>`;
+    const parts=p[0].split('/');
+    const conf=parts.length===2&&countryFund[parts[0]]&&countryFund[parts[1]]?Math.round((countryConfidence(parts[0])+countryConfidence(parts[1]))/2):50;
+    return `<tr><td class="pair">${p[0]}</td><td class="scorev">${liveRate!=null?(p[0]==='XAU/USD'?Number(liveRate).toFixed(2):fmtRate(p[0],liveRate)):'--'}</td><td class="${p[1]>=0?'green':'red'} scorev">${p[1]>0?'+':''}${p[1]}</td><td><span class="signal ${p[1]>=0?'green':'red'}">${p[2]}</span></td><td>${confBadge(conf)}</td><td class="reason">${p[4]}<div class="pair-breakdown">7要素モデル / 接続データで算出</div></td><td>${spark(p[5],i)}</td></tr>`;
   }).join('');
+  renderPairInsights();
 }
 function setFxStatus(msg,good=true){const s=document.getElementById('fxStatus');if(s){s.textContent=msg;s.style.color=good?'var(--green)':'var(--red)'}}
 function loadFxCache(){try{const c=JSON.parse(localStorage.getItem(FX_CACHE_STORAGE)||'{}');if(c.rates)fxRates=c.rates}catch(e){}renderFxCards();renderPairTable()}
