@@ -8,7 +8,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="icon-192.png">
-<title>FX FUNDAMENTAL DASHBOARD v4.4 LIVE FUNDAMENTAL ENGINE</title>
+<title>FX FUNDAMENTAL DASHBOARD v4.5 LIVE FUNDAMENTAL ENGINE</title>
 <style>
 :root{--bg:#02070d;--panel:#06131d;--line:#0b6986;--cyan:#20dfff;--green:#25f39a;--red:#ff4167;--yellow:#ffe052;--muted:#7895a1;--white:#eaf8ff}
 *{box-sizing:border-box}html,body{margin:0;background:#02070d;color:var(--white);font-family:Arial,"Noto Sans JP",system-ui,sans-serif}body{min-height:100vh}.app{max-width:1500px;margin:auto;background:radial-gradient(circle at 50% -5%,#0b2938,#02070d 38%,#01050a);min-height:100vh}.header{height:88px;padding:0 22px;display:flex;align-items:center;border-bottom:2px solid #0bcde8}.logo{font-size:52px;font-style:italic;font-weight:900;letter-spacing:-.1em;color:#19ddff;text-shadow:0 0 18px #00cfff;margin-right:20px}.title{font-size:25px;font-weight:800;letter-spacing:.05em}.subtitle{font-size:11px;color:#b7d9e2;margin-top:4px}.headright{margin-left:auto;text-align:right}.date{font-size:12px}.time{font-size:30px;font-weight:800;line-height:1}.auto{font-size:10px;color:var(--green);margin-top:4px}.main{padding:12px}.panel{border:1px solid #0a6a86;background:linear-gradient(180deg,#071824,#030b12);border-radius:9px;overflow:hidden;box-shadow:0 0 0 1px #02121a,0 8px 22px #0008}.ph{min-height:42px;padding:8px 12px;display:flex;align-items:center;border-bottom:1px solid #123a49;font-weight:800;font-size:15px;letter-spacing:.04em}.ph .sub{font-size:10px;color:var(--muted);font-weight:500;margin-left:10px}.pb{padding:10px}
@@ -68,7 +68,7 @@ function spark(kind,seed){
 }
 
 
-const MACRO_CACHE='fxdash_macro_v4';
+const MACRO_CACHE='fxdash_macro_v45';
 const MACRO_AUTO_MS=5*60*1000;
 const MACRO_ENDPOINTS={
   summary:'https://convextrade.com/api/public/macro-summary',
@@ -79,14 +79,29 @@ const MACRO_ENDPOINTS={
   fed:'https://convextrade.com/api/public/metrics/fedfunds',
   gold:'https://convextrade.com/api/public/metrics/gold',
   wti:'https://convextrade.com/api/public/metrics/dcoilwtico',
-  dxy:'https://biquote.io/api/DXY'
+  dxy:'https://biquote.io/api/DXY',
+  xau:'https://biquote.io/api/XAUUSD'
 };
 let macro={};
 function macroSet(id,val){const e=document.getElementById(id);if(e)e.textContent=val}
 function pctChange(a,b){if(!Number.isFinite(a)||!Number.isFinite(b)||b===0)return null;return (a/b-1)*100}
 function signed(v,d=2){return v==null?'--':`${v>=0?'+':''}${Number(v).toFixed(d)}`}
-function metricValue(j){return j?.value!=null?Number(j.value):j?.data?.value!=null?Number(j.data.value):null}
-function metricDate(j){return j?.date||j?.data?.date||'--'}
+function metricValue(j){return j?.value!=null?Number(j.value):j?.data?.value!=null?Number(j.data.value):j?.mid!=null?Number(j.mid):j?.lastPrice!=null?Number(j.lastPrice):null}
+function metricDate(j){return j?.date||j?.data?.date||j?.timestamp||'--'}
+function deepNumber(obj,keys){
+  const wanted=keys.map(k=>String(k).toLowerCase());
+  let found=null;
+  const walk=(x,path=[])=>{
+    if(found!=null||x==null)return;
+    if(typeof x!=='object')return;
+    for(const [k,v] of Object.entries(x)){
+      const kl=k.toLowerCase(), full=path.concat(k).join('.').toLowerCase();
+      if(typeof v==='number' && Number.isFinite(v) && wanted.some(w=>kl===w || full.endsWith('.'+w) || kl.includes(w))){found=Number(v);return}
+      if(typeof v==='object')walk(v,path.concat(k));
+    }
+  };
+  walk(obj); return found;
+}
 function renderMacro(){
   macroSet('m10y',macro.tenY!=null?macro.tenY.toFixed(2)+'%':'--');
   macroSet('mdxy',macro.dxy!=null?macro.dxy.toFixed(2):'--');
@@ -113,21 +128,25 @@ async function getJson(url){const r=await fetch(url,{cache:'no-store'});if(!r.ok
 async function fetchMacro(){
   const st=document.getElementById('macroStatus');if(st)st.textContent='🟡 マクロ取得中…';
   try{
-    const [sum,t,v,c,u,f,g,w,d]=await Promise.all([
-      getJson(MACRO_ENDPOINTS.summary).catch(()=>null),getJson(MACRO_ENDPOINTS.tenY).catch(()=>null),getJson(MACRO_ENDPOINTS.vix).catch(()=>null),getJson(MACRO_ENDPOINTS.cpi).catch(()=>null),getJson(MACRO_ENDPOINTS.unemp).catch(()=>null),getJson(MACRO_ENDPOINTS.fed).catch(()=>null),getJson(MACRO_ENDPOINTS.gold).catch(()=>null),getJson(MACRO_ENDPOINTS.wti).catch(()=>null),getJson(MACRO_ENDPOINTS.dxy).catch(()=>null)
+    const [sum,t,v,c,u,f,g,w,d,xau]=await Promise.all([
+      getJson(MACRO_ENDPOINTS.summary).catch(()=>null),getJson(MACRO_ENDPOINTS.tenY).catch(()=>null),getJson(MACRO_ENDPOINTS.vix).catch(()=>null),getJson(MACRO_ENDPOINTS.cpi).catch(()=>null),getJson(MACRO_ENDPOINTS.unemp).catch(()=>null),getJson(MACRO_ENDPOINTS.fed).catch(()=>null),getJson(MACRO_ENDPOINTS.gold).catch(()=>null),getJson(MACRO_ENDPOINTS.wti).catch(()=>null),getJson(MACRO_ENDPOINTS.dxy).catch(()=>null),getJson(MACRO_ENDPOINTS.xau).catch(()=>null)
     ]);
     const k=sum?.key_rates||{}, vol=sum?.volatility||{}, inf=sum?.inflation||{}, labor=sum?.labor||{};
-    const tenY=metricValue(t)??Number(k['10y']); const vix=metricValue(v)??Number(vol.vix); const cpi=metricValue(c)??Number(inf.cpi_yoy_pct); const unemp=metricValue(u)??Number(labor.unemployment_rate??labor.unemployment);
-    const fed=metricValue(f)??Number(k.fed_funds??k.effective_fed_funds);
-    const gold=metricValue(g),wti=metricValue(w),dxy=metricValue(d)??Number(d?.mid);
+    const tenY=metricValue(t)??deepNumber(sum,['10y','dgs10'])??Number(k['10y']);
+    const vix=metricValue(v)??deepNumber(sum,['vix','vixcls'])??Number(vol.vix);
+    // Prefer an explicit YoY field from the macro snapshot. Never display the raw CPI index as a YoY rate.
+    const cpi=deepNumber(sum,['cpi_yoy_pct','cpi_yoy','cpi_yoy_percent','inflation_rate'])??deepNumber(inf,['cpi_yoy_pct','cpi_yoy','yoy']);
+    const unemp=metricValue(u)??deepNumber(sum,['unemployment_rate','unemployment','unrate'])??deepNumber(labor,['unemployment_rate','unemployment','unrate']);
+    const fed=metricValue(f)??deepNumber(sum,['fed_funds','fedfunds','effective_fed_funds'])??Number(k.fed_funds??k.effective_fed_funds);
+    const gold=metricValue(xau)??metricValue(g),wti=metricValue(w),dxy=metricValue(d)??Number(d?.mid);
     const changes=(j)=>j?.changes||{};
     macro={
       tenY:Number.isFinite(tenY)?tenY:null, tenYChg:Number.isFinite(changes(t)['1d'])?Number(changes(t)['1d']):null,
       vix:Number.isFinite(vix)?vix:null, vixChg:Number.isFinite(changes(v)['1d'])?Number(changes(v)['1d']):null,
-      cpi:Number.isFinite(cpi)?cpi:null,cpiDate:metricDate(c)||sum?.date||'--',
+      cpi:Number.isFinite(cpi)?cpi:null,cpiDate:deepNumber(sum,['cpi_yoy_date'])!=null?(sum?.cpi_yoy_date||'--'):(metricDate(c)||sum?.date||'--'),
       unemp:Number.isFinite(unemp)?unemp:null,unempDate:metricDate(u)||sum?.date||'--',
       fed:Number.isFinite(fed)?fed:null,fedDate:metricDate(f)||sum?.date||'--',
-      gold:Number.isFinite(gold)?gold:null,goldChg:Number.isFinite(changes(g)['1d'])?Number(changes(g)['1d']):null,
+      gold:Number.isFinite(gold)?gold:null,goldChg:xau?.dayDiffPercent!=null?Number(xau.dayDiffPercent):(Number.isFinite(changes(g)['1d'])?Number(changes(g)['1d']):null),
       wti:Number.isFinite(wti)?wti:null,wtiChg:Number.isFinite(changes(w)['1d'])?Number(changes(w)['1d']):null,
       dxy:Number.isFinite(dxy)?dxy:null,dxyChg:d?.dayDiffPercent!=null?Number(d.dayDiffPercent):Number(changes(d)['1d']),
       regime:sum?.regime?.current||'--',trajectory:sum?.regime?.trajectory||'--',stress:sum?.stress_index
@@ -136,6 +155,10 @@ async function fetchMacro(){
     renderMacro();
   }catch(e){
     try{const c=JSON.parse(localStorage.getItem(MACRO_CACHE)||'{}');if(c.macro){macro=c.macro;renderMacro();document.getElementById('macroStatus').textContent='🟡 マクロ取得失敗 / 前回データ表示';return}}catch(_){ }
+    if(st)st.textContent='🔴 マクロ取得失敗 / '+String(e?.message||e).slice(0,100);
+  }
+}
+try{const c=JSON.parse(localStorage.getItem(MACRO_CACHE)||'{}');if(c.macro){macro=c.macro;renderMacro();document.getElementById('macroStatus').textContent='🟡 マクロ取得失敗 / 前回データ表示';return}}catch(_){ }
     if(st)st.textContent='🔴 マクロ取得失敗 / '+String(e?.message||e).slice(0,100);
   }
 }
@@ -180,18 +203,35 @@ async function fetchCalendar(){
     let data=await getJson(url);
     if(!Array.isArray(data)||!data.length){data=await getJson('https://biquote.io/api/calendar/upcoming?countries='+countries+'&importance=medium&limit=100')}
     const events=(Array.isArray(data)?data:(data?.events||[])).filter(e=>e&&e.type!=='holiday').sort((a,b)=>new Date(a.time)-new Date(b.time));
-    calendarState.events=events;calendarState.surprise=scoreCalendarSurprise(events);renderCalendar(events);updateFundamentalEngine();
+    calendarState.events=events;calendarState.surprise=scoreCalendarSurprise(events);
+    // Backfill the macro cards from the latest published US calendar prints when the macro snapshot omits them.
+    try{
+      const pastFrom=new Date(now.getTime()-90*86400000).toISOString();
+      const pastUrl='https://biquote.io/api/calendar?countries=US&importance=medium&type=indicator&limit=300&from='+encodeURIComponent(pastFrom)+'&to='+encodeURIComponent(now.toISOString());
+      const past=await getJson(pastUrl);
+      const arr=(Array.isArray(past)?past:(past?.events||[])).filter(e=>e&&e.actual!=null).sort((a,b)=>new Date(b.time)-new Date(a.time));
+      if(macro.cpi==null){
+        const ce=arr.find(e=>/(cpi|consumer price index)/i.test(e.name||'') && /(yoy|y\/y|year.?over.?year|annual)/i.test(e.name||''));
+        if(ce&&Number.isFinite(Number(ce.actual))){macro.cpi=Number(ce.actual);macro.cpiDate=ce.time;}
+      }
+      if(macro.unemp==null){
+        const ue=arr.find(e=>/unemployment rate|jobless rate/i.test(e.name||''));
+        if(ue&&Number.isFinite(Number(ue.actual))){macro.unemp=Number(ue.actual);macro.unempDate=ue.time;}
+      }
+      renderMacro();
+    }catch(_){ }
+    renderCalendar(events);updateFundamentalEngine();
   }catch(e){box.innerHTML='<div class="row"><span class="timec">--:--</span><span class="flagc">⚠️</span><span class="event">カレンダー取得失敗・再試行します<small style="display:block;color:#58757e">API接続を確認中</small></span><span class="med">--</span></div>'}
 }
 fetchCalendar();setInterval(fetchCalendar,15*60*1000);
 
 function clamp(v,a=-100,b=100){return Math.max(a,Math.min(b,v))}
 function updateFundamentalEngine(){
-  const vix=macro.vix??18,tenY=macro.tenY??4,tenYChg=macro.tenYChg??0,cpi=macro.cpi??3,unemp=macro.unemp??4.5;
+  const vix=macro.vix??18,tenY=macro.tenY??4,tenYChg=macro.tenYChg??0,cpi=macro.cpi,unemp=macro.unemp;
   const vixChg=macro.vixChg??0,wtiChg=macro.wtiChg??0,goldChg=macro.goldChg??0,dxyChg=macro.dxyChg??0;
   const surprise=calendarState.surprise||{};
   const riskOn=(vix<16?8:vix<22?0:-8) + wtiChg*0.65 + goldChg*-0.25 - vixChg*0.12;
-  const dollarImpulse=dxyChg*2.5 + tenYChg*15 + (cpi>3?2:cpi<2.5?-1:0) + (unemp<4.5?1:unemp>5?-2:0);
+  const dollarImpulse=dxyChg*2.5 + tenYChg*15 + (cpi==null?0:(cpi>3?2:cpi<2.5?-1:0)) + (unemp==null?0:(unemp<4.5?1:unemp>5?-2:0));
   const base={
     USD:50+dollarImpulse+(surprise.USD||0),
     JPY:50-dollarImpulse*.65-riskOn*.55+(surprise.JPY||0),
@@ -224,10 +264,10 @@ function updateFundamentalEngine(){
   let bar=clamp(50+avg*.75+(buyCount-sellCount)*2,15,85);if(!pairScores.length)bar=50;
   const bf=document.querySelector('.buyfill'),sf=document.querySelector('.sellfill');if(bf&&sf){bf.style.width=bar+'%';sf.style.width=(100-bar)+'%'}
   macroSet('barBuy',`BUY ${Math.round(bar)}%`);macroSet('barSell',`${Math.round(100-bar)}% SELL`);
-  macroSet('barBuyImpact',`総合影響度 ${Math.abs(avg*1.35).toFixed(1)}`);macroSet('barSellImpact',`${Math.abs(avg*1.0-5).toFixed(1)}`);
+  const impact=clamp(Math.abs(avg)*3.0 + Math.abs(buyCount-sellCount)*3,0,100); const buyImpact=bar>=50?impact:Math.max(0,impact-4); const sellImpact=bar<50?impact:Math.max(0,impact-4); macroSet('barBuyImpact',`総合影響度 ${buyImpact.toFixed(1)}`);macroSet('barSellImpact',`${sellImpact.toFixed(1)}`);
   const riskTxt=riskOn>5?'リスク選好':riskOn<-5?'リスク回避':'中立';const dir=dollarImpulse>4?'ドル優位':dollarImpulse<-4?'ドル劣後':'ドル方向感は中立';
   macroSet('aiDirection',`${riskTxt}。${dir}。`);
-  macroSet('aiFocus',`米10年 ${tenY.toFixed(2)}% / VIX ${vix.toFixed(1)} / CPI ${cpi.toFixed(1)}% / 金 ${macro.gold?.toFixed(1)||'--'} / WTI ${macro.wti?.toFixed(1)||'--'}。`);
+  macroSet('aiFocus',`米10年 ${tenY.toFixed(2)}% / VIX ${vix.toFixed(1)} / CPI ${cpi!=null?cpi.toFixed(1)+'%':'取得待ち'} / 失業率 ${unemp!=null?unemp.toFixed(1)+'%':'取得待ち'} / 金 ${macro.gold?.toFixed(1)||'--'} / WTI ${macro.wti?.toFixed(1)||'--'}。`);
   macroSet('aiRisk',`VIX ${vix.toFixed(1)}、10Y変化 ${signed(tenYChg,2)}pp、指標サプライズと急なドル・原油変動を監視。`);
   macroSet('aiView',`ライブのマクロ指標＋経済指標の実績/予想差＋リスク環境から自動算出。各国のデータ量が異なるため、スコアは比較用の分析補助値です。`);
 }
@@ -243,7 +283,7 @@ async function fetchDailyCharts(){
   await Promise.all(jobs);renderPairTable();
 }
 setTimeout(fetchDailyCharts,1200);setInterval(fetchDailyCharts,15*60*1000);
-const FX_CACHE_STORAGE='fxdash_fx_cache_v44';
+const FX_CACHE_STORAGE='fxdash_fx_cache_v45';
 const FX_API_URL='https://fxapi.app/api/usd.json';
 const FX_AUTO_MS=5*60*1000;
 const fxDefs=[
