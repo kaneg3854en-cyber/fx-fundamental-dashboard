@@ -8,7 +8,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="icon-192.png">
-<title>FX FUNDAMENTAL DASHBOARD v4.2 LIVE MACRO</title>
+<title>FX FUNDAMENTAL DASHBOARD v4.3 LIVE FUNDAMENTAL ENGINE</title>
 <style>
 :root{--bg:#02070d;--panel:#06131d;--line:#0b6986;--cyan:#20dfff;--green:#25f39a;--red:#ff4167;--yellow:#ffe052;--muted:#7895a1;--white:#eaf8ff}
 *{box-sizing:border-box}html,body{margin:0;background:#02070d;color:var(--white);font-family:Arial,"Noto Sans JP",system-ui,sans-serif}body{min-height:100vh}.app{max-width:1500px;margin:auto;background:radial-gradient(circle at 50% -5%,#0b2938,#02070d 38%,#01050a);min-height:100vh}.header{height:88px;padding:0 22px;display:flex;align-items:center;border-bottom:2px solid #0bcde8}.logo{font-size:52px;font-style:italic;font-weight:900;letter-spacing:-.1em;color:#19ddff;text-shadow:0 0 18px #00cfff;margin-right:20px}.title{font-size:25px;font-weight:800;letter-spacing:.05em}.subtitle{font-size:11px;color:#b7d9e2;margin-top:4px}.headright{margin-left:auto;text-align:right}.date{font-size:12px}.time{font-size:30px;font-weight:800;line-height:1}.auto{font-size:10px;color:var(--green);margin-top:4px}.main{padding:12px}.panel{border:1px solid #0a6a86;background:linear-gradient(180deg,#071824,#030b12);border-radius:9px;overflow:hidden;box-shadow:0 0 0 1px #02121a,0 8px 22px #0008}.ph{min-height:42px;padding:8px 12px;display:flex;align-items:center;border-bottom:1px solid #123a49;font-weight:800;font-size:15px;letter-spacing:.04em}.ph .sub{font-size:10px;color:var(--muted);font-weight:500;margin-left:10px}.pb{padding:10px}
@@ -16,7 +16,7 @@
 .news-cal{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}.news-list{padding:5px 12px 8px}.news-item{padding:10px 0;border-bottom:1px solid #102a31}.news-item:last-child{border-bottom:0}.tag{display:inline-block;font-size:8px;padding:2px 5px;border:1px solid #27515d;border-radius:4px;color:#7bd7e6;margin-right:5px}.news-title{font-size:12px;line-height:1.4}.meta{font-size:8px;color:#57757d;margin-top:4px}.live{font-size:9px;color:var(--green);margin-left:auto}.cal{padding:4px 10px 9px}.row{display:grid;grid-template-columns:48px 48px 1fr 45px;gap:6px;align-items:center;padding:9px 2px;border-bottom:1px solid #102a31;font-size:9px}.row:last-child{border-bottom:0}.timec{color:#76959d}.flagc{font-weight:800;color:var(--yellow)}.event{font-size:10px}.high{color:var(--red)}.med{color:var(--yellow)}
 .ai{margin-top:10px}.ai-body{padding:10px 12px;font-size:11px;line-height:1.7}.ai-line{display:grid;grid-template-columns:105px 1fr;gap:10px;padding:4px 0}.ai-label{font-weight:800}.ai-label.green{color:var(--green)}.ai-label.cyan{color:var(--cyan)}.ai-label.yellow{color:var(--yellow)}
 .indicators{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:10px}.indicator{padding:11px;background:#07141d;border:1px solid #0b526b;border-radius:8px}.ilabel{font-size:9px;color:#66828a}.ival{font-size:21px;font-weight:900;margin-top:5px}.chg{font-size:10px;margin-top:3px}.green{color:var(--green)}.red{color:var(--red)}.yellow{color:var(--yellow)}
-.global{margin-top:10px}.gtable{width:100%;border-collapse:collapse;font-size:11px}.gtable th{font-size:9px;color:#66828a;text-align:left;padding:8px;border-bottom:1px solid #15343d}.gtable td{padding:8px;border-bottom:1px solid #102a31;vertical-align:middle}.pair{font-weight:800;white-space:nowrap}.scorev{font-weight:950;font-size:14px}.signal{font-size:8px;font-weight:800;padding:3px 6px;border:1px solid currentColor;border-radius:4px;display:inline-block}.reason{font-size:9px;color:#76919b}.spark{width:120px;height:34px;display:block}.spark polyline{fill:none;stroke-width:2.2}.upstroke{stroke:var(--green)}.downstroke{stroke:var(--red)}.neutralstroke{stroke:var(--cyan)}.footnote{padding:8px 12px;color:#58757e;font-size:8px;border-top:1px solid #123a49}
+.global{margin-top:10px}.gtable{width:100%;border-collapse:collapse;font-size:11px}.gtable th{font-size:9px;color:#66828a;text-align:left;padding:8px;border-bottom:1px solid #15343d}.gtable td{padding:8px;border-bottom:1px solid #102a31;vertical-align:middle}.pair{font-weight:800;white-space:nowrap}.scorev{font-weight:950;font-size:14px}.signal{font-size:8px;font-weight:800;padding:3px 6px;border:1px solid currentColor;border-radius:4px;display:inline-block}.reason{font-size:9px;color:#76919b}.spark{width:120px;height:34px;display:block}.spark polyline{fill:none;stroke-width:2.2}.upstroke{stroke:var(--green)}.downstroke{stroke:var(--red)}.neutralstroke{stroke:var(--cyan)}.signal.neutral{color:var(--cyan)}.footnote{padding:8px 12px;color:#58757e;font-size:8px;border-top:1px solid #123a49}
 @media(max-width:700px){.header{height:74px;padding:0 12px}.logo{font-size:38px;margin-right:10px}.title{font-size:16px}.subtitle{font-size:8px}.date{font-size:9px}.time{font-size:22px}.auto{font-size:8px}.main{padding:8px}.barometer{padding:11px}.big{font-size:29px}.news-cal{grid-template-columns:1fr}.indicators{grid-template-columns:1fr 1fr}.ai-line{grid-template-columns:82px 1fr;font-size:10px}.gtable th:nth-child(5),.gtable td:nth-child(5),.gtable th:nth-child(6),.gtable td:nth-child(6){display:none}.gtable th,.gtable td{padding:7px 5px}.spark{width:78px;height:30px}.reason{display:none}.ph{font-size:13px}.ph .sub{font-size:8px;margin-left:7px}}
 
 .fx-live{margin-top:10px}.fx-live-head{display:flex;align-items:center;justify-content:space-between;gap:8px}.fx-status{font-size:9px;color:var(--green)}.fx-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:10px}.fx-card{padding:10px;background:#07141d;border:1px solid #0b526b;border-radius:8px}.fx-pair{font-size:9px;color:#7f9aa3}.fx-rate{font-size:20px;font-weight:900;margin-top:4px}.fx-meta{font-size:8px;color:#5f7d86;margin-top:3px}.fx-btn{border:1px solid #1b849e;background:#06131d;color:var(--cyan);border-radius:5px;padding:5px 8px;font-size:9px}.api-note{padding:0 10px 8px;color:#58757e;font-size:8px}.api-modal{position:fixed;inset:0;background:#000b;display:none;align-items:center;justify-content:center;z-index:99;padding:18px}.api-box{max-width:440px;width:100%;background:#071824;border:1px solid #0a6a86;border-radius:10px;padding:18px;box-shadow:0 10px 40px #000}.api-box h3{margin:0 0 8px}.api-box p{font-size:10px;line-height:1.6;color:#9bb5bd}.api-box input{width:100%;padding:10px;border-radius:6px;border:1px solid #245d6c;background:#02070d;color:#eaf8ff;margin:8px 0;font-size:12px}.api-actions{display:flex;gap:8px;justify-content:flex-end}.api-actions button{padding:8px 12px;border-radius:6px;border:1px solid #2a7e92;background:#06131d;color:#eaf8ff}.api-actions .primary{background:#0b7e98;color:white}
@@ -45,7 +45,7 @@
   <div class="api-note">データ提供: fxapi.app。APIキー不要。1回の取得で主要通貨をまとめて取得し、約5分ごとに更新されます。</div>
 </section>
 <div class="indicators" id="macroIndicators"><div class="indicator"><div class="ilabel">🇺🇸 US 10Y</div><div class="ival" id="m10y">--</div><div class="chg" id="m10ychg">待機中</div></div><div class="indicator"><div class="ilabel">🇺🇸 DXY</div><div class="ival" id="mdxy">--</div><div class="chg" id="mdxychg">待機中</div></div><div class="indicator"><div class="ilabel">⚠️ VIX</div><div class="ival" id="mvix">--</div><div class="chg" id="mvixchg">待機中</div></div><div class="indicator"><div class="ilabel">📈 CPI YoY</div><div class="ival" id="mcpi">--</div><div class="chg" id="mcpichg">待機中</div></div><div class="indicator"><div class="ilabel">👷 US UNEMPLOYMENT</div><div class="ival" id="munemp">--</div><div class="chg" id="munempchg">待機中</div></div><div class="indicator"><div class="ilabel">🏦 FED FUNDS</div><div class="ival" id="mfed">--</div><div class="chg" id="mfedchg">待機中</div></div><div class="indicator"><div class="ilabel">🪙 GOLD</div><div class="ival" id="mgold">--</div><div class="chg" id="mgoldchg">待機中</div></div><div class="indicator"><div class="ilabel">🛢️ WTI</div><div class="ival" id="mwti">--</div><div class="chg" id="mwtichg">待機中</div></div></div><div class="api-note" id="macroStatus">マクロデータ準備中…</div>
-<section class="panel global"><div class="ph">🌐 GLOBAL FUNDAMENTAL SCORE <span class="sub">通貨ペアのファンダメンタルスコア一覧 ＋ 日足チャート</span><span class="live">LIVE / RULE-BASED</span></div><div style="overflow-x:auto"><table class="gtable"><thead><tr><th>通貨ペア</th><th>現在値</th><th>スコア</th><th>シグナル</th><th>主な要因</th><th>日足チャート</th></tr></thead><tbody id="pairs"></tbody></table></div><div class="footnote">※ 現在値はFX APIから取得。スコアはライブのマクロ指標から自動算出するルールベース分析です。</div></section>
+<section class="panel global"><div class="ph">🌐 GLOBAL FUNDAMENTAL SCORE <span class="sub">通貨ペアのファンダメンタルスコア一覧 ＋ 日足チャート</span><span class="live">LIVE / FUNDAMENTAL ENGINE</span></div><div style="overflow-x:auto"><table class="gtable"><thead><tr><th>通貨ペア</th><th>現在値</th><th>スコア</th><th>シグナル</th><th>主な要因</th><th>日足チャート</th></tr></thead><tbody id="pairs"></tbody></table></div><div class="footnote">※ 現在値はFX APIから取得。スコアはライブの金利・VIX・インフレ・景気・リスク環境・経済指標サプライズを使う相対スコアです。投資判断ではなく分析補助です。</div></section>
 </main></div>
 <script>
 const newsFallback=[['USD','FRB高官が金利見通しに慎重姿勢　追加利下げはデータ次第','Reuters'],['JPY','日銀総裁の発言に市場が注目　金融政策の判断時期はなお不透明','Bloomberg'],['EUR','ユーロ圏PMI、予想を上回る　景気の底堅さ示す','Financial Times'],['OIL','原油価格が上昇　供給懸念と地政学リスクが再燃','CNBC'],['CNH','中国、追加の景気刺激策を検討との報道　市場の期待高まる','Nikkei Asia']];
@@ -91,7 +91,7 @@ function renderMacro(){
   macroSet('mfedchg',macro.fedDate||'MacroRadar');
   macroSet('mgoldchg',macro.goldChg!=null?signed(macro.goldChg,2)+'%':'最新');
   macroSet('mwtichg',macro.wtiChg!=null?signed(macro.wtiChg,2)+'%':'最新');
-  const st=document.getElementById('macroStatus');if(st)st.innerHTML='🟢 マクロ取得成功 / '+tm+'　<span style="opacity:.75">US Treasury・BLS・biquote・MacroRadar</span>';
+  const st=document.getElementById('macroStatus');if(st)st.innerHTML='🟢 マクロ取得成功 / '+tm+'　<span style="opacity:.75">US Treasury・BLS・biquote・Convex / Data by Convex</span>';
   updateFundamentalEngine();
   try{localStorage.setItem(MACRO_CACHE,JSON.stringify({macro,ts:Date.now()}))}catch(e){}
 }
@@ -129,44 +129,75 @@ async function fetchMacro(){
 function loadMacroCache(){try{const c=JSON.parse(localStorage.getItem(MACRO_CACHE)||'{}');if(c.macro){macro=c.macro;renderMacro()}}catch(e){}}
 loadMacroCache();setTimeout(fetchMacro,1000);setInterval(fetchMacro,MACRO_AUTO_MS);
 
+let calendarState={events:[],surprise:{}};
+function scoreCalendarSurprise(events){
+  const out={USD:0,EUR:0,GBP:0,JPY:0,CHF:0,MXN:0,TRY:0,AUD:0};
+  const positiveHigher=/gdp|gross domestic|pmi|manufacturing|services|retail sales|industrial production|nonfarm|payroll|employment change|consumer confidence|business confidence|current account|trade balance/i;
+  const negativeHigher=/unemployment|jobless claims|claims/i;
+  for(const e of events){
+    if(e.actual==null||e.forecast==null) continue;
+    const a=Number(e.actual), f=Number(e.forecast); if(!Number.isFinite(a)||!Number.isFinite(f)||f===0) continue;
+    const cc=e.currency||e.countryCode; if(!out[cc]) continue;
+    const diff=(a-f)/Math.max(Math.abs(f),1e-9); if(Math.abs(diff)<0.002) continue;
+    let sign=diff>0?1:-1; if(negativeHigher.test(e.name||'')) sign*=-1; else if(!positiveHigher.test(e.name||'')) continue;
+    const w=e.importance==='high'?2:e.importance==='medium'?1:0.5;
+    out[cc]+=Math.max(-4,Math.min(4,sign*Math.min(2,Math.abs(diff)*20)))*w;
+  }
+  for(const k of Object.keys(out)) out[k]=Math.max(-12,Math.min(12,out[k]));
+  return out;
+}
 async function fetchCalendar(){
   const box=document.getElementById('calendar');if(!box)return;box.innerHTML='<div class="row"><span class="timec">--:--</span><span class="flagc">---</span><span class="event">経済指標を取得中…</span><span class="med">--</span></div>';
   try{
-    const now=new Date(), from=new Date(now.getTime()-6*3600000).toISOString(), to=new Date(now.getTime()+24*3600000).toISOString();
-    const url='https://biquote.io/api/calendar?countries=US,EU,GB,JP,CH,MX,TR,AU&importance=medium&limit=30&from='+encodeURIComponent(from)+'&to='+encodeURIComponent(to);
+    const now=new Date(), from=new Date(now.getTime()-12*3600000).toISOString(), to=new Date(now.getTime()+48*3600000).toISOString();
+    const url='https://biquote.io/api/calendar?countries=US,EU,GB,JP,CH,MX,TR,AU&importance=medium&limit=80&from='+encodeURIComponent(from)+'&to='+encodeURIComponent(to);
     const r=await fetch(url,{cache:'no-store'});if(!r.ok)throw new Error('Calendar HTTP '+r.status);const arr=await r.json();
-    const events=Array.isArray(arr)?arr.filter(e=>e.type!=='holiday').slice(0,7):[];
+    const events=Array.isArray(arr)?arr.filter(e=>e.type!=='holiday').sort((a,b)=>new Date(a.time)-new Date(b.time)):[];
+    calendarState.events=events; calendarState.surprise=scoreCalendarSurprise(events);
+    const visible=events.filter(e=>new Date(e.time)>=new Date(now.getTime()-30*60000)).slice(0,8);
     const flag={US:'🇺🇸',EU:'🇪🇺',GB:'🇬🇧',JP:'🇯🇵',CH:'🇨🇭',MX:'🇲🇽',TR:'🇹🇷',AU:'🇦🇺'};
-    box.innerHTML=events.length?events.map(e=>{const dt=new Date(e.time);const t=dt.toLocaleTimeString('ja-JP',{hour:'2-digit',minute:'2-digit'});const imp=e.importance==='high'?'★★★':'★★';const cls=e.importance==='high'?'high':'med';let val=e.actual!=null?`実績 ${esc(String(e.actual))}`:(e.forecast!=null?`予想 ${esc(String(e.forecast))}`:'予定');return `<div class="row"><span class="timec">${t}</span><span class="flagc">${flag[e.countryCode]||'🌐'} ${esc(e.currency||e.countryCode||'')}</span><span class="event">${esc(e.name||'経済指標')}<small style="display:block;color:#58757e">${val}</small></span><span class="${cls}">${imp}</span></div>`}).join(''):'<div class="row"><span class="timec">--:--</span><span class="flagc">---</span><span class="event">対象期間の主要指標なし</span><span class="med">--</span></div>';
+    box.innerHTML=visible.length?visible.map(e=>{const dt=new Date(e.time);const t=dt.toLocaleTimeString('ja-JP',{hour:'2-digit',minute:'2-digit'});const imp=e.importance==='high'?'★★★':'★★';const cls=e.importance==='high'?'high':'med';let val=e.actual!=null?`実績 ${esc(String(e.actual))}`:(e.forecast!=null?`予想 ${esc(String(e.forecast))}`:'予定');return `<div class="row"><span class="timec">${t}</span><span class="flagc">${flag[e.countryCode]||'🌐'} ${esc(e.currency||e.countryCode||'')}</span><span class="event">${esc(e.name||'経済指標')}<small style="display:block;color:#58757e">${val}</small></span><span class="${cls}">${imp}</span></div>`}).join(''):'<div class="row"><span class="timec">--:--</span><span class="flagc">---</span><span class="event">今後48時間の主要指標なし</span><span class="med">--</span></div>';
+    updateFundamentalEngine();
   }catch(e){box.innerHTML='<div class="row"><span class="timec">--:--</span><span class="flagc">---</span><span class="event">カレンダー取得失敗（再試行します）</span><span class="med">--</span></div>'}
 }
 fetchCalendar();setInterval(fetchCalendar,15*60*1000);
 
+function clamp(v,a=-100,b=100){return Math.max(a,Math.min(b,v))}
 function updateFundamentalEngine(){
-  const risk=macro.vix!=null?(macro.vix<16?1:macro.vix<22?0:-1):0;
-  const dollar=(macro.dxyChg||0)*1.8+(macro.tenYChg||0)*18+(macro.cpi!=null&&macro.cpi>3?2:0);
-  const riskOn=(macro.wtiChg||0)*0.7+(risk*6);
-  const scores={
-    'USD':Math.round(Math.max(-100,Math.min(100,50+dollar))),
-    'JPY':Math.round(Math.max(-100,Math.min(100,50-dollar-riskOn))),
-    'EUR':Math.round(Math.max(-100,Math.min(100,50-riskOn*0.35))),
-    'GBP':Math.round(Math.max(-100,Math.min(100,50-riskOn*0.15))),
-    'CHF':Math.round(Math.max(-100,Math.min(100,50-riskOn))),
-    'MXN':Math.round(Math.max(-100,Math.min(100,50+riskOn*1.2))),
-    'TRY':Math.round(Math.max(-100,Math.min(100,50+riskOn*1.0))),
-    'AUD':Math.round(Math.max(-100,Math.min(100,50+riskOn*0.9)))};
+  const vix=macro.vix??18, vixChg=macro.vixChg??0, tenY=macro.tenY??4, tenYChg=macro.tenYChg??0, cpi=macro.cpi??3, unemp=macro.unemp??4;
+  const riskOn=(vix<16?8:vix<22?0:-8) + (macro.wtiChg??0)*0.7 + (macro.goldChg??0)*-0.25;
+  const dollarImpulse=(macro.dxyChg??0)*3 + tenYChg*16 + (cpi>3?2:0) + (unemp<4.5?1:0) + (vix>22?3:0);
+  const surprise=calendarState.surprise||{};
+  const base={
+    USD:50+dollarImpulse + (surprise.USD||0),
+    JPY:50-dollarImpulse*0.65-riskOn*0.65 + (surprise.JPY||0),
+    EUR:50-riskOn*0.30 + (surprise.EUR||0),
+    GBP:50-riskOn*0.15 + (surprise.GBP||0),
+    CHF:50-riskOn*0.85 + (surprise.CHF||0),
+    MXN:50+riskOn*1.10 + (surprise.MXN||0),
+    TRY:50+riskOn*0.95 + (surprise.TRY||0),
+    AUD:50+riskOn*0.90+(macro.wtiChg??0)*0.35 + (surprise.AUD||0)
+  };
+  const scores={}; Object.keys(base).forEach(k=>scores[k]=Math.round(clamp(base[k])));
   pairData.forEach(p=>{
-    const [base,quote]=p[0].split('/');
-    if(scores[base]!=null&&scores[quote]!=null){p[1]=Math.round((scores[base]-scores[quote])/1.35);p[2]=p[1]>=20?'BUY':p[1]<=-20?'SELL':'NEUTRAL';p[5]=p[1]<0?'down':'up';p[4]=`実データ: DXY ${macro.dxy?.toFixed(2)||'--'} / 10Y ${macro.tenY?.toFixed(2)||'--'} / VIX ${macro.vix?.toFixed(1)||'--'}`}
+    const [baseC,quote]=p[0].split('/');
+    if(scores[baseC]!=null&&scores[quote]!=null){
+      p[1]=Math.round(clamp((scores[baseC]-scores[quote])*0.95));
+      p[2]=p[1]>=20?'BUY':p[1]<=-20?'SELL':'NEUTRAL'; p[5]=p[1]<0?'down':p[1]>0?'up':'neutral';
+      const s1=surprise[baseC]||0,s2=surprise[quote]||0;
+      p[4]=`基礎 ${scores[baseC]} vs ${scores[quote]} / 指標サプライズ ${s1>=0?'+':''}${s1.toFixed(1)} vs ${s2>=0?'+':''}${s2.toFixed(1)}`;
+    }
   });
   renderPairTable();
   const riskTxt=riskOn>5?'リスク選好':riskOn<-5?'リスク回避':'中立';
-  const dir=dollar>4?'ドル優位':dollar<-4?'ドル劣後':'ドル方向感は中立';
+  const dir=dollarImpulse>4?'ドル優位':dollarImpulse<-4?'ドル劣後':'ドル方向感は中立';
   macroSet('aiDirection',`${riskTxt}。${dir}。`);
-  macroSet('aiFocus',`米10年 ${macro.tenY?.toFixed(2)||'--'}% / DXY ${macro.dxy?.toFixed(2)||'--'} / VIX ${macro.vix?.toFixed(1)||'--'} / CPI ${macro.cpi?.toFixed(1)||'--'}%。`);
-  macroSet('aiRisk',`金 ${macro.gold?.toFixed(0)||'--'} / WTI ${macro.wti?.toFixed(1)||'--'}。VIX・金利急変と高インパクト指標を警戒。`);
-  macroSet('aiView',`現在の実データから自動算出した環境判定。これはルールベース分析で、生成AIによる投資判断ではありません。`);
-  const bar=Math.max(20,Math.min(80,50+dollar*.8+riskOn*.5));const bf=document.querySelector('.buyfill'),sf=document.querySelector('.sellfill');if(bf&&sf){bf.style.width=bar+'%';sf.style.width=(100-bar)+'%';}const b=document.querySelector('.bar-sides .buy');const se=document.querySelector('.bar-sides .sell');if(b)b.textContent=`BUY ${Math.round(bar)}%`;if(se)se.textContent=`${Math.round(100-bar)}% SELL`;
+  macroSet('aiFocus',`米10年 ${tenY.toFixed(2)}% / VIX ${vix.toFixed(1)} / CPI ${cpi.toFixed(1)}% / 経済指標サプライズを相対評価。`);
+  macroSet('aiRisk',`VIX ${vix.toFixed(1)}、10Y変化 ${signed(tenYChg,2)}pp、WTI ${macro.wti?.toFixed(1)||'--'}。重要指標前後はスコア変動に注意。`);
+  macroSet('aiView',`ライブのマクロ指標＋経済指標の実績/予想差から自動算出。通貨ごとのデータ量が異なるため、スコアは比較用の分析補助値です。`);
+  const bar=clamp(50+dollarImpulse*1.5+riskOn*.7,20,80);const bf=document.querySelector('.buyfill'),sf=document.querySelector('.sellfill');if(bf&&sf){bf.style.width=bar+'%';sf.style.width=(100-bar)+'%';}
+  const b=document.querySelector('.bar-sides .buy');const se=document.querySelector('.bar-sides .sell');if(b)b.textContent=`BUY ${Math.round(bar)}%`;if(se)se.textContent=`${Math.round(100-bar)}% SELL`;
+  const bi=document.querySelector('.bar-sides .buy .impact');const si=document.querySelector('.bar-sides .sell .impact');if(bi)bi.textContent=`総合影響度 ${Math.abs(dollarImpulse*6+riskOn*3).toFixed(1)}`;if(si)si.textContent=`${Math.abs(dollarImpulse*4-riskOn*2).toFixed(1)}`;
 }
 const FX_CACHE_STORAGE='fxdash_fx_cache_v4';
 const FX_API_URL='https://fxapi.app/api/usd.json';
@@ -183,7 +214,7 @@ function renderFxCards(){
   grid.innerHTML=fxDefs.map(x=>`<div class="fx-card"><div class="fx-pair">${x[0]}</div><div class="fx-rate" id="fx-${x[0].replace('/','-')}">${fmtRate(x[0],fxRates[x[0]]?.rate)}</div><div class="fx-meta" id="fxm-${x[0].replace('/','-')}">${fxRates[x[0]]?.time?'更新 '+fxRates[x[0]].time:'未取得'}</div></div>`).join('');
 }
 function renderPairTable(){
-  document.getElementById('pairs').innerHTML=pairData.map((p,i)=>`<tr><td class="pair">${p[0]}</td><td class="scorev">${fxRates[p[0]]?.rate!=null?fmtRate(p[0],fxRates[p[0]].rate):'--'}</td><td class="${p[1]>=0?'green':'red'} scorev">${p[1]>0?'+':''}${p[1]}</td><td><span class="signal ${p[1]>=0?'green':'red'}">${p[2]}</span></td><td class="reason">${p[4]}</td><td>${spark(p[5],i)}</td></tr>`).join('');
+  document.getElementById('pairs').innerHTML=pairData.map((p,i)=>`<tr><td class="pair">${p[0]}</td><td class="scorev">${fxRates[p[0]]?.rate!=null?fmtRate(p[0],fxRates[p[0]].rate):'--'}</td><td class="${p[1]>=0?'green':'red'} scorev">${p[1]>0?'+':''}${p[1]}</td><td><span class="signal ${p[2]==='BUY'?'green':p[2]==='SELL'?'red':'neutral'}">${p[2]}</span></td><td class="reason">${p[4]}</td><td>${spark(p[5],i)}</td></tr>`).join('');
 }
 function setFxStatus(msg,good=true){const s=document.getElementById('fxStatus');if(s){s.textContent=msg;s.style.color=good?'var(--green)':'var(--red)'}}
 function loadFxCache(){try{const c=JSON.parse(localStorage.getItem(FX_CACHE_STORAGE)||'{}');if(c.rates)fxRates=c.rates}catch(e){}renderFxCards();renderPairTable()}
