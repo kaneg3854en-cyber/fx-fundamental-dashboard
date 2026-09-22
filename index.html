@@ -68,7 +68,7 @@ function spark(kind,seed){
 }
 
 
-const MACRO_CACHE='fxdash_macro_v45';
+const MACRO_CACHE='fxdash_macro_v46';
 const MACRO_AUTO_MS=5*60*1000;
 const MACRO_ENDPOINTS={
   summary:'https://convextrade.com/api/public/macro-summary',
@@ -155,10 +155,6 @@ async function fetchMacro(){
     renderMacro();
   }catch(e){
     try{const c=JSON.parse(localStorage.getItem(MACRO_CACHE)||'{}');if(c.macro){macro=c.macro;renderMacro();document.getElementById('macroStatus').textContent='🟡 マクロ取得失敗 / 前回データ表示';return}}catch(_){ }
-    if(st)st.textContent='🔴 マクロ取得失敗 / '+String(e?.message||e).slice(0,100);
-  }
-}
-try{const c=JSON.parse(localStorage.getItem(MACRO_CACHE)||'{}');if(c.macro){macro=c.macro;renderMacro();document.getElementById('macroStatus').textContent='🟡 マクロ取得失敗 / 前回データ表示';return}}catch(_){ }
     if(st)st.textContent='🔴 マクロ取得失敗 / '+String(e?.message||e).slice(0,100);
   }
 }
