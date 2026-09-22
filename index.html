@@ -8,7 +8,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="icon-192.png">
-<title>FX FUNDAMENTAL DASHBOARD v3.8 FXAPI</title>
+<title>FX FUNDAMENTAL DASHBOARD v3.9 FXAPI</title>
 <style>
 :root{--bg:#02070d;--panel:#06131d;--line:#0b6986;--cyan:#20dfff;--green:#25f39a;--red:#ff4167;--yellow:#ffe052;--muted:#7895a1;--white:#eaf8ff}
 *{box-sizing:border-box}html,body{margin:0;background:#02070d;color:var(--white);font-family:Arial,"Noto Sans JP",system-ui,sans-serif}body{min-height:100vh}.app{max-width:1500px;margin:auto;background:radial-gradient(circle at 50% -5%,#0b2938,#02070d 38%,#01050a);min-height:100vh}.header{height:88px;padding:0 22px;display:flex;align-items:center;border-bottom:2px solid #0bcde8}.logo{font-size:52px;font-style:italic;font-weight:900;letter-spacing:-.1em;color:#19ddff;text-shadow:0 0 18px #00cfff;margin-right:20px}.title{font-size:25px;font-weight:800;letter-spacing:.05em}.subtitle{font-size:11px;color:#b7d9e2;margin-top:4px}.headright{margin-left:auto;text-align:right}.date{font-size:12px}.time{font-size:30px;font-weight:800;line-height:1}.auto{font-size:10px;color:var(--green);margin-top:4px}.main{padding:12px}.panel{border:1px solid #0a6a86;background:linear-gradient(180deg,#071824,#030b12);border-radius:9px;overflow:hidden;box-shadow:0 0 0 1px #02121a,0 8px 22px #0008}.ph{min-height:42px;padding:8px 12px;display:flex;align-items:center;border-bottom:1px solid #123a49;font-weight:800;font-size:15px;letter-spacing:.04em}.ph .sub{font-size:10px;color:var(--muted);font-weight:500;margin-left:10px}.pb{padding:10px}
@@ -88,7 +88,7 @@ async function fetchFx(){
     if(!r.ok)throw new Error('HTTP '+r.status);
     const j=await r.json();
     const q=j.rates||{};
-    const u=Number(q.jpy), e=Number(q.eur), g=Number(q.gbp), c=Number(q.chf), m=Number(q.mxn), t=Number(q.try), a=Number(q.aud);
+    const u=Number(q.JPY), e=Number(q.EUR), g=Number(q.GBP), c=Number(q.CHF), m=Number(q.MXN), t=Number(q.TRY), a=Number(q.AUD);
     if(![u,e,g,c,m,t,a].every(Number.isFinite)) throw new Error('必要な通貨レートが返りませんでした');
     const tm=new Date().toLocaleTimeString('ja-JP',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
     fxRates={
