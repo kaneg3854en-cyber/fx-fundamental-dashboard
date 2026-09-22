@@ -8,7 +8,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="icon-192.png">
-<title>FX FUNDAMENTAL DASHBOARD v3.6 LIVE FX</title>
+<title>FX FUNDAMENTAL DASHBOARD v3.7 FXAPI</title>
 <style>
 :root{--bg:#02070d;--panel:#06131d;--line:#0b6986;--cyan:#20dfff;--green:#25f39a;--red:#ff4167;--yellow:#ffe052;--muted:#7895a1;--white:#eaf8ff}
 *{box-sizing:border-box}html,body{margin:0;background:#02070d;color:var(--white);font-family:Arial,"Noto Sans JP",system-ui,sans-serif}body{min-height:100vh}.app{max-width:1500px;margin:auto;background:radial-gradient(circle at 50% -5%,#0b2938,#02070d 38%,#01050a);min-height:100vh}.header{height:88px;padding:0 22px;display:flex;align-items:center;border-bottom:2px solid #0bcde8}.logo{font-size:52px;font-style:italic;font-weight:900;letter-spacing:-.1em;color:#19ddff;text-shadow:0 0 18px #00cfff;margin-right:20px}.title{font-size:25px;font-weight:800;letter-spacing:.05em}.subtitle{font-size:11px;color:#b7d9e2;margin-top:4px}.headright{margin-left:auto;text-align:right}.date{font-size:12px}.time{font-size:30px;font-weight:800;line-height:1}.auto{font-size:10px;color:var(--green);margin-top:4px}.main{padding:12px}.panel{border:1px solid #0a6a86;background:linear-gradient(180deg,#071824,#030b12);border-radius:9px;overflow:hidden;box-shadow:0 0 0 1px #02121a,0 8px 22px #0008}.ph{min-height:42px;padding:8px 12px;display:flex;align-items:center;border-bottom:1px solid #123a49;font-weight:800;font-size:15px;letter-spacing:.04em}.ph .sub{font-size:10px;color:var(--muted);font-weight:500;margin-left:10px}.pb{padding:10px}
@@ -37,12 +37,12 @@
 
 <section class="panel fx-live">
   <div class="ph fx-live-head">
-    <span>💱 LIVE FX RATES <span class="sub">リアルタイム取得対応</span></span>
+    <span>💱 LIVE FX RATES <span class="sub">5分更新データ・APIキー不要</span></span>
     <span class="fx-status" id="fxStatus">準備中</span>
-    <span><button class="fx-btn" id="fxRefresh">更新</button> <button class="fx-btn" id="fxKey">API設定</button></span>
+    <span><button class="fx-btn" id="fxRefresh">更新</button></span>
   </div>
   <div class="fx-grid" id="fxGrid"></div>
-  <div class="api-note">データ提供: Alpha Vantage。無料枠を考慮し、1回の更新で7回取得（5回→約61秒待機→2回）。自動更新は8時間ごと。</div>
+  <div class="api-note">データ提供: fxapi.app。APIキー不要・1回の取得で主要通貨をまとめて取得。データは約5分ごとに更新されます。</div>
 </section>
 <div class="api-modal" id="apiModal">
   <div class="api-box">
@@ -54,7 +54,7 @@
 </div>
 
 <div class="indicators"><div class="indicator"><div class="ilabel">🇺🇸 US 10Y</div><div class="ival">4.12%</div><div class="chg red">+0.03</div></div><div class="indicator"><div class="ilabel">🇺🇸 DXY</div><div class="ival">102.4</div><div class="chg green">+0.23</div></div><div class="indicator"><div class="ilabel">🪙 GOLD</div><div class="ival">2,632.5</div><div class="chg green">+0.35%</div></div><div class="indicator"><div class="ilabel">🛢 WTI</div><div class="ival">71.4</div><div class="chg green">+0.88%</div></div></div>
-<section class="panel global"><div class="ph">🌐 GLOBAL FUNDAMENTAL SCORE <span class="sub">通貨ペアのファンダメンタルスコア一覧 ＋ 日足チャート</span><span class="live">SIMULATION</span></div><div style="overflow-x:auto"><table class="gtable"><thead><tr><th>通貨ペア</th><th>現在値</th><th>スコア</th><th>シグナル</th><th>主な要因</th><th>日足チャート</th></tr></thead><tbody id="pairs"></tbody></table></div><div class="footnote">※ 現在値はAlpha Vantageから取得。スコア・チャートは現時点ではシミュレーション表示。</div></section>
+<section class="panel global"><div class="ph">🌐 GLOBAL FUNDAMENTAL SCORE <span class="sub">通貨ペアのファンダメンタルスコア一覧 ＋ 日足チャート</span><span class="live">SIMULATION</span></div><div style="overflow-x:auto"><table class="gtable"><thead><tr><th>通貨ペア</th><th>現在値</th><th>スコア</th><th>シグナル</th><th>主な要因</th><th>日足チャート</th></tr></thead><tbody id="pairs"></tbody></table></div><div class="footnote">※ 現在値はFX APIから取得。スコア・チャートは現時点ではシミュレーション表示。</div></section>
 </main></div>
 <script>
 const newsFallback=[['USD','FRB高官が金利見通しに慎重姿勢　追加利下げはデータ次第','Reuters'],['JPY','日銀総裁の発言に市場が注目　金融政策の判断時期はなお不透明','Bloomberg'],['EUR','ユーロ圏PMI、予想を上回る　景気の底堅さ示す','Financial Times'],['OIL','原油価格が上昇　供給懸念と地政学リスクが再燃','CNBC'],['CNH','中国、追加の景気刺激策を検討との報道　市場の期待高まる','Nikkei Asia']];
@@ -65,12 +65,9 @@ async function fetchNews(){try{const url='https://api.gdeltproject.org/api/v2/do
 fetchNews();setInterval(fetchNews,300000);
 const pairData=[['USD/JPY',72,'BUY','BULLISH','米金利上昇・日米金利差','up'],['EUR/USD',-38,'SELL','BEARISH','欧州景気の不透明感','down'],['GBP/USD',24,'BUY','BULLISH','英金利の底堅さ','up'],['CHF/MXN',81,'BUY','BULLISH','金利差・リスク選好','up'],['TRY/JPY',57,'BUY','BULLISH','高金利・キャリートレード需要','up'],['AUD/JPY',46,'BUY','BULLISH','資源価格の上昇','up'],['EUR/JPY',-12,'NEUTRAL','FLAT','欧州景気の鈍化','down'],['MXN/JPY',69,'BUY','BULLISH','高金利・安定した経済基盤','up'],['XAU/USD',63,'BUY','BULLISH','地政学リスク・インフレ懸念','up']];
 function spark(kind,seed){let pts=[];let v=kind==='down'?24:20;for(let i=0;i<24;i++){let wave=Math.sin(i*.65+seed)*7+(kind==='down'?-i*.25:i*.32);v+=wave*.18;pts.push(v)}let min=Math.min(...pts),max=Math.max(...pts);let p=pts.map((v,i)=>`${(i/(pts.length-1))*118+1},${31-((v-min)/(max-min||1))*27}`).join(' ');return `<svg class="spark" viewBox="0 0 120 34" preserveAspectRatio="none"><polyline class="${kind==='down'?'downstroke':'upstroke'}" points="${p}"/></svg>`}
-const FX_KEY_STORAGE='fxdash_alpha_vantage_key';
-const FX_CACHE_STORAGE='fxdash_fx_cache_v2';
-const FX_BUDGET_STORAGE='fxdash_fx_budget_v1';
-const FX_AUTO_MS=8*60*60*1000;
-const FX_CALLS_PER_REFRESH=7;
-const FX_MAX_REFRESHES_PER_UTC_DAY=3; // 3 x 7 = 21 requests/day, leaving headroom under 25/day
+const FX_CACHE_STORAGE='fxdash_fx_cache_v3';
+const FX_API_URL='https://fxapi.app/api/usd.json';
+const FX_AUTO_MS=5*60*1000;
 const fxDefs=[
   ['USD/JPY','USD','JPY'],['EUR/USD','EUR','USD'],['GBP/USD','GBP','USD'],
   ['CHF/MXN','CHF','MXN'],['TRY/JPY','TRY','JPY'],['AUD/JPY','AUD','JPY'],
@@ -88,78 +85,44 @@ function renderPairTable(){
 function setFxStatus(msg,good=true){const s=document.getElementById('fxStatus');if(s){s.textContent=msg;s.style.color=good?'var(--green)':'var(--red)'}}
 function loadFxCache(){try{const c=JSON.parse(localStorage.getItem(FX_CACHE_STORAGE)||'{}');if(c.rates)fxRates=c.rates}catch(e){}renderFxCards();renderPairTable()}
 function saveFxCache(){try{localStorage.setItem(FX_CACHE_STORAGE,JSON.stringify({rates:fxRates,ts:Date.now()}))}catch(e){}}
-function utcDay(){return new Date().toISOString().slice(0,10)}
-function getBudget(){try{const b=JSON.parse(localStorage.getItem(FX_BUDGET_STORAGE)||'{}');return b.day===utcDay()?b:{day:utcDay(),refreshes:0,requests:0}}catch(e){return {day:utcDay(),refreshes:0,requests:0}}}
-function saveBudget(b){try{localStorage.setItem(FX_BUDGET_STORAGE,JSON.stringify(b))}catch(e){}}
-function setBudgetText(){const b=getBudget();setFxStatus(`本日 ${b.requests}/${FX_MAX_REFRESHES_PER_UTC_DAY*FX_CALLS_PER_REFRESH} API使用 / 更新${b.refreshes}/${FX_MAX_REFRESHES_PER_UTC_DAY}`,true)}
-async function avQuote(from,to,key){
-  const u=`https://www.alphavantage.co/query?function=CURRENCY_EXCHANGE_RATE&from_currency=${from}&to_currency=${to}&apikey=${encodeURIComponent(key)}`;
-  const r=await fetch(u,{cache:'no-store'});
-  if(!r.ok)throw new Error('HTTP '+r.status);
-  const j=await r.json();
-  const q=j['Realtime Currency Exchange Rate'];
-  if(!q){
-    if(j.Note) throw new Error('RATE_LIMIT: '+j.Note);
-    if(j.Information) throw new Error('INFO: '+j.Information);
-    if(j['Error Message']) throw new Error('INVALID_KEY: '+j['Error Message']);
-    throw new Error('NO_QUOTE: Alpha Vantageからレートが返りませんでした');
-  }
-  const rate=Number(q['5. Exchange Rate']);
-  if(!Number.isFinite(rate))throw new Error('BAD_RATE: レートを数値として読み取れませんでした');
-  return {rate,time:q['6. Last Refreshed']||new Date().toLocaleTimeString('ja-JP')};
-}
 function showDiag(title,msg,ok){
   let el=document.getElementById('diagBox');
   if(!el){el=document.createElement('div');el.id='diagBox';el.style.cssText='margin:10px;padding:12px;border:1px solid #0b6986;border-radius:8px;background:#020b12;white-space:pre-wrap;line-height:1.55;font-size:12px;color:#dff7ff';document.querySelector('.fx-live').appendChild(el)}
-  el.innerHTML='<b style="color:'+(ok?'var(--green)':'var(--yellow)')+'">'+title+'</b><br>'+msg.replace(/</g,'&lt;');
+  el.innerHTML='<b style="color:'+(ok?'var(--green)':'var(--yellow)')+'">'+title+'</b><br>'+esc(msg);
 }
-function classifyError(err){const msg=String(err?.message||err||'');if(/Failed to fetch/i.test(msg))return '🌐 ブラウザ通信エラー';if(/RATE_LIMIT|limit|25|minute/i.test(msg))return '⏱️ API利用制限';if(/INVALID_KEY|Invalid API|apikey|API key|Error Message/i.test(msg))return '🔑 APIキーエラー';return '⚠️ API応答エラー'}
-const baseReqs=[['USD/JPY','USD','JPY'],['EUR/USD','EUR','USD'],['GBP/USD','GBP','USD'],['USD/CHF','USD','CHF'],['USD/MXN','USD','MXN'],['USD/TRY','USD','TRY'],['AUD/USD','AUD','USD']];
-const sleep=ms=>new Promise(r=>setTimeout(r,ms));
-function deriveRates(raw){
-  const r={};
-  for(const [pair,obj] of Object.entries(raw))r[pair]=obj;
-  const u=r['USD/JPY']?.rate,e=r['EUR/USD']?.rate,g=r['GBP/USD']?.rate,c=r['USD/CHF']?.rate,m=r['USD/MXN']?.rate,t=r['USD/TRY']?.rate,a=r['AUD/USD']?.rate;
-  const tm=new Date().toLocaleTimeString('ja-JP',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
-  if(c&&m)r['CHF/MXN']={rate:m/c,time:tm};
-  if(t&&u)r['TRY/JPY']={rate:t*u,time:tm};
-  if(a&&u)r['AUD/JPY']={rate:a*u,time:tm};
-  if(e&&u)r['EUR/JPY']={rate:e*u,time:tm};
-  if(u&&m)r['MXN/JPY']={rate:u/m,time:tm};
-  return r;
-}
-async function fetchFx({manual=false}={}){
-  const key=localStorage.getItem(FX_KEY_STORAGE);
-  if(!key){setFxStatus('API KEY未設定',false);return}
-  const b=getBudget();
-  if(b.refreshes>=FX_MAX_REFRESHES_PER_UTC_DAY){setFxStatus(`本日の無料枠保護中（${b.requests}回使用）`,false);showDiag('⛔ 本日の取得上限に到達','無料APIを使い切らないよう、この端末では1日3回の更新（最大21リクエスト）に制限しています。明日UTC 0:00以降に再取得できます。',false);return}
-  b.refreshes++;b.requests+=FX_CALLS_PER_REFRESH;saveBudget(b);
-  setFxStatus('LIVE取得中… 1/7',true);
-  const raw={};
+async function fetchFx(){
+  setFxStatus('LIVE取得中…',true);
   try{
-    for(let i=0;i<baseReqs.length;i++){
-      const [pair,from,to]=baseReqs[i];
-      setFxStatus(`LIVE取得中… ${i+1}/7 ${pair}`,true);
-      raw[pair]=await avQuote(from,to,key);
-      if(i===4){setFxStatus('LIVE取得中… 5/7（約61秒待機）',true);await sleep(61000)}
-    }
-    fxRates=deriveRates(raw);saveFxCache();renderFxCards();renderPairTable();
-    const now=new Date().toLocaleTimeString('ja-JP',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
-    setFxStatus(`🟢 LIVE取得成功 / ${now}`,true);document.getElementById('updated').textContent=now;
-    showDiag('🟢 8通貨ペア更新成功',`基礎レート7本を取得し、CHF/MXN・TRY/JPY・AUD/JPY・EUR/JPY・MXN/JPYを計算しました。\n取得時刻: ${now}\n本日の使用: ${b.requests}/21 APIリクエスト\n\n※ Alpha Vantage無料枠を保護するため、1日3回まで自動/手動更新します。`,true);
+    const r=await fetch(FX_API_URL,{cache:'no-store'});
+    if(!r.ok)throw new Error('HTTP '+r.status);
+    const j=await r.json();
+    const q=j.rates||{};
+    const u=Number(q.jpy), e=Number(q.eur), g=Number(q.gbp), c=Number(q.chf), m=Number(q.mxn), t=Number(q.try), a=Number(q.aud);
+    if(![u,e,g,c,m,t,a].every(Number.isFinite)) throw new Error('必要な通貨レートが返りませんでした');
+    const tm=new Date().toLocaleTimeString('ja-JP',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
+    fxRates={
+      'USD/JPY':{rate:u,time:tm},
+      'EUR/USD':{rate:1/e,time:tm},
+      'GBP/USD':{rate:1/g,time:tm},
+      'CHF/MXN':{rate:m/c,time:tm},
+      'TRY/JPY':{rate:u/t,time:tm},
+      'AUD/JPY':{rate:u/a,time:tm},
+      'EUR/JPY':{rate:u/e,time:tm},
+      'MXN/JPY':{rate:u/m,time:tm}
+    };
+    saveFxCache();renderFxCards();renderPairTable();
+    setFxStatus(`🟢 FX取得成功 / ${tm}`,true);
+    document.getElementById('updated').textContent=tm;
+    showDiag('🟢 FXレート取得成功',`fxapi.appからUSD基準のレートを1回取得し、8通貨ペアを計算しました。\n取得時刻: ${tm}\nAPIキー: 不要\n更新元データ: 約5分ごと更新`,true);
   }catch(err){
-    const detail=classifyError(err);setFxStatus(detail,false);loadFxCache();
-    showDiag('🔴 FX取得停止',detail+'\n\n途中まで取得したデータは表示せず、前回キャッシュを維持しました。\n技術情報: '+String(err?.message||err).slice(0,260),false);
+    setFxStatus('🔴 FX取得失敗 / キャッシュ表示',false);loadFxCache();
+    showDiag('🔴 FX取得停止',`通信またはAPI側で取得できませんでした。\n前回取得データがあれば、それを表示しています。\n技術情報: ${String(err?.message||err).slice(0,260)}`,false);
   }
 }
-document.getElementById('fxKey').onclick=()=>{document.getElementById('apiKeyInput').value=localStorage.getItem(FX_KEY_STORAGE)||'';document.getElementById('apiModal').style.display='flex'};
-document.getElementById('apiCancel').onclick=()=>document.getElementById('apiModal').style.display='none';
-document.getElementById('apiSave').onclick=async()=>{const k=document.getElementById('apiKeyInput').value.trim();if(!k)return;localStorage.setItem(FX_KEY_STORAGE,k);document.getElementById('apiModal').style.display='none';await fetchFx({manual:true})};
-document.getElementById('fxRefresh').onclick=()=>fetchFx({manual:true});
+document.getElementById('fxRefresh').onclick=()=>fetchFx();
 loadFxCache();
-// Only auto-fetch when cached data is older than 8 hours. This prevents accidental extra API calls on every page open.
-(function(){let ts=0;try{ts=JSON.parse(localStorage.getItem(FX_CACHE_STORAGE)||'{}').ts||0}catch(e){}if(!ts||Date.now()-ts>FX_AUTO_MS)setTimeout(()=>fetchFx(),800)}());
-setInterval(()=>{let ts=0;try{ts=JSON.parse(localStorage.getItem(FX_CACHE_STORAGE)||'{}').ts||0}catch(e){}if(!ts||Date.now()-ts>FX_AUTO_MS)fetchFx()},15*60*1000);
+(function(){let ts=0;try{ts=JSON.parse(localStorage.getItem(FX_CACHE_STORAGE)||'{}').ts||0}catch(e){}if(!ts||Date.now()-ts>FX_AUTO_MS)setTimeout(fetchFx,800)})();
+setInterval(()=>{fetchFx()},FX_AUTO_MS);
 function clock(){const d=new Date();document.getElementById('date').textContent=d.toLocaleDateString('ja-JP',{year:'numeric',month:'2-digit',day:'2-digit',weekday:'short'});document.getElementById('time').textContent=d.toLocaleTimeString('ja-JP',{hour12:false});document.getElementById('barclock').textContent=d.toLocaleTimeString('ja-JP',{hour12:false})}clock();setInterval(clock,1000);
 </script>
 </body></html>
