@@ -8,7 +8,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="icon-192.png">
-<title>FX FUNDAMENTAL DASHBOARD v4.5 LIVE FUNDAMENTAL ENGINE</title>
+<title>FX FUNDAMENTAL DASHBOARD v4.7 LIVE FUNDAMENTAL ENGINE</title>
 <style>
 :root{--bg:#02070d;--panel:#06131d;--line:#0b6986;--cyan:#20dfff;--green:#25f39a;--red:#ff4167;--yellow:#ffe052;--muted:#7895a1;--white:#eaf8ff}
 *{box-sizing:border-box}html,body{margin:0;background:#02070d;color:var(--white);font-family:Arial,"Noto Sans JP",system-ui,sans-serif}body{min-height:100vh}.app{max-width:1500px;margin:auto;background:radial-gradient(circle at 50% -5%,#0b2938,#02070d 38%,#01050a);min-height:100vh}.header{height:88px;padding:0 22px;display:flex;align-items:center;border-bottom:2px solid #0bcde8}.logo{font-size:52px;font-style:italic;font-weight:900;letter-spacing:-.1em;color:#19ddff;text-shadow:0 0 18px #00cfff;margin-right:20px}.title{font-size:25px;font-weight:800;letter-spacing:.05em}.subtitle{font-size:11px;color:#b7d9e2;margin-top:4px}.headright{margin-left:auto;text-align:right}.date{font-size:12px}.time{font-size:30px;font-weight:800;line-height:1}.auto{font-size:10px;color:var(--green);margin-top:4px}.main{padding:12px}.panel{border:1px solid #0a6a86;background:linear-gradient(180deg,#071824,#030b12);border-radius:9px;overflow:hidden;box-shadow:0 0 0 1px #02121a,0 8px 22px #0008}.ph{min-height:42px;padding:8px 12px;display:flex;align-items:center;border-bottom:1px solid #123a49;font-weight:800;font-size:15px;letter-spacing:.04em}.ph .sub{font-size:10px;color:var(--muted);font-weight:500;margin-left:10px}.pb{padding:10px}
@@ -48,6 +48,15 @@
 <section class="panel global"><div class="ph">🌐 GLOBAL FUNDAMENTAL SCORE <span class="sub">通貨ペアのファンダメンタルスコア一覧 ＋ 日足チャート</span><span class="live">LIVE / FUNDAMENTAL ENGINE</span></div><div style="overflow-x:auto"><table class="gtable"><thead><tr><th>通貨ペア</th><th>現在値</th><th>スコア</th><th>シグナル</th><th>主な要因</th><th>日足チャート</th></tr></thead><tbody id="pairs"></tbody></table></div><div class="footnote">※ 現在値はFX APIから取得。スコアはライブの金利・VIX・インフレ・景気・リスク環境・経済指標サプライズを使う相対スコアです。投資判断ではなく分析補助です。</div></section>
 </main></div>
 <script>
+window.__FXJS_BOOT=Date.now();
+window.addEventListener('error',function(e){
+  try{
+    var s=document.getElementById('macroStatus');
+    if(s) s.textContent='🔴 JavaScriptエラー / '+(e.message||'起動エラー');
+    var f=document.getElementById('fxStatus');
+    if(f){f.textContent='🔴 JSエラー';f.style.color='var(--red)';}
+  }catch(_){}
+});
 const newsFallback=[['USD','FRB高官が金利見通しに慎重姿勢　追加利下げはデータ次第','Reuters'],['JPY','日銀総裁の発言に市場が注目　金融政策の判断時期はなお不透明','Bloomberg'],['EUR','ユーロ圏PMI、予想を上回る　景気の底堅さ示す','Financial Times'],['OIL','原油価格が上昇　供給懸念と地政学リスクが再燃','CNBC'],['CNH','中国、追加の景気刺激策を検討との報道　市場の期待高まる','Nikkei Asia']];
 function esc(s){return String(s).replace(/[&<>\"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]))}
 function renderNews(items){document.getElementById('news').innerHTML=items.slice(0,5).map((n,i)=>`<div class="news-item"><div><span class="tag">${esc(n[0])}</span><span class="news-title">${esc(n[1])}</span></div><div class="meta">${i*7+5}分前　${esc(n[2]||'News')}</div></div>`).join('')}
@@ -68,7 +77,7 @@ function spark(kind,seed){
 }
 
 
-const MACRO_CACHE='fxdash_macro_v46';
+const MACRO_CACHE='fxdash_macro_v47';
 const MACRO_AUTO_MS=5*60*1000;
 const MACRO_ENDPOINTS={
   summary:'https://convextrade.com/api/public/macro-summary',
@@ -279,7 +288,7 @@ async function fetchDailyCharts(){
   await Promise.all(jobs);renderPairTable();
 }
 setTimeout(fetchDailyCharts,1200);setInterval(fetchDailyCharts,15*60*1000);
-const FX_CACHE_STORAGE='fxdash_fx_cache_v45';
+const FX_CACHE_STORAGE='fxdash_fx_cache_v47';
 const FX_API_URL='https://fxapi.app/api/usd.json';
 const FX_AUTO_MS=5*60*1000;
 const fxDefs=[
@@ -340,5 +349,17 @@ loadFxCache();
 (function(){let ts=0;try{ts=JSON.parse(localStorage.getItem(FX_CACHE_STORAGE)||'{}').ts||0}catch(e){}if(!ts||Date.now()-ts>FX_AUTO_MS)setTimeout(fetchFx,800)})();
 setInterval(()=>{fetchFx()},FX_AUTO_MS);
 function clock(){const d=new Date();document.getElementById('date').textContent=d.toLocaleDateString('ja-JP',{year:'numeric',month:'2-digit',day:'2-digit',weekday:'short'});document.getElementById('time').textContent=d.toLocaleTimeString('ja-JP',{hour12:false});document.getElementById('barclock').textContent=d.toLocaleTimeString('ja-JP',{hour12:false})}clock();setInterval(clock,1000);
+setTimeout(function(){
+  try{
+    var t=document.getElementById('time');
+    if(t && !t.textContent){
+      t.textContent=new Date().toLocaleTimeString('ja-JP',{hour12:false});
+    }
+    var fs=document.getElementById('fxStatus');
+    if(fs && fs.textContent==='準備中') fetchFx();
+    var ms=document.getElementById('macroStatus');
+    if(ms && /準備中/.test(ms.textContent)) fetchMacro();
+  }catch(e){}
+},1800);
 </script>
 </body></html>
