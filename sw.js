@@ -1,7 +1,24 @@
-const CACHE="fx-dashboard-v06";
-self.addEventListener("install",e=>e.waitUntil(caches.open(CACHE).then(c=>c.addAll(["/","/manifest.webmanifest","/icon-192.png","/icon-512.png"]))));
-self.addEventListener("activate",e=>e.waitUntil(self.clients.claim()));
-self.addEventListener("fetch",e=>{
-  if(e.request.url.includes("/api/")) return;
-  e.respondWith(fetch(e.request).catch(()=>caches.match(e.request)));
+const CACHE = 'fxdash-v38';
+self.addEventListener('install', event => {
+  self.skipWaiting();
+});
+self.addEventListener('activate', event => {
+  event.waitUntil((async () => {
+    const keys = await caches.keys();
+    await Promise.all(keys.filter(k => k.startsWith('fxdash-') && k !== CACHE).map(k => caches.delete(k)));
+    await self.clients.claim();
+  })());
+});
+self.addEventListener('fetch', event => {
+  if (event.request.method !== 'GET') return;
+  const url = new URL(event.request.url);
+  if (url.origin !== self.location.origin) return;
+  if (event.request.mode === 'navigate' || url.pathname.endsWith('/index.html')) {
+    event.respondWith(fetch(event.request, {cache:'no-store'}).then(r => {
+      const copy = r.clone();
+      caches.open(CACHE).then(c => c.put('./index.html', copy)).catch(()=>{});
+      return r;
+    }).catch(() => caches.match('./index.html')));
+    return;
+  }
 });
