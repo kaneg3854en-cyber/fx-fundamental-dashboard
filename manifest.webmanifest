@@ -1,0 +1,13 @@
+{
+  "name":"FX Fundamental Dashboard v0.6",
+  "short_name":"FX Dashboard",
+  "start_url":"/",
+  "display":"standalone",
+  "background_color":"#05080c",
+  "theme_color":"#05080c",
+  "description":"FX・GOLD・WTIのファンダメンタルズを一覧表示するダッシュボード",
+  "icons":[
+    {"src":"/icon-192.png","sizes":"192x192","type":"image/png"},
+    {"src":"/icon-512.png","sizes":"512x512","type":"image/png"}
+  ]
+}
