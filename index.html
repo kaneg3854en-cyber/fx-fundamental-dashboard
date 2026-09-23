@@ -8,7 +8,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="icon-192.png">
-<title>FX FUNDAMENTAL DASHBOARD v5.4 CALENDAR + TREND ENGINE</title>
+<title>FX FUNDAMENTAL DASHBOARD v5.5 DATA INTEGRITY + CALENDAR ENGINE</title>
 <style>
 :root{--bg:#02070d;--panel:#06131d;--line:#0b6986;--cyan:#20dfff;--green:#25f39a;--red:#ff4167;--yellow:#ffe052;--muted:#7895a1;--white:#eaf8ff}
 *{box-sizing:border-box}html,body{margin:0;background:#02070d;color:var(--white);font-family:Arial,"Noto Sans JP",system-ui,sans-serif}body{min-height:100vh}.app{max-width:1500px;margin:auto;background:radial-gradient(circle at 50% -5%,#0b2938,#02070d 38%,#01050a);min-height:100vh}.header{height:88px;padding:0 22px;display:flex;align-items:center;border-bottom:2px solid #0bcde8}.logo{font-size:52px;font-style:italic;font-weight:900;letter-spacing:-.1em;color:#19ddff;text-shadow:0 0 18px #00cfff;margin-right:20px}.title{font-size:25px;font-weight:800;letter-spacing:.05em}.subtitle{font-size:11px;color:#b7d9e2;margin-top:4px}.headright{margin-left:auto;text-align:right}.date{font-size:12px}.time{font-size:30px;font-weight:800;line-height:1}.auto{font-size:10px;color:var(--green);margin-top:4px}.main{padding:12px}.panel{border:1px solid #0a6a86;background:linear-gradient(180deg,#071824,#030b12);border-radius:9px;overflow:hidden;box-shadow:0 0 0 1px #02121a,0 8px 22px #0008}.ph{min-height:42px;padding:8px 12px;display:flex;align-items:center;border-bottom:1px solid #123a49;font-weight:800;font-size:15px;letter-spacing:.04em}.ph .sub{font-size:10px;color:var(--muted);font-weight:500;margin-left:10px}.pb{padding:10px}
@@ -40,7 +40,7 @@
 </head>
 <body>
 <div class="app">
-<header class="header"><div class="logo">FX</div><div><div class="title">FUNDAMENTAL DASHBOARD</div><div class="subtitle">世界の経済を読み解き、通貨の未来をスコアで可視化する　｜　v5.4 CALENDAR + TREND ENGINE</div></div><div class="headright"><div class="date" id="date"></div><div class="time" id="time"></div><div class="auto">● AUTO UPDATE　<span id="updated">--:--</span></div></div></header>
+<header class="header"><div class="logo">FX</div><div><div class="title">FUNDAMENTAL DASHBOARD</div><div class="subtitle">世界の経済を読み解き、通貨の未来をスコアで可視化する　｜　v5.5 DATA INTEGRITY + CALENDAR ENGINE</div></div><div class="headright"><div class="date" id="date"></div><div class="time" id="time"></div><div class="auto">● AUTO UPDATE　<span id="updated">--:--</span></div></div></header>
 <main class="main">
 <section class="panel barometer"><div class="bar-title"><span>FUNDAMENTALS IMPACT BAROMETER　<span>ファンダメンタルズ影響度数</span></span><span id="barclock"></span></div><div class="bar-sides"><div><div class="big buy">BUY 62%</div><div class="impact">総合影響度 72.4</div></div><div><div class="big sell">38% SELL</div><div class="impact">43.7</div></div></div><div class="track"><div class="buyfill"></div><div class="sellfill"></div></div><div class="bar-caption">市場全体のファンダメンタルズ方向性（検証済みデータから自動算出）</div></section>
 <div class="news-cal">
@@ -67,7 +67,7 @@
 <section class="panel pair-insight"><div class="ph">🧭 PAIR FUNDAMENTAL EXPLAINER <span class="sub">スコア・理由・信頼度・データ鮮度</span><span class="live">v5.3</span></div><div class="insight-grid" id="pairInsights"></div></section>
 </main></div>
 <script>
-// v5.4 CALENDAR + TREND ENGINE
+// v5.5 DATA INTEGRITY + CALENDAR ENGINE
 const newsFallback=[['USD','FRB高官が金利見通しに慎重姿勢　追加利下げはデータ次第','Reuters'],['JPY','日銀総裁の発言に市場が注目　金融政策の判断時期はなお不透明','Bloomberg'],['EUR','ユーロ圏PMI、予想を上回る　景気の底堅さ示す','Financial Times'],['OIL','原油価格が上昇　供給懸念と地政学リスクが再燃','CNBC'],['CNH','中国、追加の景気刺激策を検討との報道　市場の期待高まる','Nikkei Asia']];
 function esc(s){return String(s).replace(/[&<>\"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]))}
 function renderNews(items){document.getElementById('news').innerHTML=items.slice(0,5).map((n,i)=>`<div class="news-item"><div><span class="tag">${esc(n[0])}</span><span class="news-title">${esc(n[1])}</span></div><div class="meta">${i*7+5}分前　${esc(n[2]||'News')}</div></div>`).join('')}
@@ -94,8 +94,22 @@ const MACRO_ENDPOINTS={
   dxy:'https://convextrade.com/api/public/metrics/dxy',
   gold:'https://convextrade.com/api/public/metrics/gold',
   wti:'https://convextrade.com/api/public/metrics/dcoilwtico',
-  bls:'https://api.bls.gov/publicAPI/v1/timeseries/data/'
+  bls:'https://api.bls.gov/publicAPI/v1/timeseries/data/',
+  fred:'https://fred.stlouisfed.org/graph/fredgraph.csv?id='
 };
+const FETCH_TIMEOUT=8000;
+async function fetchText(url,timeout=FETCH_TIMEOUT){
+  const c=new AbortController(); const t=setTimeout(()=>c.abort(),timeout);
+  try{const r=await fetch(url,{cache:'no-store',signal:c.signal}); if(!r.ok)throw new Error('HTTP '+r.status); return await r.text();}
+  finally{clearTimeout(t)}
+}
+async function fetchJson(url,timeout=FETCH_TIMEOUT){const txt=await fetchText(url,timeout);return JSON.parse(txt)}
+async function fetchFredLatest(id){
+  const txt=await fetchText(MACRO_ENDPOINTS.fred+encodeURIComponent(id));
+  const rows=txt.trim().split(/\r?\n/).slice(1).map(x=>x.split(','));
+  for(let i=rows.length-1;i>=0;i--){const date=rows[i]?.[0],value=Number(rows[i]?.[1]);if(date&&Number.isFinite(value)&&value!==-99999)return {value,date};}
+  throw new Error('FRED '+id+' empty');
+}
 let macro={};
 function macroSet(id,val){const e=document.getElementById(id);if(e)e.textContent=val}
 function latestConvex(j){const a=j?.data||[];return a.length?a[a.length-1]:null}
@@ -125,42 +139,61 @@ function renderMacro(){
   updateFundamentalEngine();
   try{localStorage.setItem(MACRO_CACHE,JSON.stringify({macro,ts:Date.now()}))}catch(e){}
 }
-function calcCpiYoY(data){const arr=(data||[]).filter(x=>/^M\d\d$/.test(x.period)).sort((a,b)=>(a.year+a.period).localeCompare(b.year+b.period));if(arr.length<13)return null;const cur=Number(arr[arr.length-1].value),prev=Number(arr[arr.length-13].value);return {value:(cur/prev-1)*100,date:arr[arr.length-1].year+' '+arr[arr.length-1].period}}
-async function fetchBls(){const u=MACRO_ENDPOINTS.bls+'CUUR0000SA0';const n=MACRO_ENDPOINTS.bls+'LNS14000000';const [a,b]=await Promise.all([fetch(u,{cache:'no-store'}),fetch(n,{cache:'no-store'})]);if(!a.ok||!b.ok)throw new Error('BLS HTTP');const [aj,bj]=await Promise.all([a.json(),b.json()]);const c=calcCpiYoY(aj.Results?.[0]?.series?.[0]?.data);const ua=bj.Results?.[0]?.series?.[0]?.data?.find(x=>/^M\d\d$/.test(x.period));return {cpi:c?.value??null,cpiDate:c?.date||'--',unemp:ua?Number(ua.value):null,unempDate:ua?ua.year+'-'+String(Number(ua.period.slice(1))+1).padStart(2,'0')+'-01':'--'} }
+function monthDate(year,period){const m=Number(String(period||'').replace('M',''));return /^\d{4}$/.test(String(year))&&m>=1&&m<=12?`${year}-${String(m).padStart(2,'0')}-01`:'--'}
+function calcCpiYoY(data){const arr=(data||[]).filter(x=>/^M\d\d$/.test(x.period)).sort((a,b)=>(a.year+a.period).localeCompare(b.year+b.period));if(arr.length<13)return null;const cur=Number(arr[arr.length-1].value),prev=Number(arr[arr.length-13].value);return {value:(cur/prev-1)*100,date:monthDate(arr[arr.length-1].year,arr[arr.length-1].period)}}
+async function fetchBls(){
+  const u=MACRO_ENDPOINTS.bls+'CUUR0000SA0'; const n=MACRO_ENDPOINTS.bls+'LNS14000000';
+  const [aj,bj]=await Promise.all([fetchJson(u),fetchJson(n)]);
+  const c=calcCpiYoY(aj.Results?.[0]?.series?.[0]?.data);
+  const ua=bj.Results?.[0]?.series?.[0]?.data?.find(x=>/^M\d\d$/.test(x.period));
+  if(!c && !ua)throw new Error('BLS data empty');
+  return {cpi:c?.value??null,cpiDate:c?.date||'--',unemp:ua?Number(ua.value):null,unempDate:ua?monthDate(ua.year,ua.period):'--',blsSource:'BLS / CPI + LNS14000000'};
+}
+async function safeSource(primary,fallback){try{return await primary()}catch(e){return await fallback()}}
 async function fetchMacro(){
   const st=document.getElementById('macroStatus');if(st)st.textContent='🟡 マクロ取得中…';
-  try{
-    const [t,v,d,g,w,b,fr]=await Promise.all([
-      fetch(MACRO_ENDPOINTS.treasury,{cache:'no-store'}).then(r=>r.json()),
-      fetch(MACRO_ENDPOINTS.vix,{cache:'no-store'}).then(r=>r.json()),
-      fetch(MACRO_ENDPOINTS.dxy,{cache:'no-store'}).then(r=>r.json()),
-      fetch(MACRO_ENDPOINTS.gold,{cache:'no-store'}).then(r=>r.json()),
-      fetch(MACRO_ENDPOINTS.wti,{cache:'no-store'}).then(r=>r.json()),
-      fetchBls(),
-      fetch('https://convextrade.com/api/public/metrics/fedfunds',{cache:'no-store'}).then(r=>r.json()).catch(()=>null)
-    ]);
-    const tl=latestConvex(t),tp=previousConvex(t),vl=latestConvex(v),vp=previousConvex(v);
-    macro={
-      tenY:tl?.value!=null?Number(tl.value):null,
-      tenYChg:tl?.value!=null&&tp?.value!=null?Number(tl.value)-Number(tp.value):null,
-      vix:vl?.value!=null?Number(vl.value):null,
-      vixChg:vl?.value!=null&&vp?.value!=null?pctChange(Number(vl.value),Number(vp.value)):null,
-      dxy:Number(d?.value),dxyChg:Number(d?.changes?.['7d']),
-      gold:Number(g?.value),goldChg:Number(g?.changes?.['7d']),
-      wti:Number(w?.value),wtiChg:Number(w?.changes?.['7d']),
-      ...b,
-      fed:fr?.value!=null?Number(fr.value):null,
-      fedDate:fr?.date||'--',
-      dates:{
-        tenY:tl?.date||'--', vix:vl?.date||'--', dxy:d?.date||'--', gold:g?.date||'--', wti:w?.date||'--', fed:fr?.date||'--',
-        cpi:b?.cpiDate||'--', unemp:b?.unempDate||'--'
-      },
-      fetchedAt:new Date().toISOString()
-    };
-    renderMacro();
-  }catch(e){
-    try{const c=JSON.parse(localStorage.getItem(MACRO_CACHE)||'{}');if(c.macro){macro=c.macro;renderMacro();document.getElementById('macroStatus').textContent='🟡 マクロ取得失敗 / 前回データ表示'}}catch(_){document.getElementById('macroStatus').textContent='🔴 マクロ取得失敗 / '+String(e?.message||e).slice(0,120)}}
+  const results=await Promise.allSettled([
+    safeSource(()=>fetchJson(MACRO_ENDPOINTS.treasury),()=>fetchFredLatest('DGS10')),
+    safeSource(()=>fetchJson(MACRO_ENDPOINTS.vix),()=>fetchFredLatest('VIXCLS')),
+    fetchJson(MACRO_ENDPOINTS.dxy),
+    safeSource(()=>fetchJson(MACRO_ENDPOINTS.gold),()=>fetchFredLatest('GOLDAMGBD228NLBM')),
+    safeSource(()=>fetchJson(MACRO_ENDPOINTS.wti),()=>fetchFredLatest('DCOILWTICO')),
+    safeSource(()=>fetchBls(),async()=>{throw new Error('BLS unavailable')}),
+    safeSource(()=>fetchJson('https://convextrade.com/api/public/metrics/fedfunds'),()=>fetchFredLatest('FEDFUNDS'))
+  ]);
+  const val=(i)=>results[i]?.status==='fulfilled'?results[i].value:null;
+  const t=val(0),v=val(1),d=val(2),g=val(3),w=val(4),b=val(5),fr=val(6);
+  const tl=t?.data?latestConvex(t):t, tp=t?.data?previousConvex(t):null;
+  const vl=v?.data?latestConvex(v):v, vp=v?.data?previousConvex(v):null;
+  const gval=g?.value!=null?Number(g.value):null, wval=w?.value!=null?Number(w.value):null;
+  macro={
+    tenY:tl?.value!=null?Number(tl.value):null,
+    tenYChg:tl?.value!=null&&tp?.value!=null?Number(tl.value)-Number(tp.value):null,
+    vix:vl?.value!=null?Number(vl.value):null,
+    vixChg:vl?.value!=null&&vp?.value!=null?pctChange(Number(vl.value),Number(vp.value)):null,
+    dxy:Number(d?.value),dxyChg:Number(d?.changes?.['7d']),
+    gold:gval,goldChg:Number(g?.changes?.['7d']),
+    wti:wval,wtiChg:Number(w?.changes?.['7d']),
+    ...(b||{}),
+    fed:fr?.value!=null?Number(fr.value):null,
+    fedDate:fr?.date||'--',
+    dates:{
+      tenY:tl?.date||'--',vix:vl?.date||'--',dxy:d?.date||'--',gold:g?.date||'--',wti:w?.date||'--',fed:fr?.date||'--',
+      cpi:b?.cpiDate||'--',unemp:b?.unempDate||'--'
+    },
+    sources:{
+      tenY:t?.data?'Convex / DGS10':'FRED / DGS10',vix:v?.data?'Convex / VIXCLS':'FRED / VIXCLS',
+      dxy:'Convex / US Dollar Index',gold:g?.data?'Convex / GOLD':'FRED / GOLDAMGBD228NLBM',
+      wti:w?.data?'Convex / DCOILWTICO':'FRED / DCOILWTICO',fed:fr?.data?'Convex / Fed funds':'FRED / FEDFUNDS',
+      bls:b?.blsSource||'BLS / CPI + LNS14000000'
+    },
+    fetchedAt:new Date().toISOString()
+  };
+  renderMacro();
+  const ok=results.filter(x=>x.status==='fulfilled').length;
+  if(st)st.innerHTML=(ok>=6?'🟢':'🟡')+' マクロ取得 '+ok+'/7系統 / '+new Date().toLocaleTimeString('ja-JP',{hour:'2-digit',minute:'2-digit',second:'2-digit'})+'　<span style="opacity:.75">一次ソース優先＋FRED/BLSフォールバック</span>';
 }
+
 function loadMacroCache(){try{const c=JSON.parse(localStorage.getItem(MACRO_CACHE)||'{}');if(c.macro){macro=c.macro;renderMacro()}}catch(e){}}
 loadMacroCache();setTimeout(fetchMacro,1000);setInterval(fetchMacro,MACRO_AUTO_MS);
 
@@ -250,27 +283,23 @@ function verifyBadge(status){return `<span class="badge ${status.cls}">${status.
 function daysSince(iso){if(!iso)return Infinity;const t=new Date(iso).getTime();if(!Number.isFinite(t))return Infinity;return Math.max(0,(Date.now()-t)/86400000)}
 function verifyStatus(kind,date){
   const age=daysSince(date);
-  if(kind==='market') return age<=1?{label:'LIVE',cls:'live'}:{label:'STALE',cls:'stale'};
+  if(!Number.isFinite(age))return {label:'N/A',cls:'na'};
+  if(kind==='market') return age<=1?{label:'LIVE',cls:'live'}:age<=5?{label:'LATEST',cls:'latest'}:{label:'STALE',cls:'stale'};
   if(kind==='monthly') return age<=60?{label:'LATEST',cls:'latest'}:{label:'STALE',cls:'stale'};
   if(kind==='daily') return age<=7?{label:'LATEST',cls:'latest'}:{label:'STALE',cls:'stale'};
   return {label:'N/A',cls:'na'};
 }
 function renderVerification(){
-  const g=document.getElementById('verifyGrid'); if(!g)return;
-  const d=macro.dates||{};
+  const g=document.getElementById('verifyGrid');if(!g)return;
+  const d=macro.dates||{},src=macro.sources||{};
   const rows=[
-    ['US 10Y','market',d.tenY,'Convex / DGS10'],
-    ['DXY','market',d.dxy,'Convex / US Dollar Index'],
-    ['VIX','market',d.vix,'Convex / VIXCLS'],
-    ['CPI YoY','monthly',d.cpi,'BLS / CPI'],
-    ['US Unemployment','monthly',d.unemp,'BLS / LNS14000000'],
-    ['Fed Funds','monthly',d.fed,'Convex / Fed funds'],
-    ['GOLD','market',d.gold,'Convex / GOLD'],
-    ['WTI','market',d.wti,'Convex / DCOILWTICO']
+    ['US 10Y','market',d.tenY,src.tenY||'US 10Y'],['DXY','market',d.dxy,src.dxy||'DXY'],['VIX','market',d.vix,src.vix||'VIX'],
+    ['CPI YoY','monthly',d.cpi,src.bls||'BLS / CPI'],['US Unemployment','monthly',d.unemp,src.bls||'BLS / LNS14000000'],
+    ['Fed Funds','monthly',d.fed,src.fed||'Fed funds'],['GOLD','market',d.gold,src.gold||'GOLD'],['WTI','market',d.wti,src.wti||'WTI']
   ];
-  let good=0;
-  g.innerHTML=rows.map(r=>{const st=verifyStatus(r[1],r[2]); if(st.cls==='live'||st.cls==='latest')good++; return `<div class="verify-card"><div class="verify-top"><span class="verify-name">${r[0]}</span>${verifyBadge(st)}</div><div class="verify-meta">基準日: ${esc(r[2]||'--')}<br>取得: ${macro.fetchedAt?new Date(macro.fetchedAt).toLocaleTimeString('ja-JP',{hour:'2-digit',minute:'2-digit',second:'2-digit'}):'--'}</div><div class="verify-source">${esc(r[3])}</div></div>`}).join('');
-  const s=document.getElementById('verifySummary'); if(s)s.textContent=`${good}/${rows.length} VERIFIED`;
+  let good=0,live=0,latest=0,stale=0,na=0;
+  g.innerHTML=rows.map(r=>{const st=verifyStatus(r[1],r[2]);if(st.cls==='live'){good++;live++}else if(st.cls==='latest'){good++;latest++}else if(st.cls==='stale')stale++;else na++;return `<div class="verify-card"><div class="verify-top"><span class="verify-name">${r[0]}</span>${verifyBadge(st)}</div><div class="verify-meta">基準日: ${esc(r[2]||'--')}<br>取得: ${macro.fetchedAt?new Date(macro.fetchedAt).toLocaleTimeString('ja-JP',{hour:'2-digit',minute:'2-digit',second:'2-digit'}):'--'}</div><div class="verify-source">${esc(r[3])}</div></div>`}).join('');
+  const s=document.getElementById('verifySummary');if(s)s.textContent=`${good}/${rows.length} VERIFIED · LIVE ${live} / LATEST ${latest}${stale?` / STALE ${stale}`:''}`;
 }
 function updateFundamentalEngine(){
   const risk=macro.vix!=null?(macro.vix<16?1:macro.vix<22?0:-1):0;
