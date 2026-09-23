@@ -8,7 +8,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="icon-192.png">
-<title>FX FUNDAMENTAL DASHBOARD v5.3 TREND + CONFIDENCE ENGINE</title>
+<title>FX FUNDAMENTAL DASHBOARD v5.4 CALENDAR + TREND ENGINE</title>
 <style>
 :root{--bg:#02070d;--panel:#06131d;--line:#0b6986;--cyan:#20dfff;--green:#25f39a;--red:#ff4167;--yellow:#ffe052;--muted:#7895a1;--white:#eaf8ff}
 *{box-sizing:border-box}html,body{margin:0;background:#02070d;color:var(--white);font-family:Arial,"Noto Sans JP",system-ui,sans-serif}body{min-height:100vh}.app{max-width:1500px;margin:auto;background:radial-gradient(circle at 50% -5%,#0b2938,#02070d 38%,#01050a);min-height:100vh}.header{height:88px;padding:0 22px;display:flex;align-items:center;border-bottom:2px solid #0bcde8}.logo{font-size:52px;font-style:italic;font-weight:900;letter-spacing:-.1em;color:#19ddff;text-shadow:0 0 18px #00cfff;margin-right:20px}.title{font-size:25px;font-weight:800;letter-spacing:.05em}.subtitle{font-size:11px;color:#b7d9e2;margin-top:4px}.headright{margin-left:auto;text-align:right}.date{font-size:12px}.time{font-size:30px;font-weight:800;line-height:1}.auto{font-size:10px;color:var(--green);margin-top:4px}.main{padding:12px}.panel{border:1px solid #0a6a86;background:linear-gradient(180deg,#071824,#030b12);border-radius:9px;overflow:hidden;box-shadow:0 0 0 1px #02121a,0 8px 22px #0008}.ph{min-height:42px;padding:8px 12px;display:flex;align-items:center;border-bottom:1px solid #123a49;font-weight:800;font-size:15px;letter-spacing:.04em}.ph .sub{font-size:10px;color:var(--muted);font-weight:500;margin-left:10px}.pb{padding:10px}
@@ -40,7 +40,7 @@
 </head>
 <body>
 <div class="app">
-<header class="header"><div class="logo">FX</div><div><div class="title">FUNDAMENTAL DASHBOARD</div><div class="subtitle">世界の経済を読み解き、通貨の未来をスコアで可視化する　｜　v5.3 TREND + CONFIDENCE ENGINE</div></div><div class="headright"><div class="date" id="date"></div><div class="time" id="time"></div><div class="auto">● AUTO UPDATE　<span id="updated">--:--</span></div></div></header>
+<header class="header"><div class="logo">FX</div><div><div class="title">FUNDAMENTAL DASHBOARD</div><div class="subtitle">世界の経済を読み解き、通貨の未来をスコアで可視化する　｜　v5.4 CALENDAR + TREND ENGINE</div></div><div class="headright"><div class="date" id="date"></div><div class="time" id="time"></div><div class="auto">● AUTO UPDATE　<span id="updated">--:--</span></div></div></header>
 <main class="main">
 <section class="panel barometer"><div class="bar-title"><span>FUNDAMENTALS IMPACT BAROMETER　<span>ファンダメンタルズ影響度数</span></span><span id="barclock"></span></div><div class="bar-sides"><div><div class="big buy">BUY 62%</div><div class="impact">総合影響度 72.4</div></div><div><div class="big sell">38% SELL</div><div class="impact">43.7</div></div></div><div class="track"><div class="buyfill"></div><div class="sellfill"></div></div><div class="bar-caption">市場全体のファンダメンタルズ方向性（検証済みデータから自動算出）</div></section>
 <div class="news-cal">
@@ -67,7 +67,7 @@
 <section class="panel pair-insight"><div class="ph">🧭 PAIR FUNDAMENTAL EXPLAINER <span class="sub">スコア・理由・信頼度・データ鮮度</span><span class="live">v5.3</span></div><div class="insight-grid" id="pairInsights"></div></section>
 </main></div>
 <script>
-// v5.3 TREND + CONFIDENCE ENGINE
+// v5.4 CALENDAR + TREND ENGINE
 const newsFallback=[['USD','FRB高官が金利見通しに慎重姿勢　追加利下げはデータ次第','Reuters'],['JPY','日銀総裁の発言に市場が注目　金融政策の判断時期はなお不透明','Bloomberg'],['EUR','ユーロ圏PMI、予想を上回る　景気の底堅さ示す','Financial Times'],['OIL','原油価格が上昇　供給懸念と地政学リスクが再燃','CNBC'],['CNH','中国、追加の景気刺激策を検討との報道　市場の期待高まる','Nikkei Asia']];
 function esc(s){return String(s).replace(/[&<>\"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]))}
 function renderNews(items){document.getElementById('news').innerHTML=items.slice(0,5).map((n,i)=>`<div class="news-item"><div><span class="tag">${esc(n[0])}</span><span class="news-title">${esc(n[1])}</span></div><div class="meta">${i*7+5}分前　${esc(n[2]||'News')}</div></div>`).join('')}
@@ -166,34 +166,82 @@ loadMacroCache();setTimeout(fetchMacro,1000);setInterval(fetchMacro,MACRO_AUTO_M
 
 async function fetchCalendar(){
   const box=document.getElementById('calendar');if(!box)return;
-  box.innerHTML='<div class="row"><span class="timec">--:--</span><span class="flagc">---</span><span class="event">経済指標を取得中…</span><span class="med">--</span></div>';
-  const controller=new AbortController();
-  const timer=setTimeout(()=>controller.abort(),9000);
-  try{
-    const now=new Date();
-    const from=new Date(now.getTime()-2*3600000).toISOString();
-    const to=new Date(now.getTime()+30*3600000).toISOString();
-    const url='https://biquote.io/api/calendar?countries=US,EU,GB,JP,CH,MX,TR,AU&importance=medium&limit=30&from='+encodeURIComponent(from)+'&to='+encodeURIComponent(to);
-    const r=await fetch(url,{cache:'no-store',signal:controller.signal});
-    if(!r.ok)throw new Error('Calendar HTTP '+r.status);
-    const arr=await r.json();
-    const events=Array.isArray(arr)?arr.filter(e=>e.type!=='holiday').sort((a,b)=>new Date(a.time)-new Date(b.time)).slice(0,8):[];
+  const CACHE_KEY='fxdash_calendar_v54';
+  const renderCached=()=>{
+    try{
+      const c=JSON.parse(localStorage.getItem(CACHE_KEY)||'{}');
+      if(Array.isArray(c.events)&&c.events.length){
+        renderCalendarEvents(c.events, true);
+        return true;
+      }
+    }catch(e){}
+    return false;
+  };
+  const renderCalendarEvents=(events,cached=false)=>{
     const flag={US:'🇺🇸',EU:'🇪🇺',GB:'🇬🇧',JP:'🇯🇵',CH:'🇨🇭',MX:'🇲🇽',TR:'🇹🇷',AU:'🇦🇺'};
     const nowMs=Date.now();
-    box.innerHTML=events.length?events.map(e=>{
+    const clean=(Array.isArray(events)?events:[])
+      .filter(e=>e && e.type!=='holiday')
+      .filter(e=>e.time && Number.isFinite(new Date(e.time).getTime()))
+      .sort((a,b)=>new Date(a.time)-new Date(b.time))
+      .slice(0,8);
+    if(!clean.length){
+      box.innerHTML='<div class="row"><span class="timec">--:--</span><span class="flagc">---</span><span class="event">対象期間の主要指標なし</span><span class="med">--</span></div>';
+      return;
+    }
+    box.innerHTML=clean.map(e=>{
       const dt=new Date(e.time);
-      const t=Number.isNaN(dt.getTime())?'--:--':dt.toLocaleTimeString('ja-JP',{hour:'2-digit',minute:'2-digit'});
+      const t=dt.toLocaleTimeString('ja-JP',{hour:'2-digit',minute:'2-digit'});
       const imp=e.importance==='high'?'★★★':'★★';
       const cls=e.importance==='high'?'high':'med';
       const actual=e.actual!=null?`実績 ${esc(String(e.actual))}`:(e.forecast!=null?`予想 ${esc(String(e.forecast))}`:'予定');
-      const past=Number.isFinite(dt.getTime())&&dt.getTime()<nowMs;
+      const past=dt.getTime()<nowMs;
       const stamp=past&&e.actual!=null?'確定':'予定';
-      return `<div class="row"><span class="timec">${t}</span><span class="flagc">${flag[e.countryCode]||'🌐'} ${esc(e.currency||e.countryCode||'')}</span><span class="event">${esc(e.name||'経済指標')}<small style="display:block;color:#58757e">${actual} · ${stamp}</small></span><span class="${cls}">${imp}</span></div>`
-    }).join(''):'<div class="row"><span class="timec">--:--</span><span class="flagc">---</span><span class="event">対象期間の主要指標なし</span><span class="med">--</span></div>';
-    const ph=document.querySelector('.news-cal .panel:nth-child(2) .live');if(ph)ph.textContent='LIVE / 自動更新';
+      return `<div class="row"><span class="timec">${t}</span><span class="flagc">${flag[e.countryCode]||'🌐'} ${esc(e.currency||e.countryCode||'')}</span><span class="event">${esc(e.name||'経済指標')}<small style="display:block;color:#58757e">${actual} · ${stamp}${cached?' · 前回取得':''}</small></span><span class="${cls}">${imp}</span></div>`;
+    }).join('');
+    const ph=document.querySelector('.news-cal .panel:nth-child(2) .live');
+    if(ph)ph.textContent=cached?'CACHE / 次回自動更新':'LIVE / 自動更新';
+  };
+  box.innerHTML='<div class="row"><span class="timec">--:--</span><span class="flagc">⏳</span><span class="event">経済指標を取得中…</span><span class="med">--</span></div>';
+  if(renderCached()){
+    // Keep the cached calendar visible while the live request runs.
+  }
+  const controller=new AbortController();
+  const timer=setTimeout(()=>controller.abort(),7000);
+  const countries='US,EU,GB,JP,CH,MX,TR,AU';
+  try{
+    // v5.4: use the documented "upcoming" endpoint first.
+    const url='https://biquote.io/api/calendar/upcoming?countries='+encodeURIComponent(countries)+'&importance=medium&limit=12';
+    const r=await fetch(url,{cache:'no-store',signal:controller.signal});
+    if(!r.ok)throw new Error('Calendar HTTP '+r.status);
+    const arr=await r.json();
+    const events=Array.isArray(arr)?arr.filter(e=>e.type!=='holiday').slice(0,12):[];
+    if(!events.length)throw new Error('Calendar empty');
+    try{localStorage.setItem(CACHE_KEY,JSON.stringify({events,ts:Date.now()}))}catch(e){}
+    renderCalendarEvents(events,false);
   }catch(e){
-    const msg=e?.name==='AbortError'?'取得タイムアウト':'取得失敗';
-    box.innerHTML=`<div class="row"><span class="timec">--:--</span><span class="flagc">⚠️</span><span class="event">経済指標${msg} — 次回自動再試行</span><span class="med">--</span></div>`;
+    // Fallback to the range endpoint if the upcoming feed is temporarily unavailable.
+    try{
+      const now=new Date();
+      const from=new Date(now.getTime()-2*3600000).toISOString();
+      const to=new Date(now.getTime()+30*3600000).toISOString();
+      const fallback='https://biquote.io/api/calendar?countries='+encodeURIComponent(countries)+'&importance=medium&limit=30&from='+encodeURIComponent(from)+'&to='+encodeURIComponent(to);
+      const r2=await fetch(fallback,{cache:'no-store'});
+      if(!r2.ok)throw new Error('Fallback HTTP '+r2.status);
+      const arr2=await r2.json();
+      const events2=Array.isArray(arr2)?arr2.filter(e=>e.type!=='holiday').slice(0,12):[];
+      if(!events2.length)throw new Error('Fallback empty');
+      try{localStorage.setItem(CACHE_KEY,JSON.stringify({events:events2,ts:Date.now()}))}catch(e){}
+      renderCalendarEvents(events2,false);
+    }catch(e2){
+      const hadCache=renderCached();
+      if(!hadCache){
+        const msg=e?.name==='AbortError'?'取得タイムアウト':'取得失敗';
+        box.innerHTML=`<div class="row"><span class="timec">--:--</span><span class="flagc">⚠️</span><span class="event">経済指標${msg} — 次回自動再試行</span><span class="med">--</span></div>`;
+      }
+      const ph=document.querySelector('.news-cal .panel:nth-child(2) .live');
+      if(ph)ph.textContent=hadCache?'CACHE / 再試行中':'ERROR / 再試行';
+    }
   }finally{clearTimeout(timer)}
 }
 fetchCalendar();setInterval(fetchCalendar,15*60*1000);
