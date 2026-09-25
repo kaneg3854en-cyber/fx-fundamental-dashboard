@@ -1,7 +1,6 @@
 <!doctype html>
 <html lang="ja">
 <head>
-<!-- v6.3 REAL BUILD: Japanese UI + chart axes/date labels + live intelligence -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#02070d">
@@ -9,7 +8,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="icon-192.png">
-<title>FX FUNDAMENTAL DASHBOARD v6.3 LIVE INTELLIGENCE + CHART ENGINE</title>
+<title>FX FUNDAMENTAL DASHBOARD v6.4 LIVE INTELLIGENCE + CHART ENGINE</title>
 <style>
 :root{--bg:#02070d;--panel:#06131d;--line:#0b6986;--cyan:#20dfff;--green:#25f39a;--red:#ff4167;--yellow:#ffe052;--muted:#7895a1;--white:#eaf8ff}
 *{box-sizing:border-box}html,body{margin:0;background:#02070d;color:var(--white);font-family:Arial,"Noto Sans JP",system-ui,sans-serif}body{min-height:100vh}.app{max-width:1500px;margin:auto;background:radial-gradient(circle at 50% -5%,#0b2938,#02070d 38%,#01050a);min-height:100vh}.header{height:88px;padding:0 22px;display:flex;align-items:center;border-bottom:2px solid #0bcde8}.logo{font-size:52px;font-style:italic;font-weight:900;letter-spacing:-.1em;color:#19ddff;text-shadow:0 0 18px #00cfff;margin-right:20px}.title{font-size:25px;font-weight:800;letter-spacing:.05em}.subtitle{font-size:11px;color:#b7d9e2;margin-top:4px}.headright{margin-left:auto;text-align:right}.date{font-size:12px}.time{font-size:30px;font-weight:800;line-height:1}.auto{font-size:10px;color:var(--green);margin-top:4px}.main{padding:12px}.panel{border:1px solid #0a6a86;background:linear-gradient(180deg,#071824,#030b12);border-radius:9px;overflow:hidden;box-shadow:0 0 0 1px #02121a,0 8px 22px #0008}.ph{min-height:42px;padding:8px 12px;display:flex;align-items:center;border-bottom:1px solid #123a49;font-weight:800;font-size:15px;letter-spacing:.04em}.ph .sub{font-size:10px;color:var(--muted);font-weight:500;margin-left:10px}.pb{padding:10px}
@@ -43,11 +42,11 @@
 </head>
 <body>
 <div class="app">
-<header class="header"><div class="logo">FX</div><div><div class="title">FUNDAMENTAL DASHBOARD</div><div class="subtitle">世界の経済を読み解き、通貨の未来をスコアで可視化する　｜　v6.3 LIVE INTELLIGENCE + CHART ENGINE</div></div><div class="headright"><div class="date" id="date"></div><div class="time" id="time"></div><div class="auto">● AUTO UPDATE　<span id="updated">--:--</span></div></div></header>
+<header class="header"><div class="logo">FX</div><div><div class="title">FUNDAMENTAL DASHBOARD</div><div class="subtitle">世界の経済を読み解き、通貨の未来をスコアで可視化する　｜　v6.4 LIVE INTELLIGENCE + CHART ENGINE</div></div><div class="headright"><div class="date" id="date"></div><div class="time" id="time"></div><div class="auto">● AUTO UPDATE　<span id="updated">--:--</span></div></div></header>
 <main class="main">
 <section class="panel barometer"><div class="bar-title"><span>ファンダメンタルズ影響度　<span>市場全体の方向性</span></span><span id="barclock"></span></div><div class="bar-sides"><div><div class="big buy">BUY 62%</div><div class="impact">総合影響度 72.4</div></div><div><div class="big sell">38% SELL</div><div class="impact">43.7</div></div></div><div class="track"><div class="buyfill"></div><div class="sellfill"></div></div><div class="bar-caption">市場全体のファンダメンタルズ方向性（検証済みデータから自動算出）</div></section>
 <div class="news-cal">
-<section class="panel"><div class="ph">今日の主要ニュース <span class="sub">最新ニュース＋ソース直リンク</span><span class="live">● ライブ / 5分更新</span></div><div class="news-list" id="news"></div><div class="social-watch"><a class="social-chip" target="_blank" rel="noopener" href="https://x.com/search?q=%28forex%20OR%20Fed%20OR%20BOJ%20OR%20ECB%20OR%20oil%29&src=typed_query">𝕏 X MARKET SEARCH</a><a class="social-chip" target="_blank" rel="noopener" href="https://truthsocial.com/@realDonaldTrump">TRUMP / TRUTH SOCIAL</a></div></section>
+<section class="panel"><div class="ph">今日の主要ニュース <span class="sub">最新ニュース＋ソース直リンク</span><span class="live">● ライブ / 5分更新</span></div><div class="news-list" id="news"></div><div class="social-watch"><a class="social-chip" target="_blank" rel="noopener" href="https://x.com/search?q=%28forex%20OR%20Fed%20OR%20BOJ%20OR%20ECB%20OR%20oil%29&src=typed_query">𝕏 X 市場検索</a><a class="social-chip" target="_blank" rel="noopener" href="https://truthsocial.com/@realDonaldTrump">TRUMP / Truth Social</a></div></section>
 <section class="panel"><div class="ph">経済指標カレンダー <span class="sub">主要8通貨・実績 / 予想 / 前回</span><span class="live">ライブ / 自動更新</span></div><div class="cal" id="calendar"><div class="row"><span class="timec">--:--</span><span class="flagc">---</span><span class="event">経済指標を取得中…</span><span class="med">--</span></div></div><div class="api-note">Biquote実データ：実績 / 予想 / 前回 / 重要度。主要8通貨（USD EUR GBP JPY CHF MXN TRY AUD）を自動抽出。</div></section>
 </div>
 <section class="panel ai"><div class="ph">AIファンダメンタルズ要約 <span class="sub">AIによるファンダメンタルズ分析（要約）</span><span class="live">AI分析</span></div><div class="ai-body"><div class="ai-line"><span class="ai-label green">⬆ 市場の方向性</span><span id="aiDirection">実データを分析中…</span></div><div class="ai-line"><span class="ai-label cyan">● 注目ポイント</span><span id="aiFocus">米10年債・DXY・VIX・CPI・金・原油・経済指標。</span></div><div class="ai-line"><span class="ai-label yellow">! リスク要因</span><span id="aiRisk">高インパクト指標と急な金利・VIX変化を監視。</span></div><div class="ai-line"><span class="ai-label cyan">▤ 総合見解</span><span id="aiView">ライブデータ取得後に自動更新します。</span></div></div></section>
@@ -394,7 +393,7 @@ function updateFundamentalEngine(){
   macroSet('aiDirection',`${riskTxt}。${dir}。`);
   macroSet('aiFocus',`米10年 ${macro.tenY?.toFixed(2)||'--'}% / DXY ${macro.dxy?.toFixed(2)||'--'} / VIX ${macro.vix?.toFixed(1)||'--'} / CPI ${macro.cpi?.toFixed(1)||'--'}%。`);
   macroSet('aiRisk',`金 ${macro.gold?.toFixed(0)||'--'} / WTI ${macro.wti?.toFixed(1)||'--'}。VIX・金利急変と高インパクト指標を警戒。`);
-  macroSet('aiView',`検証済みのライブ/最新公表データから自動算出した環境判定。これはv6.0の7要素ルールベース分析で、生成AIによる投資判断ではありません。`);
+  macroSet('aiView',`検証済みのライブ/最新公表データから自動算出した環境判定。これはv6.4の7要素ルールベース分析で、生成AIによる投資判断ではありません。`);
   const bar=Math.max(20,Math.min(80,50+dollar*.8+riskOn*.5));const bf=document.querySelector('.buyfill'),sf=document.querySelector('.sellfill');if(bf&&sf){bf.style.width=bar+'%';sf.style.width=(100-bar)+'%';}const b=document.querySelector('.bar-sides .buy');const se=document.querySelector('.bar-sides .sell');if(b)b.textContent=`BUY ${Math.round(bar)}%`;if(se)se.textContent=`${Math.round(100-bar)}% SELL`;
 }
 
