@@ -1,0 +1,726 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#02070d">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icon-192.png">
+<title>FX FUNDAMENTAL DASHBOARD v6.5 LIVE INTELLIGENCE + CHART ENGINE</title>
+<style>
+:root{--bg:#02070d;--panel:#06131d;--line:#0b6986;--cyan:#20dfff;--green:#25f39a;--red:#ff4167;--yellow:#ffe052;--muted:#7895a1;--white:#eaf8ff}
+*{box-sizing:border-box}html,body{margin:0;background:#02070d;color:var(--white);font-family:Arial,"Noto Sans JP",system-ui,sans-serif}body{min-height:100vh}.app{max-width:1500px;margin:auto;background:radial-gradient(circle at 50% -5%,#0b2938,#02070d 38%,#01050a);min-height:100vh}.header{height:88px;padding:0 22px;display:flex;align-items:center;border-bottom:2px solid #0bcde8}.logo{font-size:52px;font-style:italic;font-weight:900;letter-spacing:-.1em;color:#19ddff;text-shadow:0 0 18px #00cfff;margin-right:20px}.title{font-size:25px;font-weight:800;letter-spacing:.05em}.subtitle{font-size:11px;color:#b7d9e2;margin-top:4px}.headright{margin-left:auto;text-align:right}.date{font-size:12px}.time{font-size:30px;font-weight:800;line-height:1}.auto{font-size:10px;color:var(--green);margin-top:4px}.main{padding:12px}.panel{border:1px solid #0a6a86;background:linear-gradient(180deg,#071824,#030b12);border-radius:9px;overflow:hidden;box-shadow:0 0 0 1px #02121a,0 8px 22px #0008}.ph{min-height:42px;padding:8px 12px;display:flex;align-items:center;border-bottom:1px solid #123a49;font-weight:800;font-size:15px;letter-spacing:.04em}.ph .sub{font-size:10px;color:var(--muted);font-weight:500;margin-left:10px}.pb{padding:10px}
+.barometer{padding:14px}.bar-title{display:flex;justify-content:space-between;align-items:center;color:#8fb1bb;font-size:12px;letter-spacing:.12em;margin-bottom:10px}.bar-sides{display:grid;grid-template-columns:1fr 1fr;gap:15px}.big{font-size:42px;font-weight:950;line-height:1}.buy{color:var(--cyan)}.sell{color:var(--red);text-align:right}.impact{font-size:11px;color:#76919b;margin-top:6px}.sell .impact{text-align:right}.track{height:22px;margin-top:11px;border:1px solid #24434d;border-radius:7px;overflow:hidden;background:#101b20;display:flex}.buyfill{width:62%;background:linear-gradient(90deg,#078ca5,var(--cyan));box-shadow:0 0 18px #20dfff55}.sellfill{width:38%;background:linear-gradient(90deg,#ff385e,#9d2039);box-shadow:0 0 18px #ff416755}.bar-caption{text-align:center;color:#66828a;font-size:9px;margin-top:6px}
+.news-cal{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}.news-list{padding:5px 12px 8px}.news-item{padding:10px 0;border-bottom:1px solid #102a31}.news-item:last-child{border-bottom:0}.tag{display:inline-block;font-size:8px;padding:2px 5px;border:1px solid #27515d;border-radius:4px;color:#7bd7e6;margin-right:5px}.news-title{font-size:12px;line-height:1.4}.meta{font-size:8px;color:#57757d;margin-top:4px}.live{font-size:9px;color:var(--green);margin-left:auto}.cal{padding:4px 10px 9px}.row{display:grid;grid-template-columns:48px 48px 1fr 45px;gap:6px;align-items:center;padding:9px 2px;border-bottom:1px solid #102a31;font-size:9px}.row:last-child{border-bottom:0}.timec{color:#76959d}.flagc{font-weight:800;color:var(--yellow)}.event{font-size:10px}.high{color:var(--red)}.med{color:var(--yellow)}
+.ai{margin-top:10px}.ai-body{padding:10px 12px;font-size:11px;line-height:1.7}.ai-line{display:grid;grid-template-columns:105px 1fr;gap:10px;padding:4px 0}.ai-label{font-weight:800}.ai-label.green{color:var(--green)}.ai-label.cyan{color:var(--cyan)}.ai-label.yellow{color:var(--yellow)}
+.indicators{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:10px}.indicator{padding:11px;background:#07141d;border:1px solid #0b526b;border-radius:8px}.ilabel{font-size:9px;color:#66828a}.ival{font-size:21px;font-weight:900;margin-top:5px}.chg{font-size:10px;margin-top:3px}.green{color:var(--green)}.red{color:var(--red)}.yellow{color:var(--yellow)}
+.global{margin-top:10px}.gtable{width:100%;border-collapse:collapse;font-size:11px}.gtable th{font-size:9px;color:#66828a;text-align:left;padding:8px;border-bottom:1px solid #15343d}.gtable td{padding:8px;border-bottom:1px solid #102a31;vertical-align:middle}.pair{font-weight:800;white-space:nowrap}.scorev{font-weight:950;font-size:14px}.signal{font-size:8px;font-weight:800;padding:3px 6px;border:1px solid currentColor;border-radius:4px;display:inline-block}.reason{font-size:9px;color:#76919b}.spark{width:120px;height:34px;display:block}.spark polyline{fill:none;stroke-width:2.2}.spark circle{fill:var(--cyan)}.upstroke{stroke:var(--green)}.downstroke{stroke:var(--red)}.neutralstroke{stroke:var(--cyan)}
+.focus-panel{margin-top:10px}.focus-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:10px}.focus-card{padding:11px;background:#07141d;border:1px solid #164c5d;border-radius:8px}.focus-top{display:flex;align-items:center;justify-content:space-between;gap:8px}.focus-pair{font-size:14px;font-weight:900}.focus-score{font-size:21px;font-weight:950}.focus-signal{font-size:8px;font-weight:900;padding:3px 6px;border:1px solid currentColor;border-radius:999px}.focus-meta{font-size:8px;color:#7895a1;margin-top:7px;line-height:1.55}.focus-reason{font-size:9px;color:#b9d2d9;margin-top:6px;line-height:1.45}.trend-up{color:var(--green)}.trend-down{color:var(--red)}.trend-flat{color:var(--cyan)}.focus-note{padding:0 10px 10px;color:#58757e;font-size:8px;line-height:1.5}
+.history-empty{color:#58757e;font-size:8px}.footnote{padding:8px 12px;color:#58757e;font-size:8px;border-top:1px solid #123a49}
+@media(max-width:700px){.focus-grid{grid-template-columns:1fr}.focus-card{padding:9px}.focus-pair{font-size:12px}.focus-score{font-size:18px}.focus-meta,.focus-note{font-size:7.5px}.header{height:74px;padding:0 12px}.logo{font-size:38px;margin-right:10px}.title{font-size:16px}.subtitle{font-size:8px}.date{font-size:9px}.time{font-size:22px}.auto{font-size:8px}.main{padding:8px}.barometer{padding:11px}.big{font-size:29px}.news-cal{grid-template-columns:1fr}.indicators{grid-template-columns:1fr 1fr}.ai-line{grid-template-columns:82px 1fr;font-size:10px}.gtable th:nth-child(6),.gtable td:nth-child(6),.gtable th:nth-child(7),.gtable td:nth-child(7){display:none}.gtable th,.gtable td{padding:7px 5px}.spark{width:78px;height:30px}.reason{display:none}.ph{font-size:13px}.ph .sub{font-size:8px;margin-left:7px}}
+
+.fx-live{margin-top:10px}.fx-live-head{display:flex;align-items:center;justify-content:space-between;gap:8px}.fx-status{font-size:9px;color:var(--green)}.fx-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:10px}.fx-card{padding:10px;background:#07141d;border:1px solid #0b526b;border-radius:8px}.fx-pair{font-size:9px;color:#7f9aa3}.fx-rate{font-size:20px;font-weight:900;margin-top:4px}.fx-meta{font-size:8px;color:#5f7d86;margin-top:3px}.fx-btn{border:1px solid #1b849e;background:#06131d;color:var(--cyan);border-radius:5px;padding:5px 8px;font-size:9px}.api-note{padding:0 10px 8px;color:#58757e;font-size:8px}.api-modal{position:fixed;inset:0;background:#000b;display:none;align-items:center;justify-content:center;z-index:99;padding:18px}.api-box{max-width:440px;width:100%;background:#071824;border:1px solid #0a6a86;border-radius:10px;padding:18px;box-shadow:0 10px 40px #000}.api-box h3{margin:0 0 8px}.api-box p{font-size:10px;line-height:1.6;color:#9bb5bd}.api-box input{width:100%;padding:10px;border-radius:6px;border:1px solid #245d6c;background:#02070d;color:#eaf8ff;margin:8px 0;font-size:12px}.api-actions{display:flex;gap:8px;justify-content:flex-end}.api-actions button{padding:8px 12px;border-radius:6px;border:1px solid #2a7e92;background:#06131d;color:#eaf8ff}.api-actions .primary{background:#0b7e98;color:white}
+@media(max-width:700px){.fx-grid{grid-template-columns:1fr 1fr}.fx-rate{font-size:17px}.fx-live-head{align-items:flex-start}.api-box{padding:15px}}
+
+
+.verify-panel{margin-top:10px}.verify-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:10px}.verify-card{padding:10px;background:#07141d;border:1px solid #164c5d;border-radius:8px}.verify-top{display:flex;justify-content:space-between;gap:6px;align-items:center}.verify-name{font-size:10px;font-weight:800}.badge{font-size:8px;padding:3px 6px;border-radius:999px;border:1px solid currentColor;font-weight:800}.badge.live{color:var(--green)}.badge.latest{color:var(--yellow)}.badge.stale{color:var(--red)}.badge.na{color:#8aa5ae}.verify-meta{font-size:8px;color:#66828a;line-height:1.5;margin-top:6px}.verify-source{font-size:8px;color:#9cc9d3;margin-top:3px}.verify-note{padding:0 10px 10px;color:#58757e;font-size:8px;line-height:1.5}@media(max-width:700px){.verify-grid{grid-template-columns:1fr 1fr}.verify-card{padding:9px}.verify-name{font-size:9px}.verify-meta,.verify-source,.verify-note{font-size:7.5px}}
+
+
+.fundamental-breakdown{margin-top:8px;border-top:1px solid #123a49;padding-top:7px}.fb-row{display:grid;grid-template-columns:76px 1fr 28px;gap:5px;align-items:center;font-size:7.5px;color:#7895a1;margin:3px 0}.fb-bar{height:5px;background:#0d2029;border-radius:99px;overflow:hidden;border:1px solid #153d49}.fb-fill{height:100%;background:var(--cyan)}.fb-na{color:#718b94}.coverage-score{margin-top:7px;font-size:7.5px;color:#9cc9d3}.pair-breakdown{font-size:8px;color:#7fa0aa;line-height:1.4}.engine-note{padding:9px 10px;color:#7895a1;font-size:8px;line-height:1.55;border-top:1px solid #123a49}.engine-chip{font-size:8px;color:var(--cyan);border:1px solid #1d6f84;border-radius:999px;padding:2px 6px;margin-left:5px}.score-positive{color:var(--green)}.score-negative{color:var(--red)}
+@media(max-width:700px){.fb-row{grid-template-columns:68px 1fr 25px;font-size:7px}.fundamental-breakdown{margin-top:6px}.engine-note{font-size:7.5px}}
+
+.country-panel{margin-top:10px}.country-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:10px}.country-card{padding:10px;background:#07141d;border:1px solid #164c5d;border-radius:8px}.country-top{display:flex;justify-content:space-between;gap:6px;align-items:center}.country-name{font-size:11px;font-weight:900}.country-score{font-size:18px;font-weight:950}.country-metrics{display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-top:7px}.cm{font-size:8px;color:#7895a1}.cm b{display:block;font-size:10px;color:#dff7ff;margin-top:2px}.coverage{margin-top:7px;font-size:7.5px;color:#7895a1;line-height:1.5}.mini-badge{font-size:7px;padding:2px 5px;border:1px solid currentColor;border-radius:999px}.coverage-live{color:var(--green)}.coverage-latest{color:var(--yellow)}.coverage-na{color:#8aa5ae}.country-note{padding:0 10px 10px;color:#58757e;font-size:8px;line-height:1.5}.diff-badge{font-size:8px;color:var(--cyan)}
+@media(max-width:700px){.country-grid{grid-template-columns:1fr 1fr}.country-card{padding:8px}.country-name{font-size:9px}.country-score{font-size:16px}.cm{font-size:7px}.cm b{font-size:9px}.coverage{font-size:7px}}
+
+.confidence-wrap{margin-top:7px}.confidence-line{display:flex;justify-content:space-between;font-size:7.5px;color:#7895a1}.confidence-bar{height:5px;background:#0d2029;border:1px solid #153d49;border-radius:99px;overflow:hidden;margin-top:3px}.confidence-fill{height:100%;background:var(--cyan)}.freshness{font-size:7.5px;color:#7895a1;margin-top:4px}.pair-insight{margin-top:10px}.insight-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:10px}.insight-card{padding:10px;background:#07141d;border:1px solid #164c5d;border-radius:8px}.insight-head{display:flex;justify-content:space-between;align-items:center;gap:6px}.insight-pair{font-weight:900;font-size:13px}.insight-score{font-weight:950;font-size:17px}.insight-text{font-size:9px;line-height:1.6;color:#a5c0c8;margin-top:7px}.factor-tags{display:flex;flex-wrap:wrap;gap:4px;margin-top:7px}.factor-tag{font-size:7.5px;border:1px solid #20596a;border-radius:999px;padding:2px 5px;color:#9cc9d3}.confidence-badge{font-size:7.5px;padding:2px 6px;border:1px solid currentColor;border-radius:999px}.conf-high{color:var(--green)}.conf-mid{color:var(--yellow)}.conf-low{color:var(--red)}
+@media(max-width:700px){.insight-grid{grid-template-columns:1fr}.insight-card{padding:9px}.insight-text{font-size:8.5px}.confidence-line,.freshness,.confidence-badge,.factor-tag{font-size:7px}}
+
+.news-title a{color:var(--white);text-decoration:none}.news-title a:hover{text-decoration:underline}.source-link{font-size:8px;color:var(--cyan);text-decoration:none;margin-left:6px}.social-watch{display:flex;gap:6px;flex-wrap:wrap;padding:7px 12px 2px;border-top:1px solid #102a31}.social-chip{font-size:8px;color:var(--cyan);border:1px solid #18596b;border-radius:999px;padding:3px 7px;text-decoration:none}.social-chip:hover{background:#0a2632}.calvals{font-size:8px;color:#7895a1;white-space:nowrap}.actual-hot{color:var(--green);font-weight:800}.surprise-pos{color:var(--green)}.surprise-neg{color:var(--red)}.fx-chart{width:100%;height:56px;display:block;margin-top:5px}.fx-chart polyline{fill:none;stroke:var(--cyan);stroke-width:1.7}.fx-chart .last{fill:var(--green)}.fx-chart .chart-axis{stroke:#31505a;stroke-width:.55}.fx-chart .chart-x,.fx-chart .chart-y{fill:#66808a;font-size:3.3px;font-family:Arial,sans-serif}.fx-chart .openbar{stroke:#49616a;stroke-width:1}.verify-history{padding:8px 10px;border-top:1px solid #123a49}.verify-history-title{font-size:8px;color:#7895a1;margin-bottom:4px}.verify-spark{width:100%;height:56px;display:block}.verify-spark polyline{fill:none;stroke:var(--cyan);stroke-width:1.8}.verify-spark circle{fill:var(--green)}.verify-spark .verify-axis{stroke:#31505a;stroke-width:.55}.verify-spark .verify-x,.verify-spark .verify-y{fill:#66808a;font-size:3.5px;font-family:Arial,sans-serif}
+</style>
+</head>
+<body>
+<div class="app">
+<header class="header"><div class="logo">FX</div><div><div class="title">FUNDAMENTAL DASHBOARD</div><div class="subtitle">世界の経済を読み解き、通貨の未来をスコアで可視化する　｜　v6.5 LIVE INTELLIGENCE + CHART ENGINE</div></div><div class="headright"><div class="date" id="date"></div><div class="time" id="time"></div><div class="auto">● AUTO UPDATE　<span id="updated">--:--</span></div></div></header>
+<main class="main">
+<section class="panel barometer"><div class="bar-title"><span>ファンダメンタルズ影響度　<span>市場全体の方向性</span></span><span id="barclock"></span></div><div class="bar-sides"><div><div class="big buy">BUY 62%</div><div class="impact">総合影響度 72.4</div></div><div><div class="big sell">38% SELL</div><div class="impact">43.7</div></div></div><div class="track"><div class="buyfill"></div><div class="sellfill"></div></div><div class="bar-caption">市場全体のファンダメンタルズ方向性（検証済みデータから自動算出）</div></section>
+<div class="news-cal">
+<section class="panel"><div class="ph">今日の主要ニュース <span class="sub">最新ニュース＋ソース直リンク</span><span class="live">● ライブ / 5分更新</span></div><div class="news-list" id="news"></div><div class="social-watch"><a class="social-chip" target="_blank" rel="noopener" href="https://x.com/search?q=%28forex%20OR%20Fed%20OR%20BOJ%20OR%20ECB%20OR%20oil%29&src=typed_query">𝕏 X 市場検索</a><a class="social-chip" target="_blank" rel="noopener" href="https://truthsocial.com/@realDonaldTrump">TRUMP / Truth Social</a></div></section>
+<section class="panel"><div class="ph">経済指標カレンダー <span class="sub">主要8通貨・実績 / 予想 / 前回</span><span class="live">ライブ / 自動更新</span></div><div class="cal" id="calendar"><div class="row"><span class="timec">--:--</span><span class="flagc">---</span><span class="event">経済指標を取得中…</span><span class="med">--</span></div></div><div class="api-note">Biquote実データ：実績 / 予想 / 前回 / 重要度。主要8通貨（USD EUR GBP JPY CHF MXN TRY AUD）を自動抽出。</div></section>
+</div>
+<section class="panel ai"><div class="ph">AIファンダメンタルズ要約 <span class="sub">AIによるファンダメンタルズ分析（要約）</span><span class="live">AI分析</span></div><div class="ai-body"><div class="ai-line"><span class="ai-label green">⬆ 市場の方向性</span><span id="aiDirection">実データを分析中…</span></div><div class="ai-line"><span class="ai-label cyan">● 注目ポイント</span><span id="aiFocus">米10年債・DXY・VIX・CPI・金・原油・経済指標。</span></div><div class="ai-line"><span class="ai-label yellow">! リスク要因</span><span id="aiRisk">高インパクト指標と急な金利・VIX変化を監視。</span></div><div class="ai-line"><span class="ai-label cyan">▤ 総合見解</span><span id="aiView">ライブデータ取得後に自動更新します。</span></div></div></section>
+
+<section class="panel fx-live">
+  <div class="ph fx-live-head">
+    <span>💱 リアルタイム為替レート <span class="sub">5分更新・日足30本チャート・APIキー不要</span></span>
+    <span class="fx-status" id="fxStatus">準備中</span>
+    <span><button class="fx-btn" id="fxRefresh">更新</button></span>
+  </div>
+  <div class="fx-grid" id="fxGrid"></div>
+  <div class="api-note">ライブ価格: fxapi.app（約5分更新） / 日足OHLC: Biquote（1日足・30本）。いずれもブラウザから直接取得。</div>
+</section>
+<div class="indicators" id="macroIndicators"><div class="indicator"><div class="ilabel">🇺🇸 US 10Y</div><div class="ival" id="m10y">--</div><div class="chg" id="m10ychg">待機中</div></div><div class="indicator"><div class="ilabel">🇺🇸 DXY</div><div class="ival" id="mdxy">--</div><div class="chg" id="mdxychg">待機中</div></div><div class="indicator"><div class="ilabel">⚠️ VIX</div><div class="ival" id="mvix">--</div><div class="chg" id="mvixchg">待機中</div></div><div class="indicator"><div class="ilabel">📈 CPI YoY</div><div class="ival" id="mcpi">--</div><div class="chg" id="mcpichg">待機中</div></div><div class="indicator"><div class="ilabel">👷 US UNEMPLOYMENT</div><div class="ival" id="munemp">--</div><div class="chg" id="munempchg">待機中</div></div><div class="indicator"><div class="ilabel">🏦 FED FUNDS</div><div class="ival" id="mfed">--</div><div class="chg" id="mfedchg">待機中</div></div><div class="indicator"><div class="ilabel">🪙 GOLD</div><div class="ival" id="mgold">--</div><div class="chg" id="mgoldchg">待機中</div></div><div class="indicator"><div class="ilabel">🛢️ WTI</div><div class="ival" id="mwti">--</div><div class="chg" id="mwtichg">待機中</div></div></div><div class="api-note" id="macroStatus">マクロデータ準備中…</div>
+<section class="panel verify-panel"><div class="ph">🛡️ データ検証 <span class="sub">実データの鮮度・取得元・基準日を検証</span><span class="live" id="verifySummary">CHECKING…</span></div><div class="verify-grid" id="verifyGrid"></div><div class="verify-history"><div class="verify-history-title">日次データ検証推移　検証済み項目数 / 日</div><div id="verifyHistoryChart"></div></div><div class="verify-note">🟢 LIVE＝取得成功かつ鮮度基準内　🟡 最新値＝最新公表値だが更新頻度が低い指標　🔴 鮮度基準超過＝鮮度基準超過または古いキャッシュ　⚪ N/A＝取得対象外。<br>「取得時刻」「データ基準日」「経過時間」を分離して表示し、古いデータを最新値と誤認しないようにします。8/8 VERIFIEDは8項目すべてが鮮度基準内であることを示し、LIVEが8件あることを意味しません。X・Truth Socialは現時点では自動取得ではなく、外部ソースへの直リンクを提供します。</div></section>
+
+<section class="panel country-panel"><div class="ph">🌍 8通貨・ファンダメンタルズ比較 <span class="sub">7要素・100点方式 / 接続済みデータのみ採点</span><span class="live" id="countryStatus">BIS CONNECTING…</span></div><div class="country-grid" id="countryGrid"></div><div class="country-note">政策金利・CPIはBIS統計API、リスク環境はVIX/WTI等の市場データを利用。GDP・雇用・PMI・中央銀行スタンスは未接続の場合「N/A」とし、推測で補完しません。100点を7要素に配点し、未接続項目は分母から除外して「利用可能データ内の正規化スコア」を表示します。Data by BIS / Data by Convex</div><div class="engine-note">🧮 <b>v6.5 scoring:</b> 実質金利25 / 金利差20 / インフレ15 / 景気15 / 雇用10 / 中央銀行10 / リスク5。現在は実質金利・金利差・インフレ・リスクを接続。未接続の景気・雇用・中央銀行はN/A。信頼度は通貨ごとのデータ充足率と実際の基準日から連続的に算出。<span class="engine-chip">推測なし</span></div></section>
+<section class="panel global"><div class="ph">🌐 総合ファンダメンタルズスコア <span class="sub">通貨ペアのファンダメンタルスコア一覧 ＋ 日足チャート</span><span class="live">ライブ / ルールベース</span></div><div style="overflow-x:auto"><table class="gtable"><thead><tr><th>通貨ペア</th><th>現在値</th><th>スコア</th><th>判断</th><th>信頼度</th><th>主な要因</th><th>日足チャート</th></tr></thead><tbody id="pairs"></tbody></table></div><div class="footnote">※ 現在値はFX APIから取得。スコアは取得できたライブ/最新公表マクロから自動算出。データ検証で基準日と鮮度を確認できます。</div></section>
+<section class="panel focus-panel"><div class="ph">🎯 今日の注目通貨ペア <span class="sub">現在のスコア × 信頼度 × 直近トレンド</span><span class="live">自動選択</span></div><div class="focus-grid" id="focusPairs"></div><div class="focus-note">※ 注目度は「絶対スコア」と「データ信頼度」を機械的に組み合わせて算出。予測や裁量判断ではありません。履歴はこの端末で取得した日次スコアのみ蓄積します。</div></section>
+<section class="panel pair-insight"><div class="ph">🧭 通貨ペア・ファンダメンタルズ解説 <span class="sub">スコア・理由・信頼度・データ鮮度</span><span class="live">v6.5</span></div><div class="insight-grid" id="pairInsights"></div></section>
+</main></div>
+<script>
+// v6.5 Japanese UI + verified daily FX chart engine
+const newsFallback=[['USD','FRB高官が金利見通しに慎重姿勢','Reuters','https://www.reuters.com/markets/'],['JPY','日銀の金融政策と円相場をめぐる最新報道','Reuters','https://www.reuters.com/markets/'],['EUR','ECBとユーロ圏景気をめぐる最新ニュース','Reuters','https://www.reuters.com/markets/'],['OIL','原油市場の最新動向と供給リスク','Reuters','https://www.reuters.com/markets/'],['GOLD','金価格と米金利・ドルの最新動向','Reuters','https://www.reuters.com/markets/']];
+function esc(s){return String(s).replace(/[&<>\"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;','\\':'&#92;'}[m]))}
+function safeUrl(u){try{const x=new URL(u);return /^https?:$/.test(x.protocol)?x.href:''}catch(e){return ''}}
+function renderNews(items){document.getElementById('news').innerHTML=items.slice(0,5).map((n,i)=>{const url=safeUrl(n[3]);const title=url?`<a href="${esc(url)}" target="_blank" rel="noopener">${esc(n[1])}</a>`:esc(n[1]);return `<div class="news-item"><div><span class="tag">${esc(n[0])}</span><span class="news-title">${title}</span>${url?'<a class="source-link" href="'+esc(url)+'" target="_blank" rel="noopener">SOURCE ↗</a>':''}</div><div class="meta">${esc(n[2]||'News')} · ${n[4]?new Date(n[4]).toLocaleString('ja-JP',{month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'}):'最新'}</div></div>`}).join('')}
+renderNews(newsFallback);
+async function fetchNews(){
+  try{
+    const url='https://biquote.io/api/news/market?language=en&country=US&maxResults=10';
+    const r=await fetch(url,{cache:'no-store'});if(!r.ok)throw new Error('news '+r.status);const j=await r.json();
+    const arr=(Array.isArray(j)?j:[]).filter(a=>a&&a.title&&safeUrl(a.url)).map(a=>{const t=a.title.toLowerCase();let tag='FX';if(/japan|yen|boj/.test(t))tag='JPY';else if(/mexico|peso/.test(t))tag='MXN';else if(/swiss|franc/.test(t))tag='CHF';else if(/euro|ecb/.test(t))tag='EUR';else if(/dollar|fed|us /.test(t))tag='USD';else if(/oil|crude/.test(t))tag='OIL';else if(/gold/.test(t))tag='GOLD';return [tag,a.title,a.publisher||'Market News',a.url,a.publishedDate]}).slice(0,5);
+    if(arr.length)renderNews(arr);
+    const ph=document.querySelector('.news-cal .panel:first-child .live');if(ph)ph.textContent='● ライブ / 5分更新';
+  }catch(e){
+    try{
+      const u='https://api.gdeltproject.org/api/v2/doc/doc?query=(forex%20OR%20currency%20OR%20central%20bank%20OR%20interest%20rate%20OR%20oil%20OR%20gold)&mode=artlist&format=json&maxrecords=8&timespan=1h&sort=datedesc';
+      const r=await fetch(u,{cache:'no-store'});if(!r.ok)throw e;const j=await r.json();const arr=(j.articles||[]).filter(a=>safeUrl(a.url)).slice(0,5).map(a=>{const t=(a.title||'').toLowerCase();let tag='FX';if(/japan|yen|boj/.test(t))tag='JPY';else if(/mexico|peso/.test(t))tag='MXN';else if(/swiss|franc/.test(t))tag='CHF';else if(/euro|ecb/.test(t))tag='EUR';else if(/dollar|fed|us /.test(t))tag='USD';else if(/oil|crude/.test(t))tag='OIL';else if(/gold/.test(t))tag='GOLD';return [tag,a.title||'',a.domain||'GDELT',a.url,a.seendate]});if(arr.length)renderNews(arr);
+    }catch(e2){renderNews(newsFallback)}
+  }
+}
+fetchNews();setInterval(fetchNews,300000);
+const pairData=[['USD/JPY',72,'BUY','BULLISH','米金利上昇・日米金利差','up'],['EUR/USD',-38,'SELL','BEARISH','欧州景気の不透明感','down'],['GBP/USD',24,'BUY','BULLISH','英金利の底堅さ','up'],['CHF/MXN',81,'BUY','BULLISH','金利差・リスク選好','up'],['TRY/JPY',57,'BUY','BULLISH','高金利・キャリートレード需要','up'],['AUD/JPY',46,'BUY','BULLISH','資源価格の上昇','up'],['EUR/JPY',-12,'NEUTRAL','FLAT','欧州景気の鈍化','down'],['MXN/JPY',69,'BUY','BULLISH','高金利・安定した経済基盤','up'],['XAU/USD',63,'BUY','BULLISH','地政学リスク・インフレ懸念','up']];
+const PAIR_HISTORY_STORAGE='fxdash_pair_history_v53';
+function readPairHistory(){try{return JSON.parse(localStorage.getItem(PAIR_HISTORY_STORAGE)||'{}')}catch(e){return {}}}
+function writePairHistory(h){try{localStorage.setItem(PAIR_HISTORY_STORAGE,JSON.stringify(h))}catch(e){}}
+function recordPairHistory(){const h=readPairHistory(),day=new Date().toISOString().slice(0,10);pairData.forEach(p=>{const pair=p[0],score=Number(p[1]);if(!Number.isFinite(score))return;if(!Array.isArray(h[pair]))h[pair]=[];const a=h[pair];const last=a[a.length-1];if(last?.date===day)last.score=score;else a.push({date:day,score});h[pair]=a.slice(-30)});writePairHistory(h)}
+function pairHistory(pair){const h=readPairHistory();return Array.isArray(h[pair])?h[pair]:[]}
+function trendForPair(pair){const a=pairHistory(pair);if(a.length<2)return 'flat';const d=a[a.length-1].score-a[a.length-2].score;return d>=2?'up':d<=-2?'down':'flat'}
+function trendLabel(score,trend){if(score>=20)return 'BUY';if(score<=-20)return 'SELL';return trend==='up'?'NEUTRAL ↑':trend==='down'?'NEUTRAL ↓':'NEUTRAL'}
+function trendClass(trend){return trend==='up'?'trend-up':trend==='down'?'trend-down':'trend-flat'}
+function historySpark(pair){const a=pairHistory(pair);if(!a.length)return '<span class="history-empty">履歴蓄積中</span>';const vals=a.map(x=>x.score),min=Math.min(...vals),max=Math.max(...vals),cls=trendClass(trendForPair(pair));if(a.length===1)return `<svg class="spark" viewBox="0 0 120 34" preserveAspectRatio="none"><circle cx="60" cy="17" r="3" class="${cls}"/></svg>`;const pts=vals.map((v,i)=>`${(i/(vals.length-1))*118+1},${31-((v-min)/(max-min||1))*27}`).join(' ');return `<svg class="spark" viewBox="0 0 120 34" preserveAspectRatio="none"><polyline class="${cls==='trend-up'?'upstroke':cls==='trend-down'?'downstroke':'neutralstroke'}" points="${pts}"/></svg>`}
+function spark(kind,seed){return historySpark(pairData[seed]?.[0]||'')}
+
+const MACRO_CACHE='fxdash_macro_v2';
+const MACRO_AUTO_MS=15*60*1000;
+const MACRO_ENDPOINTS={
+  treasury:'https://convextrade.com/api/public/data/DGS10',
+  vix:'https://convextrade.com/api/public/data/VIXCLS',
+  dxy:'https://convextrade.com/api/public/metrics/dxy',
+  gold:'https://convextrade.com/api/public/metrics/gold',
+  wti:'https://convextrade.com/api/public/metrics/dcoilwtico',
+  bls:'https://api.bls.gov/publicAPI/v1/timeseries/data/',
+  fred:'https://fred.stlouisfed.org/graph/fredgraph.csv?id='
+};
+const FETCH_TIMEOUT=8000;
+async function fetchText(url,timeout=FETCH_TIMEOUT){
+  const c=new AbortController(); const t=setTimeout(()=>c.abort(),timeout);
+  try{const r=await fetch(url,{cache:'no-store',signal:c.signal}); if(!r.ok)throw new Error('HTTP '+r.status); return await r.text();}
+  finally{clearTimeout(t)}
+}
+async function fetchJson(url,timeout=FETCH_TIMEOUT){const txt=await fetchText(url,timeout);return JSON.parse(txt)}
+async function fetchFredLatest(id){
+  const txt=await fetchText(MACRO_ENDPOINTS.fred+encodeURIComponent(id));
+  const rows=txt.trim().split(/\r?\n/).slice(1).map(x=>x.split(','));
+  for(let i=rows.length-1;i>=0;i--){const date=rows[i]?.[0],value=Number(rows[i]?.[1]);if(date&&Number.isFinite(value)&&value!==-99999)return {value,date};}
+  throw new Error('FRED '+id+' empty');
+}
+let macro={};
+function macroSet(id,val){const e=document.getElementById(id);if(e)e.textContent=val}
+function latestConvex(j){const a=j?.data||[];return a.length?a[a.length-1]:null}
+function previousConvex(j){const a=j?.data||[];return a.length>1?a[a.length-2]:null}
+function pctChange(a,b){if(!Number.isFinite(a)||!Number.isFinite(b)||b===0)return null;return (a/b-1)*100}
+function signed(v,d=2){return v==null?'--':`${v>=0?'+':''}${v.toFixed(d)}`}
+function renderMacro(){
+  const tm=new Date().toLocaleTimeString('ja-JP',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
+  macroSet('m10y',macro.tenY!=null?macro.tenY.toFixed(2)+'%':'--');
+  macroSet('mdxy',macro.dxy!=null?macro.dxy.toFixed(2):'--');
+  macroSet('mvix',macro.vix!=null?macro.vix.toFixed(2):'--');
+  macroSet('mcpi',macro.cpi!=null?macro.cpi.toFixed(1)+'%':'--');
+  macroSet('munemp',macro.unemp!=null?macro.unemp.toFixed(1)+'%':'--');
+  macroSet('mfed',macro.fed!=null?macro.fed.toFixed(2)+'%':'--');
+  macroSet('mgold',macro.gold!=null?macro.gold.toFixed(2):'--');
+  macroSet('mwti',macro.wti!=null?macro.wti.toFixed(2):'--');
+  macroSet('m10ychg',macro.tenYChg!=null?signed(macro.tenYChg,2)+'pp':'最新');
+  macroSet('mdxychg',macro.dxyChg!=null?signed(macro.dxyChg,2)+'%':'最新');
+  macroSet('mvixchg',macro.vixChg!=null?signed(macro.vixChg,2)+'%':'最新');
+  macroSet('mcpichg',macro.cpiDate?String(macro.cpiDate).slice(0,7)+' 公表月':'最新公表値');
+  macroSet('munempchg',macro.unempDate?String(macro.unempDate).slice(0,7)+' 公表月':'最新公表値');
+  macroSet('mfedchg',macro.fedDate||'MacroRadar');
+  macroSet('mgoldchg',macro.goldChg!=null?signed(macro.goldChg,2)+'%':'最新');
+  macroSet('mwtichg',macro.wtiChg!=null?signed(macro.wtiChg,2)+'%':'最新');
+  const st=document.getElementById('macroStatus');if(st)st.innerHTML='🟢 マクロ取得成功 / '+tm+'　<span style="opacity:.75">Convex / US Treasury・BLS</span>';
+  renderVerification();
+  updateFundamentalEngine();
+  try{localStorage.setItem(MACRO_CACHE,JSON.stringify({macro,ts:Date.now()}))}catch(e){}
+}
+function monthDate(year,period){const m=Number(String(period||'').replace('M',''));return /^\d{4}$/.test(String(year))&&m>=1&&m<=12?`${year}-${String(m).padStart(2,'0')}-01`:'--'}
+function calcCpiYoY(data){const arr=(data||[]).filter(x=>/^M\d\d$/.test(x.period)).sort((a,b)=>(a.year+a.period).localeCompare(b.year+b.period));if(arr.length<13)return null;const cur=Number(arr[arr.length-1].value),prev=Number(arr[arr.length-13].value);return {value:(cur/prev-1)*100,date:monthDate(arr[arr.length-1].year,arr[arr.length-1].period)}}
+async function fetchBls(){
+  let cpi=null, cpiDate='--', unemp=null, unempDate='--';
+  let cpiSource='', unempSource='';
+
+  // v5.9: use Convex's dedicated live US CPI YoY series first.
+  // The previous v5.7 calculation used CPIAUCSL with the API's default
+  // one-year window; because the latest observation can be just inside the
+  // window, the 13-month YoY pair could be missing. The dedicated YoY series
+  // avoids that edge case entirely.
+  try{
+    const j=await fetchJson('https://convextrade.com/api/public/metrics/cpiaucns_yoy');
+    if(Number.isFinite(Number(j?.value))){
+      cpi=Number(j.value);
+      cpiDate=String(j.date||'--');
+      cpiSource='Convex / CPIAUCNS_YOY';
+    }
+  }catch(e){}
+
+  try{
+    const j=await fetchJson('https://convextrade.com/api/public/metrics/unrate');
+    if(Number.isFinite(Number(j?.value))){
+      unemp=Number(j.value);
+      unempDate=String(j.date||'--');
+      unempSource='Convex / UNRATE';
+    }
+  }catch(e){}
+
+  // Secondary fallback: calculate YoY from CPI index with an intentionally
+  // extended history window, so the prior-year observation is always present.
+  if(!Number.isFinite(cpi)){
+    try{
+      const j=await fetchJson('https://convextrade.com/api/public/data/CPIAUCSL?start=2020-01-01');
+      const a=(j?.data||[]).filter(x=>x&&x.date!=null&&Number.isFinite(Number(x.value)))
+        .sort((x,y)=>String(x.date).localeCompare(String(y.date)));
+      if(a.length>=13){
+        const cur=a[a.length-1];
+        const curDate=new Date(String(cur.date)+'T00:00:00Z');
+        const target=new Date(Date.UTC(curDate.getUTCFullYear()-1,curDate.getUTCMonth(),1));
+        let prev=a.find(x=>String(x.date).slice(0,7)===target.toISOString().slice(0,7));
+        if(!prev) prev=a[a.length-13];
+        if(prev && Number(prev.value)!==0){
+          cpi=(Number(cur.value)/Number(prev.value)-1)*100;
+          cpiDate=String(cur.date);
+          cpiSource='Convex / CPIAUCSL (12M fallback)';
+        }
+      }
+    }catch(e){}
+  }
+
+  // Secondary fallback for unemployment: Convex time series with a long window.
+  if(!Number.isFinite(unemp)){
+    try{
+      const j=await fetchJson('https://convextrade.com/api/public/data/UNRATE?start=2020-01-01');
+      const a=(j?.data||[]).filter(x=>x&&x.date!=null&&Number.isFinite(Number(x.value)))
+        .sort((x,y)=>String(x.date).localeCompare(String(y.date)));
+      if(a.length){
+        const cur=a[a.length-1];
+        unemp=Number(cur.value);
+        unempDate=String(cur.date);
+        unempSource='Convex / UNRATE history';
+      }
+    }catch(e){}
+  }
+
+  // Tertiary fallback: direct BLS GET, independently.
+  if(!Number.isFinite(cpi) || !Number.isFinite(unemp)){
+    const [aj,bj]=await Promise.allSettled([
+      !Number.isFinite(cpi)?fetchJson(MACRO_ENDPOINTS.bls+'CUUR0000SA0'):Promise.reject(new Error('skip')),
+      !Number.isFinite(unemp)?fetchJson(MACRO_ENDPOINTS.bls+'LNS14000000'):Promise.reject(new Error('skip'))
+    ]);
+    if(!Number.isFinite(cpi)&&aj.status==='fulfilled'){
+      const c=calcCpiYoY(aj.value.Results?.[0]?.series?.[0]?.data);
+      if(c){cpi=c.value;cpiDate=c.date;cpiSource='BLS / CUUR0000SA0';}
+    }
+    if(!Number.isFinite(unemp)&&bj.status==='fulfilled'){
+      const ua=bj.value.Results?.[0]?.series?.[0]?.data?.find(x=>/^M\d\d$/.test(x.period));
+      if(ua){unemp=Number(ua.value);unempDate=monthDate(ua.year,ua.period);unempSource='BLS / LNS14000000';}
+    }
+  }
+
+  // Final fallback: direct FRED CSV, independently.
+  if(!Number.isFinite(cpi)){
+    try{
+      const rows=await fetchText(MACRO_ENDPOINTS.fred+'CPIAUCNS');
+      const data=rows.trim().split(/\r?\n/).slice(1).map(x=>x.split(','))
+        .map(x=>({date:x[0],value:Number(x[1])})).filter(x=>x.date&&Number.isFinite(x.value));
+      if(data.length>=13){
+        const cur=data[data.length-1];
+        const curDate=new Date(String(cur.date)+'T00:00:00Z');
+        const target=new Date(Date.UTC(curDate.getUTCFullYear()-1,curDate.getUTCMonth(),1));
+        let prev=data.find(x=>String(x.date).slice(0,7)===target.toISOString().slice(0,7));
+        if(!prev) prev=data[data.length-13];
+        if(prev && Number(prev.value)!==0){
+          cpi=(cur.value/prev.value-1)*100;
+          cpiDate=cur.date;
+          cpiSource='FRED / CPIAUCNS';
+        }
+      }
+    }catch(e){}
+  }
+  if(!Number.isFinite(unemp)){
+    try{
+      const f=await fetchFredLatest('UNRATE');
+      unemp=f.value;unempDate=f.date;unempSource='FRED / UNRATE';
+    }catch(e){}
+  }
+
+  if(!Number.isFinite(cpi) && !Number.isFinite(unemp))throw new Error('CPI/Unemployment unavailable');
+  return {cpi,cpiDate,unemp,unempDate,cpiSource:cpiSource||'CPI N/A',unempSource:unempSource||'Unemployment N/A',blsSource:`${cpiSource||'CPI N/A'} + ${unempSource||'Unemployment N/A'}`};
+}
+async function safeSource(primary,fallback){try{return await primary()}catch(e){return await fallback()}}
+async function fetchMacro(){
+  const st=document.getElementById('macroStatus');if(st)st.textContent='🟡 マクロ取得中…';
+  const results=await Promise.allSettled([
+    safeSource(()=>fetchJson(MACRO_ENDPOINTS.treasury),()=>fetchFredLatest('DGS10')),
+    safeSource(()=>fetchJson(MACRO_ENDPOINTS.vix),()=>fetchFredLatest('VIXCLS')),
+    fetchJson(MACRO_ENDPOINTS.dxy),
+    safeSource(()=>fetchJson(MACRO_ENDPOINTS.gold),()=>fetchFredLatest('GOLDAMGBD228NLBM')),
+    safeSource(()=>fetchJson(MACRO_ENDPOINTS.wti),()=>fetchFredLatest('DCOILWTICO')),
+    safeSource(()=>fetchBls(),async()=>{throw new Error('BLS unavailable')}),
+    safeSource(()=>fetchJson('https://convextrade.com/api/public/metrics/fedfunds'),()=>fetchFredLatest('FEDFUNDS'))
+  ]);
+  const val=(i)=>results[i]?.status==='fulfilled'?results[i].value:null;
+  const t=val(0),v=val(1),d=val(2),g=val(3),w=val(4),b=val(5),fr=val(6);
+  const tl=t?.data?latestConvex(t):t, tp=t?.data?previousConvex(t):null;
+  const vl=v?.data?latestConvex(v):v, vp=v?.data?previousConvex(v):null;
+  const gval=g?.value!=null?Number(g.value):null, wval=w?.value!=null?Number(w.value):null;
+  macro={
+    tenY:tl?.value!=null?Number(tl.value):null,
+    tenYChg:tl?.value!=null&&tp?.value!=null?Number(tl.value)-Number(tp.value):null,
+    vix:vl?.value!=null?Number(vl.value):null,
+    vixChg:vl?.value!=null&&vp?.value!=null?pctChange(Number(vl.value),Number(vp.value)):null,
+    dxy:Number(d?.value),dxyChg:Number(d?.changes?.['7d']),
+    gold:gval,goldChg:Number(g?.changes?.['7d']),
+    wti:wval,wtiChg:Number(w?.changes?.['7d']),
+    ...(b||{}),
+    fed:fr?.value!=null?Number(fr.value):null,
+    fedDate:fr?.date||'--',
+    dates:{
+      tenY:tl?.date||'--',vix:vl?.date||'--',dxy:d?.date||'--',gold:g?.date||'--',wti:w?.date||'--',fed:fr?.date||'--',
+      cpi:b?.cpiDate||'--',unemp:b?.unempDate||'--'
+    },
+    sources:{
+      tenY:t?.data?'Convex / DGS10':'FRED / DGS10',vix:v?.data?'Convex / VIXCLS':'FRED / VIXCLS',
+      dxy:'Convex / US Dollar Index',gold:g?.data?'Convex / GOLD':'FRED / GOLDAMGBD228NLBM',
+      wti:w?.data?'Convex / DCOILWTICO':'FRED / DCOILWTICO',fed:fr?.data?'Convex / Fed funds':'FRED / FEDFUNDS',
+      cpi:b?.cpiSource||'CPI source unavailable',unemp:b?.unempSource||'Unemployment source unavailable',bls:b?.blsSource||'BLS / CPI + LNS14000000'
+    },
+    fetchedAt:new Date().toISOString()
+  };
+  renderMacro();
+  const ok=results.filter(x=>x.status==='fulfilled').length;
+  if(st)st.innerHTML=(ok>=6?'🟢':'🟡')+' マクロ取得 '+ok+'/7系統 / '+new Date().toLocaleTimeString('ja-JP',{hour:'2-digit',minute:'2-digit',second:'2-digit'})+'　<span style="opacity:.75">一次ソース優先＋FRED/BLSフォールバック</span>';
+}
+
+function loadMacroCache(){try{const c=JSON.parse(localStorage.getItem(MACRO_CACHE)||'{}');if(c.macro){macro=c.macro;renderMacro()}}catch(e){}}
+loadMacroCache();setTimeout(fetchMacro,1000);setInterval(fetchMacro,MACRO_AUTO_MS);
+
+async function fetchCalendar(){
+  const box=document.getElementById('calendar');if(!box)return;
+  const CACHE_KEY='fxdash_calendar_v60';
+  const countries='US,EU,GB,JP,CH,MX,TR,AU';
+  const renderCalendarEvents=(events,cached=false)=>{
+    const flag={US:'🇺🇸',EU:'🇪🇺',GB:'🇬🇧',JP:'🇯🇵',CH:'🇨🇭',MX:'🇲🇽',TR:'🇹🇷',AU:'🇦🇺'};
+    const clean=(Array.isArray(events)?events:[]).filter(e=>e&&e.type!=='holiday'&&e.time).sort((a,b)=>new Date(a.time)-new Date(b.time)).slice(0,10);
+    if(!clean.length){box.innerHTML='<div class="row"><span class="timec">--:--</span><span class="flagc">---</span><span class="event">主要8通貨の指標なし</span><span class="med">--</span></div>';return;}
+    box.innerHTML=clean.map(e=>{
+      const dt=new Date(e.time);const t=dt.toLocaleTimeString('ja-JP',{hour:'2-digit',minute:'2-digit'});const date=dt.toLocaleDateString('ja-JP',{month:'2-digit',day:'2-digit'});
+      const imp=e.importance==='high'?'★★★':'★★';const cls=e.importance==='high'?'high':'med';
+      const a=e.actual!=null?String(e.actual):'--',f=e.forecast!=null?String(e.forecast):'--',p=e.previous!=null?String(e.previous):'--';
+      let surprise='';if(Number.isFinite(Number(e.actual))&&Number.isFinite(Number(e.forecast))){const d=Number(e.actual)-Number(e.forecast);surprise=`<span class="${d>=0?'surprise-pos':'surprise-neg'}">差 ${d>=0?'+':''}${d}</span>`}
+      return `<div class="row"><span class="timec">${date}<br>${t}</span><span class="flagc">${flag[e.countryCode]||'🌐'} ${esc(e.currency||e.countryCode||'')}</span><span class="event"><b>${esc(e.name||'経済指標')}</b><small style="display:block;color:#58757e">実績 <span class="actual-hot">${esc(a)}</span>　予想 ${esc(f)}　前回 ${esc(p)} ${surprise}</small></span><span class="${cls}">${imp}</span></div>`;
+    }).join('');
+    const ph=document.querySelector('.news-cal .panel:nth-child(2) .live');if(ph)ph.textContent=cached?'CACHE / LIVE再取得中':'LIVE / 実データ';
+  };
+  try{const c=JSON.parse(localStorage.getItem(CACHE_KEY)||'{}');if(Array.isArray(c.events)&&c.events.length)renderCalendarEvents(c.events,true)}catch(e){}
+  try{
+    const u='https://biquote.io/api/calendar/upcoming?countries='+encodeURIComponent(countries)+'&importance=medium&limit=20';
+    const r=await fetch(u,{cache:'no-store'});if(!r.ok)throw new Error('Calendar '+r.status);const arr=await r.json();const events=Array.isArray(arr)?arr.filter(e=>e.type!=='holiday').slice(0,20):[];if(!events.length)throw new Error('Calendar empty');
+    localStorage.setItem(CACHE_KEY,JSON.stringify({events,ts:Date.now()}));renderCalendarEvents(events,false);
+  }catch(e){try{const u='https://biquote.io/api/calendar?countries='+encodeURIComponent(countries)+'&importance=medium&limit=40';const r=await fetch(u,{cache:'no-store'});if(!r.ok)throw e;const arr=await r.json();const events=Array.isArray(arr)?arr.filter(e=>e.type!=='holiday').slice(0,20):[];if(events.length){localStorage.setItem(CACHE_KEY,JSON.stringify({events,ts:Date.now()}));renderCalendarEvents(events,false)}}catch(e2){try{const c=JSON.parse(localStorage.getItem(CACHE_KEY)||'{}');if(!(c.events||[]).length)throw e2}catch(e3){box.innerHTML='<div class="row"><span class="timec">--:--</span><span class="flagc">⚠️</span><span class="event">経済指標取得失敗 — 自動再試行します</span><span class="med">--</span></div>'}}}
+}
+fetchCalendar();setInterval(fetchCalendar,15*60*1000);
+
+function verifyBadge(status){return `<span class="badge ${status.cls}">${status.label}</span>`}
+function daysSince(iso){if(!iso)return Infinity;const t=new Date(iso).getTime();if(!Number.isFinite(t))return Infinity;return Math.max(0,(Date.now()-t)/86400000)}
+function verifyStatus(kind,date){
+  const age=daysSince(date);
+  if(!Number.isFinite(age))return {label:'N/A',cls:'na',age:null};
+  if(kind==='market') return age<=1?{label:'LIVE',cls:'live',age}:age<=5?{label:'最新値',cls:'latest',age}:{label:'鮮度基準超過',cls:'stale',age};
+  if(kind==='monthly') return age<=60?{label:'最新値',cls:'latest',age}:{label:'鮮度基準超過',cls:'stale',age};
+  if(kind==='daily') return age<=7?{label:'最新値',cls:'latest',age}:{label:'鮮度基準超過',cls:'stale',age};
+  return {label:'N/A',cls:'na',age:null};
+}
+function ageLabel(age){
+  if(!Number.isFinite(age))return '--';
+  if(age<1/24)return '数分以内';
+  if(age<1)return `${Math.max(1,Math.round(age*24))}時間`;
+  return `${Math.floor(age)}日`;
+}
+function renderVerification(){
+  const g=document.getElementById('verifyGrid');if(!g)return;
+  const d=macro.dates||{},src=macro.sources||{};
+  const rows=[
+    ['US 10Y','market',d.tenY,src.tenY||'US 10Y'],['DXY','market',d.dxy,src.dxy||'DXY'],['VIX','market',d.vix,src.vix||'VIX'],
+    ['CPI YoY','monthly',d.cpi,src.cpi||'CPI source unavailable'],['US Unemployment','monthly',d.unemp,src.unemp||'Unemployment source unavailable'],
+    ['Fed Funds','monthly',d.fed,src.fed||'Fed funds'],['GOLD','market',d.gold,src.gold||'GOLD'],['WTI','market',d.wti,src.wti||'WTI']
+  ];
+  let good=0,live=0,latest=0,stale=0,na=0;
+  g.innerHTML=rows.map(r=>{const st=verifyStatus(r[1],r[2]);if(st.cls==='live'){good++;live++}else if(st.cls==='latest'){good++;latest++}else if(st.cls==='stale')stale++;else na++;return `<div class="verify-card"><div class="verify-top"><span class="verify-name">${r[0]}</span>${verifyBadge(st)}</div><div class="verify-meta">基準日: ${esc(r[2]||'--')}<br>経過: ${ageLabel(st.age)}<br>取得: ${macro.fetchedAt?new Date(macro.fetchedAt).toLocaleTimeString('ja-JP',{hour:'2-digit',minute:'2-digit',second:'2-digit'}):'--'}</div><div class="verify-source">${esc(r[3])}</div></div>`}).join('');
+  const s=document.getElementById('verifySummary');if(s)s.textContent=`${good}/${rows.length} VERIFIED · LIVE ${live} / 最新値 ${latest}${stale?` / 鮮度基準超過 ${stale}`:''}${na?` / N/A ${na}`:''}`;
+  try{const key='fxdash_verify_history_v60';const h=JSON.parse(localStorage.getItem(key)||'{}');const day=new Date().toISOString().slice(0,10);h[day]=good;const days=Object.keys(h).sort().slice(-30);const vals=days.map(d=>Number(h[d])).filter(Number.isFinite);const el=document.getElementById('verifyHistoryChart');if(el&&vals.length){const W=100,H=58,L=11,R=2,T=3,B=12,plotW=W-L-R,plotH=H-T-B,min=0,max=rows.length;const pts=vals.map((v,i)=>`${L+(i/(vals.length-1||1))*plotW},${T+plotH-((v-min)/(max-min||1))*plotH}`).join(' ');const mid=Math.floor((days.length-1)/2),x0=String(days[0]).slice(5),xm=String(days[mid]).slice(5),x1=String(days.at(-1)).slice(5);el.innerHTML=`<svg class="verify-spark" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none"><line class="verify-axis" x1="${L}" y1="${T}" x2="${L}" y2="${T+plotH}"/><line class="verify-axis" x1="${L}" y1="${T+plotH}" x2="${W-R}" y2="${T+plotH}"/><polyline points="${pts}"/><circle class="verify-point" cx="${L+(vals.length-1===0?0:plotW)}" cy="${T+plotH-((vals.at(-1)-min)/(max-min||1))*plotH}" r="1.7"/><text class="verify-y" x="1" y="${T+3}">${max}</text><text class="verify-y" x="1" y="${T+plotH/2+1}">${Math.round(max/2)}</text><text class="verify-y" x="1" y="${T+plotH}">0</text><text class="verify-x" x="${L}" y="${H-2}" text-anchor="start">${x0}</text><text class="verify-x" x="${L+plotW/2}" y="${H-2}" text-anchor="middle">${xm}</text><text class="verify-x" x="${W-R}" y="${H-2}" text-anchor="end">${x1}</text></svg><div class="meta">直近 ${days.length} 日 / 最新 ${vals.at(-1)}/${rows.length} 項目 · 毎日この端末で蓄積</div>`;localStorage.setItem(key,JSON.stringify(Object.fromEntries(days.map((d,i)=>[d,vals[i]]))))}}catch(e){}
+}
+function updateFundamentalEngine(){
+  const risk=macro.vix!=null?(macro.vix<16?1:macro.vix<22?0:-1):0;
+  const dollar=(macro.dxyChg||0)*1.8+(macro.tenYChg||0)*18+(macro.cpi!=null&&macro.cpi>3?2:0);
+  const riskOn=(macro.wtiChg||0)*0.7+(risk*6);
+  const scores={
+    'USD':Math.round(Math.max(-100,Math.min(100,50+dollar))),
+    'JPY':Math.round(Math.max(-100,Math.min(100,50-dollar-riskOn))),
+    'EUR':Math.round(Math.max(-100,Math.min(100,50-riskOn*0.35))),
+    'GBP':Math.round(Math.max(-100,Math.min(100,50-riskOn*0.15))),
+    'CHF':Math.round(Math.max(-100,Math.min(100,50-riskOn))),
+    'MXN':Math.round(Math.max(-100,Math.min(100,50+riskOn*1.2))),
+    'TRY':Math.round(Math.max(-100,Math.min(100,50+riskOn*1.0))),
+    'AUD':Math.round(Math.max(-100,Math.min(100,50+riskOn*0.9)))};
+  pairData.forEach(p=>{
+    const [base,quote]=p[0].split('/');
+    if(scores[base]!=null&&scores[quote]!=null){p[1]=Math.round((scores[base]-scores[quote])/1.35);p[2]=p[1]>=20?'BUY':p[1]<=-20?'SELL':'NEUTRAL';p[5]=p[1]<0?'down':'up';p[4]=`実データ: DXY ${macro.dxy?.toFixed(2)||'--'} / 10Y ${macro.tenY?.toFixed(2)||'--'} / VIX ${macro.vix?.toFixed(1)||'--'}`}
+  });
+  renderPairTable();
+  const riskTxt=riskOn>5?'リスク選好':riskOn<-5?'リスク回避':'中立';
+  const dir=dollar>4?'ドル優位':dollar<-4?'ドル劣後':'ドル方向感は中立';
+  macroSet('aiDirection',`${riskTxt}。${dir}。`);
+  macroSet('aiFocus',`米10年 ${macro.tenY?.toFixed(2)||'--'}% / DXY ${macro.dxy?.toFixed(2)||'--'} / VIX ${macro.vix?.toFixed(1)||'--'} / CPI ${macro.cpi?.toFixed(1)||'--'}%。`);
+  macroSet('aiRisk',`金 ${macro.gold?.toFixed(0)||'--'} / WTI ${macro.wti?.toFixed(1)||'--'}。VIX・金利急変と高インパクト指標を警戒。`);
+  macroSet('aiView',`検証済みのライブ/最新公表データから自動算出した環境判定。これはv6.5の7要素ルールベース分析で、生成AIによる投資判断ではありません。`);
+  const bar=Math.max(20,Math.min(80,50+dollar*.8+riskOn*.5));const bf=document.querySelector('.buyfill'),sf=document.querySelector('.sellfill');if(bf&&sf){bf.style.width=bar+'%';sf.style.width=(100-bar)+'%';}const b=document.querySelector('.bar-sides .buy');const se=document.querySelector('.bar-sides .sell');if(b)b.textContent=`BUY ${Math.round(bar)}%`;if(se)se.textContent=`${Math.round(100-bar)}% SELL`;
+}
+
+// v4.9: global country fundamental layer
+const BIS_BASE='https://stats.bis.org/api/v1/data';
+const COUNTRY_DEFS={
+  USD:{name:'🇺🇸 USD',bis:'US',role:'Fed / US'},
+  JPY:{name:'🇯🇵 JPY',bis:'JP',role:'BOJ / Japan'},
+  EUR:{name:'🇪🇺 EUR',bis:'XM',role:'ECB / Euro area'},
+  GBP:{name:'🇬🇧 GBP',bis:'GB',role:'BoE / UK'},
+  CHF:{name:'🇨🇭 CHF',bis:'CH',role:'SNB / Switzerland'},
+  MXN:{name:'🇲🇽 MXN',bis:'MX',role:'Banxico / Mexico'},
+  TRY:{name:'🇹🇷 TRY',bis:'TR',role:'CBRT / Türkiye'},
+  AUD:{name:'🇦🇺 AUD',bis:'AU',role:'RBA / Australia'}
+};
+let countryFund={};
+function bisLatest(json){
+  try{
+    const ds=json?.data?.dataSets?.[0];
+    const series=ds?.series;
+    if(!series)return null;
+    const key=Object.keys(series)[0]; const s=series[key];
+    const obs=s?.observations||{}; const keys=Object.keys(obs);
+    if(!keys.length)return null;
+    const idx=keys[keys.length-1];
+    const val=Number(obs[idx]?.[0]);
+    const times=json?.data?.structures?.[0]?.dimensions?.observation?.[0]?.values||json?.data?.structure?.dimensions?.observation?.[0]?.values||[];
+    const date=times[Number(idx)]?.id||times[Number(idx)]?.name||null;
+    return Number.isFinite(val)?{value:val,date}:null;
+  }catch(e){return null}
+}
+async function bisFetch(flow,key){
+  const url=`${BIS_BASE}/${flow}/D.${key}?lastNObservations=3`;
+  const r=await fetch(url,{cache:'no-store',headers:{'Accept':'application/vnd.sdmx.data+json;version=1.0.0'}});
+  if(!r.ok)throw new Error(flow+' '+key+' HTTP '+r.status);
+  return r.json();
+}
+async function bisFetchCpi(key){
+  const url=`${BIS_BASE}/WS_LONG_CPI/M.${key}.771?lastNObservations=3`;
+  const r=await fetch(url,{cache:'no-store',headers:{'Accept':'application/vnd.sdmx.data+json;version=1.0.0'}});
+  if(!r.ok)throw new Error('CPI '+key+' HTTP '+r.status);
+  return r.json();
+}
+function countryAge(date){if(!date)return Infinity;const d=new Date(date).getTime();return Number.isFinite(d)?Math.max(0,(Date.now()-d)/86400000):Infinity}
+function countryBadge(date){const age=countryAge(date);return age<=8?'<span class="mini-badge coverage-live">LIVE</span>':age<=45?'<span class="mini-badge coverage-latest">最新値</span>':'<span class="mini-badge coverage-na">鮮度基準超過</span>'}
+function clamp(v,a,b){return Math.max(a,Math.min(b,v))}
+function medianOf(arr, fallback=0){const a=arr.filter(Number.isFinite).slice().sort((x,y)=>x-y);return a.length?a[Math.floor(a.length/2)]:fallback}
+function componentBar(label,val,max,available=true){if(!available)return `<div class="fb-row"><span>${label}</span><span class="fb-na">N/A</span><span>--</span></div>`;const pct=clamp((val/max)*100,0,100);return `<div class="fb-row"><span>${label}</span><span class="fb-bar"><span class="fb-fill" style="width:${pct.toFixed(0)}%"></span></span><span>${Math.round(val)}</span></div>`}
+function normalizeCountryScores(){
+  const vals=Object.values(countryFund);
+  const rates=vals.map(v=>v.rate).filter(Number.isFinite);
+  const infls=vals.map(v=>v.cpi).filter(Number.isFinite);
+  const reals=vals.map(v=>Number.isFinite(v.rate)&&Number.isFinite(v.cpi)?v.rate-v.cpi:NaN).filter(Number.isFinite);
+  const medRate=medianOf(rates,0), medCpi=medianOf(infls,2.5), medReal=medianOf(reals,0);
+  Object.entries(countryFund).forEach(([k,v])=>{
+    const comps={}; let avail=0,total=0;
+    // 25: real rate. Higher real rate is generally supportive, but the component is relative to the peer median.
+    if(Number.isFinite(v.rate)&&Number.isFinite(v.cpi)){const rr=v.rate-v.cpi; comps.real=clamp(12.5+(rr-medReal)*3.2,0,25);avail+=25;total+=comps.real}
+    // 20: policy-rate differential vs peer median.
+    if(Number.isFinite(v.rate)){comps.rateDiff=clamp(10+(v.rate-medRate)*1.6,0,20);avail+=20;total+=comps.rateDiff}
+    // 15: inflation quality. Lower inflation than the peer median gets more points; extreme deflation is not rewarded as strongly.
+    if(Number.isFinite(v.cpi)){const diff=v.cpi-medCpi;comps.infl=clamp(7.5-diff*2.0,0,15);avail+=15;total+=comps.infl}
+    // 5: risk regime. Safe havens tend to benefit in risk-off; high-beta currencies tend to benefit in risk-on.
+    if(Number.isFinite(macro.vix)){let risk=7.5; const riskOn=macro.vix<18?1:macro.vix>=24?-1:0; if(['JPY','CHF'].includes(k))risk=clamp(2.5-riskOn*2.5,0,5); else if(['MXN','TRY','AUD'].includes(k))risk=clamp(2.5+riskOn*2.5,0,5); comps.risk=risk;avail+=5;total+=risk}
+    v.components=comps; v.available=avail; v.rawTotal=total; v.score=avail?Math.round(clamp((total/avail)*100-50,-100,100)):0; v.coverage=Math.round((avail/100)*100); v.realRate=(Number.isFinite(v.rate)&&Number.isFinite(v.cpi))?v.rate-v.cpi:null;
+  });
+}
+function renderCountryMatrix(){
+  const box=document.getElementById('countryGrid'); if(!box)return;
+  const order=['USD','JPY','EUR','GBP','CHF','MXN','TRY','AUD'];
+  box.innerHTML=order.map(k=>{
+    const d=countryFund[k]||{}; const sc=Number.isFinite(d.score)?d.score:0; const scCls=sc>=0?'green':'red';
+    const comps=d.components||{};
+    return `<div class="country-card"><div class="country-top"><span class="country-name">${COUNTRY_DEFS[k].name}</span><span class="${scCls} country-score">${sc>0?'+':''}${sc}</span></div><div class="country-metrics"><div class="cm">政策金利<b>${Number.isFinite(d.rate)?d.rate.toFixed(3)+'%':'N/A'}</b></div><div class="cm">CPI YoY<b>${Number.isFinite(d.cpi)?d.cpi.toFixed(2)+'%':'N/A'}</b></div><div class="cm">実質金利<b>${Number.isFinite(d.realRate)?d.realRate.toFixed(2)+'%':'N/A'}</b></div><div class="cm">基準日<b>${esc(d.rateDate||'--')}</b></div></div><div class="coverage">${countryBadge(d.rateDate)} ${esc(COUNTRY_DEFS[k].role)}<br>雇用 / GDP / PMI：<span class="coverage-na">N/A（未接続）</span></div><div class="fundamental-breakdown">${componentBar('実質金利',comps.real,25,Number.isFinite(comps.real))}${componentBar('金利差',comps.rateDiff,20,Number.isFinite(comps.rateDiff))}${componentBar('インフレ',comps.infl,15,Number.isFinite(comps.infl))}${componentBar('景気',0,15,false)}${componentBar('雇用',0,10,false)}${componentBar('中央銀',0,10,false)}${componentBar('リスク',comps.risk,5,Number.isFinite(comps.risk))}</div><div class="coverage-score">データ充足率 ${d.coverage||0}% / 利用可能項目で正規化</div></div>`
+  }).join('');
+}
+async function fetchCountryFundamentals(){
+  const status=document.getElementById('countryStatus'); if(status)status.textContent='🟡 BIS CONNECTING…';
+  const entries=Object.entries(COUNTRY_DEFS);
+  const out={};
+  await Promise.all(entries.map(async ([k,d])=>{
+    try{
+      const [pr,cp]=await Promise.allSettled([bisFetch('WS_CBPOL',d.bis),bisFetchCpi(d.bis)]);
+      const r=pr.status==='fulfilled'?bisLatest(pr.value):null;
+      const c=cp.status==='fulfilled'?bisLatest(cp.value):null;
+      out[k]={rate:r?.value??null,rateDate:r?.date||'--',cpi:c?.value??null,cpiDate:c?.date||'--'};
+    }catch(e){out[k]={rate:null,rateDate:'--',cpi:null,cpiDate:'--'};}
+  }));
+  countryFund=out; normalizeCountryScores(); renderCountryMatrix(); updateFundamentalEngine();
+  const good=Object.values(out).filter(x=>Number.isFinite(x.rate)&&Number.isFinite(x.cpi)).length;
+  if(status)status.textContent=`${good}/8 COUNTRIES CONNECTED`;
+}
+function countryScoreFor(k){return Number.isFinite(countryFund[k]?.score)?countryFund[k].score:0}
+const _oldUpdateFundamentalEngine=updateFundamentalEngine;
+updateFundamentalEngine=function(){
+  _oldUpdateFundamentalEngine();
+  const baseScores={}; Object.keys(COUNTRY_DEFS).forEach(k=>baseScores[k]=countryScoreFor(k));
+  pairData.forEach(p=>{const [base,quote]=p[0].split('/'); if(baseScores[base]!==undefined&&baseScores[quote]!==undefined){
+    const diff=baseScores[base]-baseScores[quote]; p[1]=Math.round(clamp(diff*0.55,-100,100)); p[2]=p[1]>=20?'BUY':p[1]<=-20?'SELL':'NEUTRAL'; p[5]=p[1]<0?'down':'up';
+    const bd=countryFund[base], qd=countryFund[quote];
+    const rrBase=Number.isFinite(bd?.realRate)?bd.realRate.toFixed(1):'--'; const rrQuote=Number.isFinite(qd?.realRate)?qd.realRate.toFixed(1):'--';
+    p[4]=`${base}実質金利 ${rrBase}% vs ${quote} ${rrQuote}% / VIX ${macro.vix?.toFixed(1)||'--'}`;
+  }});
+  renderPairTable();
+};
+setTimeout(fetchCountryFundamentals,1800);
+setInterval(fetchCountryFundamentals,30*60*1000);
+
+const FX_CACHE_STORAGE='fxdash_fx_cache_v4';
+const FX_API_URL='https://fxapi.app/api/usd.json';
+const FX_AUTO_MS=5*60*1000;
+const fxDefs=[
+  ['USD/JPY','USD','JPY'],['EUR/USD','EUR','USD'],['GBP/USD','GBP','USD'],
+  ['CHF/MXN','CHF','MXN'],['TRY/JPY','TRY','JPY'],['AUD/JPY','AUD','JPY'],
+  ['EUR/JPY','EUR','JPY'],['MXN/JPY','MXN','JPY']
+];
+let fxRates={};
+function fmtRate(pair,v){if(v==null)return '--';let n=Number(v);return pair==='TRY/JPY'?n.toFixed(3):pair==='CHF/MXN'?n.toFixed(4):n.toFixed(3)}
+const FX_DAILY_CACHE='fxdash_fx_daily_v65';
+const fxHistoryPairs={'USD/JPY':['usd','jpy'],'EUR/USD':['eur','usd'],'GBP/USD':['gbp','usd'],'CHF/MXN':['chf','mxn'],'TRY/JPY':['try','jpy'],'AUD/JPY':['aud','jpy'],'EUR/JPY':['eur','jpy'],'MXN/JPY':['mxn','jpy']};
+let fxDaily={};
+function miniOhlcSvg(pair){
+  const a=Array.isArray(fxDaily[pair])?fxDaily[pair]:[];
+  if(!a.length)return '<div class="history-empty">日足データ取得待ち</div>';
+  const vals=a.map(x=>Number(x.rate)).filter(Number.isFinite);
+  if(!vals.length)return '<div class="history-empty">日足なし</div>';
+  const W=100,H=58,L=15,R=2,T=3,B=12,plotW=W-L-R,plotH=H-T-B;
+  const min=Math.min(...vals),max=Math.max(...vals);
+  const pts=vals.map((v,i)=>`${L+(i/(vals.length-1||1))*plotW},${T+plotH-((v-min)/(max-min||1))*plotH}`).join(' ');
+  const mid=Math.floor((a.length-1)/2), label=i=>String(a[i]?.date||'').slice(5);
+  const x0=label(0),xm=label(mid),x1=label(a.length-1),yTop=fmtRate(pair,max),yBot=fmtRate(pair,min);
+  const lastY=T+plotH-((vals.at(-1)-min)/(max-min||1))*plotH;
+  return `<svg class="fx-chart" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none"><line class="chart-axis" x1="${L}" y1="${T}" x2="${L}" y2="${T+plotH}"/><line class="chart-axis" x1="${L}" y1="${T+plotH}" x2="${W-R}" y2="${T+plotH}"/><polyline points="${pts}"/><circle class="last" cx="${L+plotW}" cy="${lastY}" r="1.7"/><text class="chart-y" x="1" y="${T+3}">${yTop}</text><text class="chart-y" x="1" y="${T+plotH}">${yBot}</text><text class="chart-x" x="${L}" y="${H-2}" text-anchor="start">${x0}</text><text class="chart-x" x="${L+plotW/2}" y="${H-2}" text-anchor="middle">${xm}</text><text class="chart-x" x="${W-R}" y="${H-2}" text-anchor="end">${x1}</text></svg>`;
+}
+function loadFxDailyCache(){try{const c=JSON.parse(localStorage.getItem(FX_DAILY_CACHE)||'{}');if(c.data)fxDaily=c.data}catch(e){}renderFxCards()}
+async function fetchFxDaily(){
+  const now=new Date(),from=new Date(now.getTime()-45*86400000);
+  const fromS=from.toISOString().slice(0,10),toS=now.toISOString().slice(0,10);
+  const out={};
+  const quoteCodes='EUR,GBP,JPY,CHF,MXN,TRY,AUD';
+
+  // Primary: Frankfurter v2 daily reference-rate time series (no API key).
+  // All pairs are derived from the same USD-base daily observations so the
+  // cross rates remain internally consistent.
+  try{
+    const u=`https://api.frankfurter.dev/v2/rates?from=${fromS}&to=${toS}&base=usd&quotes=${quoteCodes}`;
+    const r=await fetch(u,{cache:'no-store'});
+    if(!r.ok)throw new Error(`Frankfurter HTTP ${r.status}`);
+    const rows=await r.json();
+    const byDate={};
+    (Array.isArray(rows)?rows:[]).forEach(row=>{
+      const d=String(row.date||'');
+      const q=String(row.quote||'').toUpperCase();
+      const v=Number(row.rate);
+      if(!d||!q||!Number.isFinite(v)||v<=0)return;
+      (byDate[d] ||= {})[q]=v;
+    });
+    const dates=Object.keys(byDate).sort();
+    const push=(pair,date,rate)=>{
+      if(!Number.isFinite(rate)||rate<=0)return;
+      (out[pair] ||= []).push({date,rate});
+    };
+    dates.forEach(d=>{
+      const x=byDate[d];
+      const eur=x.EUR,gbp=x.GBP,jpy=x.JPY,chf=x.CHF,mxn=x.MXN,tryr=x.TRY,aud=x.AUD;
+      if(Number.isFinite(jpy))push('USD/JPY',d,jpy);
+      if(Number.isFinite(eur))push('EUR/USD',d,1/eur);
+      if(Number.isFinite(gbp))push('GBP/USD',d,1/gbp);
+      if(Number.isFinite(chf)&&Number.isFinite(mxn))push('CHF/MXN',d,mxn/chf);
+      if(Number.isFinite(tryr)&&Number.isFinite(jpy))push('TRY/JPY',d,jpy/tryr);
+      if(Number.isFinite(aud)&&Number.isFinite(jpy))push('AUD/JPY',d,jpy/aud);
+      if(Number.isFinite(eur)&&Number.isFinite(jpy))push('EUR/JPY',d,jpy/eur);
+      if(Number.isFinite(mxn)&&Number.isFinite(jpy))push('MXN/JPY',d,jpy/mxn);
+    });
+    Object.keys(out).forEach(pair=>{out[pair]=out[pair].slice(-30)});
+  }catch(e){
+    console.warn('Frankfurter daily FX history unavailable',e);
+  }
+
+  // Secondary: keep the existing fxapi.app endpoint as a fallback for any
+  // pair not returned by the primary source.
+  const missing=Object.entries(fxHistoryPairs).filter(([pair])=>!(out[pair]?.length));
+  if(missing.length){
+    const res=await Promise.allSettled(missing.map(async ([pair,[base,target]])=>{
+      const u=`https://fxapi.app/api/history/${base}/${target}.json?from=${fromS}&to=${toS}`;
+      const r=await fetch(u,{cache:'no-store'});
+      if(!r.ok)throw new Error(`${pair} fallback HTTP ${r.status}`);
+      const j=await r.json();
+      return [pair,(j.rates||[]).slice(-30).map(x=>({date:x.date,rate:Number(x.rate)})).filter(x=>Number.isFinite(x.rate)&&x.rate>0)];
+    }));
+    res.forEach(x=>{if(x.status==='fulfilled'&&x.value[1].length)out[x.value[0]]=x.value[1]});
+  }
+
+  if(Object.keys(out).length){
+    fxDaily={...fxDaily,...out};
+    try{localStorage.setItem(FX_DAILY_CACHE,JSON.stringify({data:fxDaily,ts:Date.now(),source:'Frankfurter v2 / fxapi fallback'}))}catch(e){}
+    renderFxCards();
+  }else{
+    renderFxCards();
+  }
+}
+function renderFxCards(){
+  const grid=document.getElementById('fxGrid');
+  grid.innerHTML=fxDefs.map(x=>{const pair=x[0],id=pair.replace('/','-');return `<div class="fx-card"><div class="fx-pair">${pair}</div><div class="fx-rate" id="fx-${id}">${fmtRate(pair,fxRates[pair]?.rate)}</div><div class="fx-meta" id="fxm-${id}">${fxRates[pair]?.time?'更新 '+fxRates[pair].time:'未取得'} · 日足: 公表レート</div>${miniOhlcSvg(pair)}</div>`}).join('');
+}
+function freshnessScore(date,kind='policy'){
+  const age=countryAge(date);
+  if(!Number.isFinite(age))return 0;
+  if(kind==='cpi') return Math.max(15,100-Math.min(age,180)*0.42);
+  return Math.max(20,100-Math.min(age,90)*0.65);
+}
+function countryConfidence(k){
+  const d=countryFund[k]||{};
+  const coverage=Number.isFinite(d.coverage)?d.coverage:0;
+  const policyFresh=freshnessScore(d.rateDate,'policy');
+  const cpiFresh=Number.isFinite(d.cpi)?freshnessScore(d.cpiDate,'cpi'):0;
+  const liveRisk=Number.isFinite(macro.vix)?100:0;
+  // v5.2: confidence is continuous, not a single shared bucket.
+  // Coverage reflects connected model inputs; freshness reflects the actual dates used.
+  return Math.round(Math.max(0,Math.min(100,coverage*0.55+policyFresh*0.20+cpiFresh*0.15+liveRisk*0.10)));
+}
+function confClass(v){return v>=75?'conf-high':v>=50?'conf-mid':'conf-low'}
+function confBadge(v){return `<span class="confidence-badge ${confClass(v)}">${v}%</span>`}
+function pairReason(base,quote,diff){
+  const b=countryFund[base]||{},q=countryFund[quote]||{};
+  const parts=[];
+  if(Number.isFinite(b.realRate)&&Number.isFinite(q.realRate)){
+    const rd=b.realRate-q.realRate; parts.push(`${base}実質金利 ${b.realRate.toFixed(2)}% vs ${quote} ${q.realRate.toFixed(2)}%（差 ${rd>=0?'+':''}${rd.toFixed(2)}pp）`);
+  }
+  if(Number.isFinite(b.rate)&&Number.isFinite(q.rate)){parts.push(`政策金利差 ${base}/${quote} ${(b.rate-q.rate>=0?'+':'')}${(b.rate-q.rate).toFixed(2)}pp`)}
+  if(Number.isFinite(b.cpi)&&Number.isFinite(q.cpi)){parts.push(`CPI ${base} ${b.cpi.toFixed(2)}% / ${quote} ${q.cpi.toFixed(2)}%`)}
+  const risk=macro.vix; if(Number.isFinite(risk))parts.push(`VIX ${risk.toFixed(1)}`);
+  return parts;
+}
+function renderPairInsights(){
+  const box=document.getElementById('pairInsights'); if(!box)return;
+  const focus=pairData.map(x=>x[0]);
+  box.innerHTML=focus.map(pair=>{
+    const p=pairData.find(x=>x[0]===pair); const [base,quote]=pair.split('/');
+    const score=Number.isFinite(p?.[1])?p[1]:0;
+    let conf=50, reasons=[], lead='';
+    if(pair==='XAU/USD'){
+      const macroInputs=[macro.gold,macro.dxy,macro.tenY,macro.vix].filter(Number.isFinite).length;
+      conf=Math.round(35+macroInputs*12);
+      reasons=[Number.isFinite(macro.gold)?`GOLD ${macro.gold.toFixed(0)}`:'GOLD --',Number.isFinite(macro.dxy)?`DXY ${macro.dxy.toFixed(2)}`:'DXY --',Number.isFinite(macro.tenY)?`US10Y ${macro.tenY.toFixed(2)}%`:'US10Y --',Number.isFinite(macro.vix)?`VIX ${macro.vix.toFixed(1)}`:'VIX --'];
+      lead='金価格は金利・ドル・リスク環境を参照';
+    }else{
+      const bs=countryScoreFor(base),qs=countryScoreFor(quote);
+      const bc=countryConfidence(base),qc=countryConfidence(quote); conf=Math.round((bc+qc)/2);
+      reasons=pairReason(base,quote,score); lead=score>0?`${base}側が相対的に優位`:`${quote}側が相対的に優位`;
+    }
+    const trend=trendForPair(pair); const sig=trendLabel(score,trend);
+    const txt=reasons.length?reasons.join(' / '):'接続済みデータが不足しているため、根拠を限定して表示しています。';
+    const baseTag=base&&countryFund[base]?`<span class="factor-tag">${base} ${countryScoreFor(base)>0?'+':''}${countryScoreFor(base)}</span>`:'';
+    const quoteTag=quote&&countryFund[quote]?`<span class="factor-tag">${quote} ${countryScoreFor(quote)>0?'+':''}${countryScoreFor(quote)}</span>`:'';
+    return `<div class="insight-card"><div class="insight-head"><span class="insight-pair">${pair}</span><span class="${score>=0?'green':'red'} insight-score">${score>0?'+':''}${score}</span>${confBadge(conf)}</div><div class="insight-text"><b>${sig}</b> — ${lead}。${txt}</div><div class="factor-tags">${baseTag}${quoteTag}<span class="factor-tag">DATA CONFIDENCE ${conf}%</span><span class="factor-tag">TREND ${trend==='up'?'↑':trend==='down'?'↓':'→'}</span></div><div class="freshness">${pair==='XAU/USD'?'マクロ入力: GOLD / DXY / US10Y / VIX':'鮮度: '+base+' '+(countryFund[base]?.rateDate||'--')+' / '+quote+' '+(countryFund[quote]?.rateDate||'--')}</div></div>`;
+  }).join('');
+}
+function renderFocusPairs(){
+  const box=document.getElementById('focusPairs');if(!box)return;
+  const rows=pairData.map(p=>{const pair=p[0],score=Number(p[1])||0;const parts=pair.split('/');const conf=pair==='XAU/USD'?Math.round(35+[macro.gold,macro.dxy,macro.tenY,macro.vix].filter(Number.isFinite).length*12):(parts.length===2&&countryFund[parts[0]]&&countryFund[parts[1]]?Math.round((countryConfidence(parts[0])+countryConfidence(parts[1]))/2):50);const trend=trendForPair(pair);const strength=Math.round(Math.abs(score)*(0.65+conf/200));return {pair,score,conf,trend,strength,reason:p[4]||'実データ比較'};}).sort((a,b)=>b.strength-a.strength).slice(0,3);
+  box.innerHTML=rows.map(r=>`<div class="focus-card"><div class="focus-top"><span class="focus-pair">${r.pair}</span><span class="focus-score ${r.score>=0?'green':'red'}">${r.score>0?'+':''}${r.score}</span></div><div style="margin-top:7px"><span class="focus-signal ${r.score>=20?'green':r.score<=-20?'red':trendClass(r.trend)}">${trendLabel(r.score,r.trend)}</span></div><div class="focus-meta">信頼度 ${r.conf}%　｜　注目度 ${r.strength}<br>直近トレンド：${r.trend==='up'?'上向き':r.trend==='down'?'下向き':'横ばい'}</div><div class="focus-reason">${esc(r.reason)}</div></div>`).join('');
+}
+function renderPairTable(){
+  recordPairHistory();
+  document.getElementById('pairs').innerHTML=pairData.map((p,i)=>{
+    const liveRate=p[0]==='XAU/USD'&&macro.gold!=null?macro.gold:(fxRates[p[0]]?.rate);
+    const parts=p[0].split('/');
+    const conf=p[0]==='XAU/USD'?Math.round(35+[macro.gold,macro.dxy,macro.tenY,macro.vix].filter(Number.isFinite).length*12):(parts.length===2&&countryFund[parts[0]]&&countryFund[parts[1]]?Math.round((countryConfidence(parts[0])+countryConfidence(parts[1]))/2):50);
+    const trend=trendForPair(p[0]);
+    const signal=trendLabel(p[1],trend);
+    const sigCls=p[1]>=20?'green':p[1]<=-20?'red':trendClass(trend);
+    return `<tr><td class="pair">${p[0]}</td><td class="scorev">${liveRate!=null?(p[0]==='XAU/USD'?Number(liveRate).toFixed(2):fmtRate(p[0],liveRate)):'--'}</td><td class="${p[1]>=0?'green':'red'} scorev">${p[1]>0?'+':''}${p[1]}</td><td><span class="signal ${sigCls}">${signal}</span></td><td>${confBadge(conf)}</td><td class="reason">${p[4]}<div class="pair-breakdown">7要素モデル / 接続データで算出</div></td><td>${historySpark(p[0])}</td></tr>`;
+  }).join('');
+  renderPairInsights();renderFocusPairs();
+}
+
+function setFxStatus(msg,good=true){const s=document.getElementById('fxStatus');if(s){s.textContent=msg;s.style.color=good?'var(--green)':'var(--red)'}}
+function loadFxCache(){try{const c=JSON.parse(localStorage.getItem(FX_CACHE_STORAGE)||'{}');if(c.rates)fxRates=c.rates}catch(e){}renderFxCards();renderPairTable()}
+function saveFxCache(){try{localStorage.setItem(FX_CACHE_STORAGE,JSON.stringify({rates:fxRates,ts:Date.now()}))}catch(e){}}
+function showDiag(title,msg,ok){
+  let el=document.getElementById('diagBox');
+  if(!el){el=document.createElement('div');el.id='diagBox';el.style.cssText='margin:10px;padding:12px;border:1px solid #0b6986;border-radius:8px;background:#020b12;white-space:pre-wrap;line-height:1.55;font-size:12px;color:#dff7ff';document.querySelector('.fx-live').appendChild(el)}
+  el.innerHTML='<b style="color:'+(ok?'var(--green)':'var(--yellow)')+'">'+title+'</b><br>'+esc(msg);
+}
+async function fetchFx(){
+  setFxStatus('LIVE取得中…',true);
+  try{
+    const r=await fetch(FX_API_URL,{cache:'no-store'});
+    if(!r.ok)throw new Error('HTTP '+r.status);
+    const j=await r.json();
+    const q=j.rates || j.data?.rates || j.data || {};
+    const pick=(code)=>{ const v=q[code] ?? q[code.toUpperCase()] ?? q[code.toLowerCase()]; return Number(v); };
+    const u=pick('JPY'), e=pick('EUR'), g=pick('GBP'), c=pick('CHF'), m=pick('MXN'), t=pick('TRY'), a=pick('AUD');
+    const missing=['JPY','EUR','GBP','CHF','MXN','TRY','AUD'].filter(code=>!Number.isFinite(pick(code)));
+    if(missing.length) throw new Error('不足: '+missing.join(',')+' / 取得キー: '+Object.keys(q).slice(0,40).join(','));
+    const tm=new Date().toLocaleTimeString('ja-JP',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
+    fxRates={
+      'USD/JPY':{rate:u,time:tm},
+      'EUR/USD':{rate:1/e,time:tm},
+      'GBP/USD':{rate:1/g,time:tm},
+      'CHF/MXN':{rate:m/c,time:tm},
+      'TRY/JPY':{rate:u/t,time:tm},
+      'AUD/JPY':{rate:u/a,time:tm},
+      'EUR/JPY':{rate:u/e,time:tm},
+      'MXN/JPY':{rate:u/m,time:tm}
+    };
+    saveFxCache();renderFxCards();renderPairTable();
+    fetchFxDaily();
+    setFxStatus(`🟢 FX取得成功 / ${tm}`,true);
+    document.getElementById('updated').textContent=tm;
+    showDiag('🟢 FXレート取得成功',`fxapi.appからUSD基準のレートを1回取得し、8通貨ペアを計算しました。
+取得時刻: ${tm}
+APIキー: 不要
+更新元データ: 約5分ごと更新`,true);
+  }catch(err){
+    setFxStatus('🔴 FX取得失敗 / キャッシュ表示',false);loadFxCache();
+    showDiag('🔴 FX取得停止',`通信またはAPI側で取得できませんでした。
+前回取得データがあれば、それを表示しています。
+技術情報: ${String(err?.message||err).slice(0,260)}`,false);
+  }
+}
+document.getElementById('fxRefresh').onclick=()=>fetchFx();
+loadFxDailyCache();
+loadFxCache();
+(function(){let ts=0;try{ts=JSON.parse(localStorage.getItem(FX_CACHE_STORAGE)||'{}').ts||0}catch(e){}if(!ts||Date.now()-ts>FX_AUTO_MS)setTimeout(fetchFx,800)})();
+setInterval(()=>{fetchFx()},FX_AUTO_MS);
+function clock(){const d=new Date();document.getElementById('date').textContent=d.toLocaleDateString('ja-JP',{year:'numeric',month:'2-digit',day:'2-digit',weekday:'short'});document.getElementById('time').textContent=d.toLocaleTimeString('ja-JP',{hour12:false});document.getElementById('barclock').textContent=d.toLocaleTimeString('ja-JP',{hour12:false})}clock();setInterval(clock,1000);
+</script>
+</body></html>
